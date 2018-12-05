@@ -1,0 +1,25 @@
+package lounge;
+
+import com.mongodb.DBObject;
+import lounge.models.UserDO;
+import lounge.mongo.dao.MongoConnection;
+import lounge.mongo.dao.UserDAO;
+
+public class Main {
+
+	public static void main(String[] args) {
+
+		MongoConnection conn = MongoConnection.getInstance();
+		conn.init();
+		UserDAO userDAO = new UserDAO(conn.getDatastore());
+
+		UserDO user = new UserDO("test", "test");
+		DBObject tmp = conn.getMorphia().toDBObject(user);
+
+		System.out.println("inserting");
+		userDAO.getCollection().insert(tmp);
+
+		System.out.println(userDAO.find().asList().get(0).getPassword());
+
+	}
+}
