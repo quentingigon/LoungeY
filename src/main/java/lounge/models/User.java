@@ -1,16 +1,16 @@
 package lounge.models;
 
-public class UserDO extends BasicDO {
+public class User extends BasicDO {
 
 	private String username;
 	private String password;
 
-	public UserDO(String username, String password) {
+	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
 	}
 
-	public UserDO() {
+	public User() {
 	}
 
 	public String getUsername() {
