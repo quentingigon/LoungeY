@@ -27,7 +27,6 @@ public class MongoConnection {
 				.connectionsPerHost(4)
 				.maxConnectionIdleTime((60 * 1_000))
 				.maxConnectionLifeTime((120 * 1_000));
-			;
 
 			MongoClientURI uri = new MongoClientURI("mongodb://localhost:27017/loungey", options);
 
@@ -35,15 +34,13 @@ public class MongoConnection {
 
 			try {
 				mongo = new MongoClient(uri);
-				mongo.setWriteConcern(WriteConcern.ACKNOWLEDGED);
-			} catch (MongoException ex) {
-				logger.error("An error occoured when connecting to MongoDB", ex);
+				options.writeConcern(WriteConcern.ACKNOWLEDGED);
 			} catch (Exception ex) {
-				logger.error("An error occoured when connecting to MongoDB", ex);
+				logger.error("An error occurred when connecting to MongoDB", ex);
 			}
 
 			// To be able to wait for confirmation after writing on the DB
-			mongo.setWriteConcern(WriteConcern.ACKNOWLEDGED);
+			options.writeConcern(WriteConcern.ACKNOWLEDGED);
 		}
 
 		return mongo;
@@ -54,7 +51,7 @@ public class MongoConnection {
 			logger.debug("Starting Morphia");
 			morphia = new Morphia();
 
-			logger.debug(format("Mapping packages for clases within %s", BasicDO.class.getName()));
+			logger.debug(format("Mapping packages for classes within %s", BasicDO.class.getName()));
 			morphia.mapPackageFromClass(BasicDO.class);
 		}
 
@@ -72,7 +69,7 @@ public class MongoConnection {
 	}
 
 	public void init() {
-		logger.debug("Bootstraping");
+		logger.debug("Bootstrapping");
 		getMongo();
 		getMorphia();
 		getDatastore();
