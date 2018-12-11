@@ -14,7 +14,7 @@ public class Main {
 		conn.init();
 		UserDAO userDAO = new UserDAO(conn.getDatastore());
 
-		User user = new User("test", "test");
+		User user = new User("test", "test", "test");
 		DBObject tmp = conn.getMorphia().toDBObject(user);
 
 		System.out.println("inserting");
