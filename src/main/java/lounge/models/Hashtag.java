@@ -9,6 +9,8 @@ public class Hashtag extends BasicDO {
 	private String name;
 	private ArrayList<ObjectId> postsContainingHashtag;
 
+	public Hashtag() {}
+
 	public Hashtag(String name) {
 		this.name = name;
 	}

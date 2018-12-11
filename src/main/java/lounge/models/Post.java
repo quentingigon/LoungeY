@@ -15,6 +15,8 @@ public class Post extends BasicDO {
 	private ArrayList<Post> responsesList;
 	private ArrayList<Hashtag> hashtagsList;
 
+	public Post() {}
+
 	public Post(String text, String date, PostType type, ObjectId author, ArrayList<Hashtag> hashtagsList) {
 		this.text = text;
 		this.date = date;

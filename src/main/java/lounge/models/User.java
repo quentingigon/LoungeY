@@ -20,6 +20,7 @@ public class User extends BasicDO {
 		this.email = email;
 		this.username = username;
 		this.password = password;
+		this.isAdmin = false;
 
 		friendsList = new ArrayList<>();
 	}
