@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Api(value="/users", description="Users", produces ="application/json")
+@Api(value = "/users", description = "Users", produces = "application/json")
 @RequestMapping("/users")
 public class UserController {
 
@@ -22,14 +22,14 @@ public class UserController {
 		return "Greetings from Spring Boot!";
 	}
 
-	@ApiOperation(value="get user",response = User.class)
-	@ApiResponses(value={
-		@ApiResponse(code=200,message="User retrieved",response = User.class),
-		@ApiResponse(code=500,message="Internal Server Error"),
-		@ApiResponse(code=404,message="Event not found")
+	@ApiOperation(value = "get user",response = User.class)
+	@ApiResponses(value = {
+		@ApiResponse(code = 200, message = "User retrieved", response = User.class),
+		@ApiResponse(code = 500, message = "Internal Server Error"),
+		@ApiResponse(code = 404, message = "Event not found")
 	})
-	@RequestMapping(value="/getUser",method=RequestMethod.GET,produces="application/json")
-	public ResponseEntity<User> getEvent(){
+	@RequestMapping(value = "/getUser", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<User> getUser(){
 		User u = new User();
 		u.setUsername("test");
 		return new ResponseEntity<>(u, HttpStatus.OK);

@@ -10,7 +10,7 @@ import lounge.mongo.dao.UserDAO;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@Api(value="/login", description="Login Controller", produces ="application/json")
+@Api(value = "/login", description = "Login Controller", produces = "application/json")
 @RequestMapping("/login")
 public class LoginController {
 
@@ -19,12 +19,12 @@ public class LoginController {
 		return "Greetings from Spring Boot!";
 	}
 
-	@ApiOperation(value="Try to log in",response = User.class)
-	@ApiResponses(value={
-		@ApiResponse(code=200, message = "Logged in",response = User.class),
-		@ApiResponse(code=500, message = "Internal Server Error")
+	@ApiOperation(value = "Try to log in", response = User.class)
+	@ApiResponses(value = {
+		@ApiResponse(code = 200, message = "Logged in", response = User.class),
+		@ApiResponse(code = 500, message = "Internal Server Error")
 	})
-	@PostMapping(value="/")
+	@PostMapping(value = "/")
 	public User login(@RequestBody User user) {
 		MongoConnection conn = MongoConnection.getInstance();
 		conn.init();

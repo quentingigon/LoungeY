@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Api(value="/register", description="Register", produces ="application/json")
+@Api(value = "/register", description = "Register", produces = "application/json")
 @RequestMapping("/register")
 public class RegisterController {
 
-	@ApiOperation(value="Register new user",response = User.class)
-	@ApiResponses(value={
-		@ApiResponse(code=200, message = "User registered",response = User.class),
-		@ApiResponse(code=500, message = "Internal Server Error")
+	@ApiOperation(value = "Register new user", response = User.class)
+	@ApiResponses(value = {
+		@ApiResponse(code = 200, message = "User registered", response = User.class),
+		@ApiResponse(code = 500, message = "Internal Server Error")
 	})
-	@PostMapping(value="/")
+	@PostMapping(value = "/")
 	public User register(@RequestBody User newUser) {
 		MongoConnection conn = MongoConnection.getInstance();
 		conn.init();
