@@ -12,7 +12,7 @@
 | --------- | ---------------------- | ------------- | ------------------------------------------------------------ |
 | /login    | *LOG P*                | *LOG R*       | Allow login for user, either with email or with pseudo       |
 | /register | *REG P*                | OK/NOK        | Allow register                                               |
-| /wall     | {idUser}               | *WAL R*       | Show information for the wall of a user                      |
+| /wall     | {idUser}               | *WAL R*       | Show information for the wall of a user (profile info and posts)                     |
 | /post     | {idPost}               | { **post** }  | return one post (question, commentary, ..) corresponding to id |
 | /settings | {idCurrentUser, token} | *PRO R*       | allow the user to peruse his profile and change values/settings. |
 | /logout   | {idCurrentUser, token} | OK/NOK        | Allow logout                                                 |
@@ -60,23 +60,11 @@
 
 ```
 {
-    pseudo,    
+    pseudo,
 	yearOfStudy,
 	orientation, 
 	pictures, 
-	...
-	
-}
-```
-
-### WAL R
-
-```
-{
-    pseudo,    
-	yearOfStudy,
-	orientation, 
-	pictures, 
+	posts,
 	...
 	
 }
@@ -120,6 +108,6 @@
 | Endpoint                                   | POST values | RETURN values    | Description     |
 | ------------------------------------------ | ----------- | ---------------- | --------------- |
 | /friends/{idCurrentUser}                   | /           | { friends : [] } | get all friends |
-| /friends/{idCurrentUser}/new/{idNewFriend} |             |                  |                 |
+| /friends/{idCurrentUser}/new/{idNewFriend} |             |                  | add a friend    |
 |                                            |             |                  |                 |
 
