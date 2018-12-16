@@ -1,5 +1,6 @@
 package lounge.controllers;
 
+import com.mongodb.DBObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -27,19 +28,55 @@ public class PostController {
 		return "Greetings from Spring Boot!";
 	}
 
-	@ApiOperation(value = "Get post by id", response = Post.class)
+	@ApiOperation(value = "Add new post", response = Post.class)
 	@ApiResponses(value = {
-		@ApiResponse(code = 200, message = "Got post", response = Post.class),
+		@ApiResponse(code = 200, message = "Post added", response = Post.class),
 		@ApiResponse(code = 500, message = "Internal Server Error")
 	})
-	@PostMapping(value = "/getPost")
-	public Post getPost(@RequestBody ObjectId postId) {
+	@PostMapping(value = "/")
+	public boolean addPost(@RequestBody Post post) {
+		MongoConnection conn = MongoConnection.getInstance();
+		conn.init();
+
+		PostDAO postDAO = new PostDAO(conn.getDatastore());
+		DBObject tmp = conn.getMorphia().toDBObject(post);
+
+		return postDAO.getCollection().insert(tmp).wasAcknowledged();
+	}
+
+	@ApiOperation(value = "Add new post", response = Post.class)
+	@ApiResponses(value = {
+		@ApiResponse(code = 200, message = "Post added", response = Post.class),
+		@ApiResponse(code = 500, message = "Internal Server Error")
+	})
+	@PostMapping(value = "/{postId}/comment")
+	public boolean addComment(@RequestBody Post newPost, @PathVariable("postId") ObjectId postId) {
 		MongoConnection conn = MongoConnection.getInstance();
 		conn.init();
 
 		PostDAO postDAO = new PostDAO(conn.getDatastore());
 
-		return postDAO.findOne("id", postId);
+		Post parent = postDAO.findOne("id", postId);
+
+		// if parent exists
+		if (parent != null) {
+
+			ArrayList<Post> responses = parent.getResponsesList();
+			responses.add(newPost);
+			parent.setResponsesList(responses);
+
+			DBObject tmpNewPost = conn.getMorphia().toDBObject(newPost);
+			DBObject tmpParent = conn.getMorphia().toDBObject(parent);
+
+			// update both posts
+			postDAO.getCollection().insert(tmpNewPost);
+			postDAO.getCollection().insert(tmpParent);
+
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	@ApiOperation(value = "Return all post of user", response = Post.class)
@@ -47,7 +84,7 @@ public class PostController {
 		@ApiResponse(code = 200, message = "Got list of posts", response = Post.class),
 		@ApiResponse(code = 500, message = "Internal Server Error")
 	})
-	@PostMapping(value = "/userPosts")
+	@GetMapping(value = "/")
 	public List<Post> getPostsOfUser(@RequestBody User user) {
 		MongoConnection conn = MongoConnection.getInstance();
 		conn.init();
@@ -64,7 +101,7 @@ public class PostController {
 		@ApiResponse(code = 200, message = "Got list of posts", response = Post.class),
 		@ApiResponse(code = 500, message = "Internal Server Error")
 	})
-	@PostMapping(value = "/tagPosts")
+	@GetMapping(value = "/tagPosts")
 	public List<Post> getPostsWithHashtag(@RequestBody Hashtag hashtag) {
 		MongoConnection conn = MongoConnection.getInstance();
 		conn.init();
@@ -84,7 +121,7 @@ public class PostController {
 		@ApiResponse(code = 200, message = "Got list of posts", response = Post.class),
 		@ApiResponse(code = 500, message = "Internal Server Error")
 	})
-	@PostMapping(value = "/tagsPosts")
+	@GetMapping(value = "/tagsPosts")
 	public List<Post> getPostsWithHashtag(@RequestBody List<Hashtag> hashtags) {
 		MongoConnection conn = MongoConnection.getInstance();
 		conn.init();
