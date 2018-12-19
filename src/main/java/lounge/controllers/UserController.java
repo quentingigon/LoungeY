@@ -29,7 +29,7 @@ public class UserController {
 		@ApiResponse(code = 404, message = "Event not found")
 	})
 	@RequestMapping(value = "/getUser", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<User> getUser(){
+	public ResponseEntity<User> getUser() {
 		User u = new User();
 		u.setUsername("test");
 		return new ResponseEntity<>(u, HttpStatus.OK);

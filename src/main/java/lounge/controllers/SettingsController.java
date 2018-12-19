@@ -22,7 +22,7 @@ public class SettingsController {
 		@ApiResponse(code = 404, message = "Event not found")
 	})
 	@RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<Object> getWall(@RequestBody long userId){
+	public ResponseEntity<Object> getSettings(@RequestBody long userId){
 		return null;
 	}
 }

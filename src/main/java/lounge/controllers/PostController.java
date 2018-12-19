@@ -117,7 +117,7 @@ public class PostController {
 		@ApiResponse(code = 500, message = "Internal Server Error")
 	})
 	@GetMapping(value = "/tagsPosts")
-	public List<Post> getPostsWithHashtag(@RequestBody List<Hashtag> hashtags) {
+	public List<Post> getPostsWithHashtags(@RequestBody List<Hashtag> hashtags) {
 		MongoConnection conn = MongoConnection.getInstance();
 		conn.init();
 

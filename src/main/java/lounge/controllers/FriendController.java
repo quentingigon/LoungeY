@@ -36,7 +36,7 @@ public class FriendController {
 		UserDAO userDAO = new UserDAO(conn.getDatastore());
 
 		User user = userDAO.findOne("id", userId);
-
+		
 		if (user != null) {
 
 			ArrayList<ObjectId> friends = user.getFriendsList();
