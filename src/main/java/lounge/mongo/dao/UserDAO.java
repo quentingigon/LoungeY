@@ -14,7 +14,6 @@ public class UserDAO extends BasicDAO<User, ObjectId> {
 	}
 
 	public User getUser(String username) {
-		// TODO
 		return null;
 	}
 

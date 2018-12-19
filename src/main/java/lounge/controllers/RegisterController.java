@@ -35,7 +35,7 @@ public class RegisterController {
 			// user is not in db
 			DBObject tmp = conn.getMorphia().toDBObject(newUser);
 			userDAO.getCollection().insert(tmp);
-			return userDAO.findOne("username", newUser.getUsername());
+			return newUser;
 		} else {
 			// username already used
 			return null;

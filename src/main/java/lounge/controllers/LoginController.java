@@ -32,7 +32,7 @@ public class LoginController {
 
 		User dbUser = userDAO.findOne("username", user.getUsername());
 
-		if (user.getPassword().equals(dbUser.getPassword())) {
+		if (dbUser != null && user.getPassword().equals(dbUser.getPassword())) {
 			// logged in
 			return dbUser;
 		}

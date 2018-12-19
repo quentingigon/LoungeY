@@ -4,6 +4,7 @@ import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 
+
 public class Hashtag extends BasicDO {
 
 	private String name;
