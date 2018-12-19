@@ -23,11 +23,6 @@ import java.util.List;
 @RequestMapping("/posts")
 public class PostController {
 
-	@GetMapping("/")
-	public String index() {
-		return "Greetings from Spring Boot!";
-	}
-
 	@ApiOperation(value = "Add new post", response = Post.class)
 	@ApiResponses(value = {
 		@ApiResponse(code = 200, message = "Post added", response = Post.class),
