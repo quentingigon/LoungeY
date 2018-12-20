@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiResponses;
 import lounge.models.User;
 import lounge.mongo.dao.MongoConnection;
 import lounge.mongo.dao.UserDAO;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "/register", description = "Register", produces = "application/json")
 @RequestMapping("/register")
 public class RegisterController {
+
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+	private void getEncoder() {
+		bCryptPasswordEncoder = new BCryptPasswordEncoder();
+	}
 
 	@ApiOperation(value = "Register new user", response = User.class)
 	@ApiResponses(value = {
@@ -31,8 +38,10 @@ public class RegisterController {
 
 		User dbUser = userDAO.findOne("username", newUser.getUsername());
 
+		// user is not in db
 		if (dbUser == null) {
-			// user is not in db
+			// encode password
+			newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
 			DBObject tmp = conn.getMorphia().toDBObject(newUser);
 			userDAO.getCollection().insert(tmp);
 			return newUser;

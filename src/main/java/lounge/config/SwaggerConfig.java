@@ -1,4 +1,4 @@
-package lounge;
+package lounge.config;
 
 
 import com.google.common.base.Predicate;

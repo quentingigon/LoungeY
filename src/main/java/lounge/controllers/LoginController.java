@@ -7,25 +7,35 @@ import io.swagger.annotations.ApiResponses;
 import lounge.models.User;
 import lounge.mongo.dao.MongoConnection;
 import lounge.mongo.dao.UserDAO;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @RestController
 @Api(value = "/login", description = "Login Controller", produces = "application/json")
 @RequestMapping("/login")
 public class LoginController {
 
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+	private void getEncoder() {
+		bCryptPasswordEncoder = new BCryptPasswordEncoder();
+	}
+
 	@GetMapping("/")
 	public String index() {
 		return "Greetings from Spring Boot!";
 	}
 
-	@ApiOperation(value = "Try to log in", response = User.class)
+	@ApiOperation(value = "Try to log in")
 	@ApiResponses(value = {
-		@ApiResponse(code = 200, message = "Logged in", response = User.class),
+		@ApiResponse(code = 200, message = "Logged in"),
 		@ApiResponse(code = 500, message = "Internal Server Error")
 	})
 	@PostMapping(value = "/")
-	public User login(@RequestBody User user) {
+	public void login(@RequestBody User user, HttpServletResponse response) throws IOException {
 		MongoConnection conn = MongoConnection.getInstance();
 		conn.init();
 		UserDAO userDAO = new UserDAO(conn.getDatastore());
@@ -34,10 +44,10 @@ public class LoginController {
 
 		if (dbUser != null && user.getPassword().equals(dbUser.getPassword())) {
 			// logged in
-			return dbUser;
+			response.sendRedirect("/lounge");
 		}
 		else {
-			return null;
+			response.sendRedirect("/login");
 		}
 	}
 }

@@ -1,10 +1,11 @@
 package lounge.models;
 
 import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Entity;
 
 import java.util.ArrayList;
 
-
+@Entity
 public class Hashtag extends BasicDO {
 
 	private String name;
