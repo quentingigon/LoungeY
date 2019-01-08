@@ -17,10 +17,22 @@ public class Main {
 		User user = new User("test", "test", "test");
 		DBObject tmp = conn.getMorphia().toDBObject(user);
 
-		System.out.println("inserting");
-		userDAO.getCollection().insert(tmp);
+		System.out.println("inserting :");
 
-		System.out.println(userDAO.find().asList().get(0).getPassword());
+		userDAO.addUser(user);
+
+		userDAO.addUser(user);
+
+
+		System.out.println("Password : " + userDAO.find().asList().get(0).getPassword());
+
+
+		System.out.println(userDAO.getAllUsers());
+		System.out.println("Users : ");
+		for(User u : userDAO.getAllUsers()){
+			System.out.println("\t" + u.getUsername());
+		}
+
 
 	}
 }
