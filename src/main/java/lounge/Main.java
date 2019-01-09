@@ -14,23 +14,30 @@ public class Main {
 		conn.init();
 		UserDAO userDAO = new UserDAO(conn.getDatastore());
 
-		User user = new User("test", "test", "test");
+		User user = (!userDAO.userExists("test")) ? new User("test", "test", "test") : userDAO.getUser("test");
+		User robin = (!userDAO.userExists("Robin")) ? new User("r@r.c", "Robin", "test") : userDAO.getUser("Robin");
+
 		DBObject tmp = conn.getMorphia().toDBObject(user);
 
 		System.out.println("inserting :");
 
 		userDAO.addUser(user);
-
 		userDAO.addUser(user);
+		userDAO.addUser(robin);
+		user.setPassword("test2");
+
+		System.out.println("Password : " + userDAO.getUser(user.getUsername()).getPassword());
+		user.addFriendinvite(robin);
+		userDAO.updateUser(user);
 
 
-		System.out.println("Password : " + userDAO.find().asList().get(0).getPassword());
+		System.out.println("Changed test pwd to test2 : " +  userDAO.getUser(user.getUsername()).getPassword());
 
 
 		System.out.println(userDAO.getAllUsers());
-		System.out.println("Users : ");
+		System.out.print("\nUsers : ");
 		for(User u : userDAO.getAllUsers()){
-			System.out.println("\t" + u.getUsername());
+			System.out.print(u.getUsername() + ", ");
 		}
 
 

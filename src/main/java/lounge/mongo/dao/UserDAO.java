@@ -16,6 +16,7 @@ import java.util.List;
 
 public class UserDAO extends BasicDAO<User, ObjectId> {
 
+
 	public UserDAO(Datastore ds) {
 		super(ds);
 	}
@@ -41,12 +42,22 @@ public class UserDAO extends BasicDAO<User, ObjectId> {
 		}
 	}
 
+	public boolean userExists(String username) {
+		return (getUser(username) != null);
+	}
+
 	public boolean updateUser(User user) {
-		if(isValidUser(user)){
-			return addUser(user);
-		}
-		else
+		if(userExists(user.getUsername())) {
+			MongoConnection conn = MongoConnection.getInstance();
+			conn.init();
+			DBObject newUser = conn.getMorphia().toDBObject(user);
+			DBObject oldUser = conn.getMorphia().toDBObject(getUser(user.getUsername()));
+			return getCollection().update(oldUser, newUser).wasAcknowledged();
+		} else {
+			System.out.println("Cannot update unexisting user");
 			return false;
+		}
+
 	}
 
 	public boolean isValidUser(User user) {

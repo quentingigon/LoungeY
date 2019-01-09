@@ -19,6 +19,7 @@ public class User extends BasicDO {
 	public User() {}
 
 	public User(String email, String username, String password) {
+		this.setId(new ObjectId());
 		this.email = email;
 		this.username = username;
 		this.password = password;
@@ -34,6 +35,11 @@ public class User extends BasicDO {
 	public void setFriendsList(ArrayList<ObjectId> friendsList) {
 		this.friendsList = friendsList;
 	}
+
+	public void addFriendinvite(User other){
+		this.friendsList.add(other.getId());
+	}
+
 
 	public String getEmail() {
 		return email;
