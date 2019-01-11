@@ -16,26 +16,51 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/lounge/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="18" selection-start-line="18" selection-end-line="18" />
+            <state relative-caret-position="289">
+              <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/lounge/mongo/dao/UserDAO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="53" column="89" selection-start-line="53" selection-start-column="89" selection-end-line="53" selection-end-column="89" />
+            <state relative-caret-position="-211">
+              <caret line="97" column="48" selection-start-line="97" selection-start-column="48" selection-end-line="97" selection-end-column="48" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#536#537#0" expanded="true" />
-                <element signature="e#552#553#0" expanded="true" />
                 <element signature="e#1059#1060#0" expanded="true" />
                 <element signature="e#1100#1101#0" expanded="true" />
+                <element signature="e#2511#2512#0" expanded="true" />
+                <element signature="e#2557#2558#0" expanded="true" />
+                <element signature="e#3008#3009#0" expanded="true" />
+                <element signature="e#3026#3027#0" expanded="true" />
+                <element signature="e#3081#3082#0" expanded="true" />
+                <element signature="e#3140#3141#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/lounge/models/User.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-755">
+              <caret line="41" column="29" selection-start-line="41" selection-start-column="29" selection-end-line="41" selection-end-column="29" />
+              <folding>
+                <element signature="e#1879#1880#0" expanded="true" />
+                <element signature="e#1943#1944#0" expanded="true" />
+                <element signature="e#2210#2211#0" expanded="true" />
+                <element signature="e#2272#2273#0" expanded="true" />
+                <element signature="e#2326#2327#0" expanded="true" />
+                <element signature="e#2380#2381#0" expanded="true" />
+                <element signature="e#2456#2457#0" expanded="true" />
+                <element signature="e#2532#2533#0" expanded="true" />
+                <element signature="e#2262#2263#0" expanded="true" />
+                <element signature="e#2317#2318#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -90,27 +115,6 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/lounge/models/User.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-              <folding>
-                <element signature="e#763#764#0" expanded="true" />
-                <element signature="e#805#806#0" expanded="true" />
-                <element signature="e#883#884#0" expanded="true" />
-                <element signature="e#947#948#0" expanded="true" />
-                <element signature="e#997#998#0" expanded="true" />
-                <element signature="e#1059#1060#0" expanded="true" />
-                <element signature="e#1113#1114#0" expanded="true" />
-                <element signature="e#1167#1168#0" expanded="true" />
-                <element signature="e#1243#1244#0" expanded="true" />
-                <element signature="e#1319#1320#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/lounge/models/FriendInvite.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="85">
@@ -139,8 +143,8 @@
         <option value="$PROJECT_DIR$/src/main/java/lounge/mongo/dao/PostDAO.java" />
         <option value="$PROJECT_DIR$/src/main/java/lounge/mongo/dao/HashtagDAO.java" />
         <option value="$PROJECT_DIR$/src/main/java/lounge/models/User.java" />
-        <option value="$PROJECT_DIR$/src/main/java/lounge/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/lounge/mongo/dao/UserDAO.java" />
+        <option value="$PROJECT_DIR$/src/main/java/lounge/Main.java" />
       </list>
     </option>
   </component>
@@ -259,7 +263,7 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1547047402262" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1547231105736" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
@@ -361,12 +365,12 @@
       <updated>1546964329740</updated>
       <workItem from="1546964332552" duration="328000" />
       <workItem from="1546964685489" duration="9794000" />
-      <workItem from="1547042915012" duration="4478000" />
+      <workItem from="1547042915012" duration="10336000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14600000" />
+    <option name="totallyTimeSpent" value="20458000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -391,7 +395,7 @@
       <window_info id="Web" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.7228145" visible="true" weight="0.32936078" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.71908313" visible="true" weight="0.32936078" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -399,11 +403,11 @@
       <window_info anchor="bottom" id="Spring" order="7" sideWeight="0.4989339" weight="0.32936078" />
       <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.4989339" weight="0.32936078" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.2771855" side_tool="true" visible="true" weight="0.32936078" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.28091684" side_tool="true" visible="true" weight="0.32936078" />
       <window_info anchor="bottom" id="Java Enterprise" order="11" sideWeight="0.49946696" weight="0.32936078" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
       <window_info anchor="bottom" id="Version Control" order="13" sideWeight="0.49840087" weight="0.32936078" />
-      <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.4936034" weight="0.32936078" />
+      <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.49093816" weight="0.32936078" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -504,41 +508,45 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/lounge/models/User.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        <state relative-caret-position="-755">
+          <caret line="41" column="29" selection-start-line="41" selection-start-column="29" selection-end-line="41" selection-end-column="29" />
           <folding>
-            <element signature="e#763#764#0" expanded="true" />
-            <element signature="e#805#806#0" expanded="true" />
-            <element signature="e#883#884#0" expanded="true" />
-            <element signature="e#947#948#0" expanded="true" />
-            <element signature="e#997#998#0" expanded="true" />
+            <element signature="e#1879#1880#0" expanded="true" />
+            <element signature="e#1943#1944#0" expanded="true" />
+            <element signature="e#2210#2211#0" expanded="true" />
+            <element signature="e#2272#2273#0" expanded="true" />
+            <element signature="e#2326#2327#0" expanded="true" />
+            <element signature="e#2380#2381#0" expanded="true" />
+            <element signature="e#2456#2457#0" expanded="true" />
+            <element signature="e#2532#2533#0" expanded="true" />
+            <element signature="e#2262#2263#0" expanded="true" />
+            <element signature="e#2317#2318#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/lounge/mongo/dao/UserDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-211">
+          <caret line="97" column="48" selection-start-line="97" selection-start-column="48" selection-end-line="97" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
             <element signature="e#1059#1060#0" expanded="true" />
-            <element signature="e#1113#1114#0" expanded="true" />
-            <element signature="e#1167#1168#0" expanded="true" />
-            <element signature="e#1243#1244#0" expanded="true" />
-            <element signature="e#1319#1320#0" expanded="true" />
+            <element signature="e#1100#1101#0" expanded="true" />
+            <element signature="e#2511#2512#0" expanded="true" />
+            <element signature="e#2557#2558#0" expanded="true" />
+            <element signature="e#3008#3009#0" expanded="true" />
+            <element signature="e#3026#3027#0" expanded="true" />
+            <element signature="e#3081#3082#0" expanded="true" />
+            <element signature="e#3140#3141#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/lounge/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/lounge/mongo/dao/UserDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="53" column="89" selection-start-line="53" selection-start-column="89" selection-end-line="53" selection-end-column="89" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#536#537#0" expanded="true" />
-            <element signature="e#552#553#0" expanded="true" />
-            <element signature="e#1059#1060#0" expanded="true" />
-            <element signature="e#1100#1101#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="289">
+          <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" />
         </state>
       </provider>
     </entry>

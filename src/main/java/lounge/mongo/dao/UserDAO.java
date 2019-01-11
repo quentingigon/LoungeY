@@ -94,8 +94,66 @@ public class UserDAO extends BasicDAO<User, ObjectId> {
 		return friendsuser;
 	}
 
-	public boolean addFriend(User user) {
-		// TODO
+	public List<User> getUserFriends(String username){
+		return getUserFriends(getUser(username));
+	}
+
+	public List<User> getUserFriends(User user) {
+		ArrayList<User> friends = new ArrayList<>();
+		ArrayList<ObjectId> idfriendsuser = user.getFriendsList();
+
+		if(idfriendsuser!=null){
+			for(ObjectId otherId : idfriendsuser){
+				User u = findOne("_id", otherId);
+
+				if(u.getFriendsList() !=null && u.getFriendsList().contains(user.getId())){
+					friends.add(u);
+				}
+			}
+
+		}
+
+		return friends;
+	}
+
+	public void followGuy(User user, User other){
+		user.addFriendInvite(other);
+		updateUser(user);
+		updateUser(other);
+	}
+
+	public void followGuy(String username, String othername){
+		followGuy(getUser(username), getUser(othername));
+	}
+
+	public void unfollowGuy(User user, User other){
+        //TODO
+	}
+
+	public void addFriend(String username, String otherusername) {
+		addFriend(getUser(username), getUser(otherusername));
+	}
+
+	public boolean addFriend(User user, User other) {
+		user.addFriendInvite(other);
+		other.addFriendInvite(user);
+		updateUser(user);
+		updateUser(other);
+
+		return false;
+	}
+
+	public boolean areFriends(String username, String otherusername){
+		return getUser(username).isFriendWith(getUser(otherusername));
+	}
+
+
+	public boolean removeFriend(User user, User other) {
+
+		user.removeFriendInvite(other);
+		updateUser(user);
+		updateUser(other);
+
 		return false;
 	}
 }

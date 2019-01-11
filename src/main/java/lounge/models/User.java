@@ -15,6 +15,7 @@ public class User extends BasicDO {
 	private boolean isAdmin;
 
 	private ArrayList<ObjectId> friendsList;
+	private ArrayList<ObjectId> pendingInviteList;
 
 	public User() {}
 
@@ -26,6 +27,7 @@ public class User extends BasicDO {
 		this.isAdmin = false;
 
 		friendsList = new ArrayList<>();
+		pendingInviteList = new ArrayList<>();
 	}
 
 	public ArrayList<ObjectId> getFriendsList() {
@@ -36,10 +38,35 @@ public class User extends BasicDO {
 		this.friendsList = friendsList;
 	}
 
-	public void addFriendinvite(User other){
-		this.friendsList.add(other.getId());
+	public void addFriendInvite(User other){
+		if(this.friendsList == null)
+			this.friendsList=new ArrayList<>() ;
+
+		if(!this.friendsList.contains(other.getId()))
+			this.friendsList.add(other.getId());
+
+		if(!isFriendWith(other)){
+			if(other.pendingInviteList == null)
+				other.pendingInviteList = new ArrayList<>();
+			if(!other.pendingInviteList.contains(this.getId()))
+				other.pendingInviteList.add(this.getId());
+		}
+
+		if(this.pendingInviteList != null && this.pendingInviteList.contains(other.getId()))
+			this.pendingInviteList.remove(other.getId());
 	}
 
+	public void removeFriendInvite(User other){
+		if(this.friendsList != null && this.friendsList.contains(other.getId()))
+			this.friendsList.remove(other.getId());
+
+		if(other.friendsList != null && other.friendsList.contains(other.getId()))
+			other.friendsList.remove(this.getId());
+
+		if(other.pendingInviteList != null && other.pendingInviteList.contains(this.getId()))
+			other.pendingInviteList.remove(this.getId());
+
+	}
 
 	public String getEmail() {
 		return email;
@@ -47,6 +74,13 @@ public class User extends BasicDO {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public boolean isFriendWith(User other){
+		if(this.friendsList!=null && other.friendsList!=null)
+			return (this.friendsList.contains(other.getId()) && other.friendsList.contains(this.getId()));
+
+		return false;
 	}
 
 	public boolean isAdmin() {
@@ -71,5 +105,9 @@ public class User extends BasicDO {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String toString(){
+		return this.username+"@"+this.getId().toString();
 	}
 }
