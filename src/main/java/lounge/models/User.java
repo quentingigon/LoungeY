@@ -43,7 +43,8 @@ public class User extends BasicDO {
 			this.friendsList=new ArrayList<>() ;
 
 		if(!this.friendsList.contains(other.getId()))
-			this.friendsList.add(other.getId());
+			this.friendsList.add(other.getId()); // TODO je pense qu'il faut l'ajouter a la liste d'amis
+												 // quand l'autre a accepté et pas avant
 
 		if(!isFriendWith(other)){
 			if(other.pendingInviteList == null)
