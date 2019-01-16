@@ -34,6 +34,11 @@ public class HashtagDO extends BasicDO {
 		this.postsContainingHashtag = postsContainingHashtag;
 	}
 
+	public void addToPostsList(String postId) {
+		if (postId != null)
+			postsContainingHashtag.add(new ObjectId(postId));
+	}
+
 	public Hashtag toHashtag() {
 		Hashtag hash = new Hashtag();
 		hash.setName(name);

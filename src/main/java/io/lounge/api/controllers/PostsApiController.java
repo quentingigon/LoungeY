@@ -5,6 +5,7 @@ import io.lounge.api.interfaces.PostsApi;
 import io.lounge.models.Comment;
 import io.lounge.models.NewPost;
 import io.lounge.models.Post;
+import io.lounge.mongo.dao.HashtagDAO;
 import io.lounge.mongo.dao.MongoConnection;
 import io.lounge.mongo.dao.PostDAO;
 import io.lounge.mongo.dao.UserDAO;
@@ -100,9 +101,16 @@ public class PostsApiController implements PostsApi {
 		MongoConnection conn = MongoConnection.getInstance();
 		conn.init();
 		PostDAO postDAO = new PostDAO(conn.getDatastore());
+		HashtagDAO hashtagDAO = new HashtagDAO(conn.getDatastore());
 
-		if (postDAO.addPost(new PostDO(newPost))) {
+		PostDO post = new PostDO(newPost);
+
+		if (postDAO.addPost(post)) {
 			// post was correclty saved
+
+			// update hashtag's lists
+			hashtagDAO.addPostToHashtagsLists(post);
+
 			return new ResponseEntity<Boolean>(HttpStatus.OK);
 		}
 

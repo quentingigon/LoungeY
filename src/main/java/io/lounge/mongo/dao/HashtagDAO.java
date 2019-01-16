@@ -24,7 +24,7 @@ public class HashtagDAO extends BasicDAO<HashtagDO, ObjectId> {
 		conn.init();
 		DBObject tmp = conn.getMorphia().toDBObject(hashtag);
 
-		return  getCollection().save(tmp).wasAcknowledged();
+		return getCollection().save(tmp).wasAcknowledged();
 	}
 
 	public List<PostDO> getPostsWithHashtag(HashtagDO hashtag) {
@@ -32,5 +32,22 @@ public class HashtagDAO extends BasicDAO<HashtagDO, ObjectId> {
 		conn.init();
 		PostDAO postDAO = new PostDAO(conn.getDatastore());
 		return postDAO.getPostsWithHashtag(hashtag) ;
+	}
+
+	// add post to each of the hashtag's list
+	public void addPostToHashtagsLists(PostDO post) {
+		MongoConnection conn = MongoConnection.getInstance();
+		conn.init();
+
+		for (HashtagDO hash : post.getHashtagsList()) {
+
+			DBObject oldHashtag = conn.getMorphia().toDBObject(hash);
+			hash.addToPostsList(post.getId().toHexString());
+			DBObject newHashtag = conn.getMorphia().toDBObject(hash);
+
+			getCollection().update(oldHashtag, newHashtag);
+		}
+
+
 	}
 }
