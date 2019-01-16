@@ -1,9 +1,9 @@
-package io.lounge.api;
+package io.lounge.api.controllers;
 
-import java.math.BigDecimal;
-import io.lounge.models.Wall;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
+import io.lounge.api.interfaces.WallApi;
+import io.lounge.models.Wall;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -31,7 +31,7 @@ public class WallApiController implements WallApi {
         this.request = request;
     }
 
-    public ResponseEntity<List<Wall>> getWall(@ApiParam(value = "",required=true) @PathVariable("idUser") BigDecimal idUser) {
+    public ResponseEntity<List<Wall>> getWall(@ApiParam(value = "",required=true) @PathVariable("idUser") String idUser) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {

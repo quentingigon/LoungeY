@@ -1,9 +1,9 @@
-package io.lounge.api;
+package io.lounge.api.controllers;
 
-import java.math.BigDecimal;
-import io.lounge.models.Post;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
+import io.lounge.api.interfaces.LoungeApi;
+import io.lounge.models.Post;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -31,7 +31,7 @@ public class LoungeApiController implements LoungeApi {
         this.request = request;
     }
 
-    public ResponseEntity<List<Post>> getFriendsPosts(@ApiParam(value = "",required=true) @PathVariable("idUser") BigDecimal idUser) {
+    public ResponseEntity<List<Post>> getFriendsPosts(@ApiParam(value = "",required=true) @PathVariable("idUser") String idUser) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
@@ -45,7 +45,7 @@ public class LoungeApiController implements LoungeApi {
         return new ResponseEntity<List<Post>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<List<Post>> getLounge(@ApiParam(value = "",required=true) @PathVariable("idUser") BigDecimal idUser) {
+    public ResponseEntity<List<Post>> getLounge(@ApiParam(value = "",required=true) @PathVariable("idUser") String idUser) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
@@ -59,7 +59,7 @@ public class LoungeApiController implements LoungeApi {
         return new ResponseEntity<List<Post>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<List<Post>> getLoungeQuestions(@ApiParam(value = "",required=true) @PathVariable("idUser") BigDecimal idUser) {
+    public ResponseEntity<List<Post>> getLoungeQuestions(@ApiParam(value = "",required=true) @PathVariable("idUser") String idUser) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {

@@ -1,5 +1,6 @@
 package io.lounge.mongo.dao.domodels;
 
+import io.lounge.models.Hashtag;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 
@@ -31,5 +32,20 @@ public class HashtagDO extends BasicDO {
 
 	public void setPostsContainingHashtag(ArrayList<ObjectId> postsContainingHashtag) {
 		this.postsContainingHashtag = postsContainingHashtag;
+	}
+
+	public Hashtag toHashtag() {
+		Hashtag hash = new Hashtag();
+		hash.setName(name);
+
+		ArrayList<String> posts = new ArrayList<>();
+
+		for (ObjectId o : getPostsContainingHashtag()) {
+			if (o != null)
+				posts.add(o.toHexString());
+		}
+		hash.setPostsWithThisHashtag(posts);
+
+		return hash;
 	}
 }

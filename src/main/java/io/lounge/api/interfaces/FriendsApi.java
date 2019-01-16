@@ -3,9 +3,8 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-package io.lounge.api;
+package io.lounge.api.interfaces;
 
-import java.math.BigDecimal;
 import io.lounge.models.User;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +25,7 @@ public interface FriendsApi {
     @RequestMapping(value = "/friends/{idCurrentUser}/new/{idNewFriend}",
         produces = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Boolean> addFriend(@ApiParam(value = "", required = true) @PathVariable("idCurrentUser") BigDecimal idCurrentUser, @ApiParam(value = "", required = true) @PathVariable("idNewFriend") BigDecimal idNewFriend);
+    ResponseEntity<Boolean> addFriend(@ApiParam(value = "", required = true) @PathVariable("idCurrentUser") String idCurrentUser, @ApiParam(value = "", required = true) @PathVariable("idNewFriend") String idNewFriend);
 
 
     @ApiOperation(value = "Get friends of user", nickname = "getFriends", notes = "Returns list of friends", response = User.class, responseContainer = "List", tags={ "friends", })
@@ -36,6 +35,6 @@ public interface FriendsApi {
     @RequestMapping(value = "/friends/{idCurrentUser}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<User>> getFriends(@ApiParam(value = "", required = true) @PathVariable("idCurrentUser") BigDecimal idCurrentUser);
+    ResponseEntity<List<User>> getFriends(@ApiParam(value = "", required = true) @PathVariable("idCurrentUser") String idCurrentUser);
 
 }

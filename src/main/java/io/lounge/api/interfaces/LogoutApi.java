@@ -3,10 +3,8 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-package io.lounge.api;
+package io.lounge.api.interfaces;
 
-import io.lounge.models.InlineResponse200;
-import io.lounge.models.User;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,19 +12,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
-
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T12:49:56.829Z")
 
-@Api(value = "login", description = "the login API")
-public interface LoginApi {
+@Api(value = "logout", description = "the logout API")
+public interface LogoutApi {
 
-    @ApiOperation(value = "Log user in", nickname = "login", notes = "Log user in", response = InlineResponse200.class, tags={ "auth", })
+    @ApiOperation(value = "Logout current user", nickname = "logout", notes = "Logout user", response = Boolean.class, tags={ "auth", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = InlineResponse200.class),
+        @ApiResponse(code = 200, message = "successful operation", response = Boolean.class),
         @ApiResponse(code = 500, message = "Internal server error") })
-    @RequestMapping(value = "/login",
+    @RequestMapping(value = "/logout",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<InlineResponse200> login(@ApiParam(value = "The user who wants to log in", required = true) @Valid @RequestBody User user);
+    ResponseEntity<Boolean> logout(@ApiParam(value = "The id of user to log out", required = true) @Valid @RequestBody String userId);
 
 }

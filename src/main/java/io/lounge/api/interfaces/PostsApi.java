@@ -3,9 +3,8 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-package io.lounge.api;
+package io.lounge.api.interfaces;
 
-import java.math.BigDecimal;
 import io.lounge.models.Comment;
 import io.lounge.models.NewPost;
 import io.lounge.models.Post;
@@ -40,7 +39,7 @@ public interface PostsApi {
     @RequestMapping(value = "/posts/get/{postId}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<Post> getPost(@ApiParam(value = "", required = true) @PathVariable("postId") BigDecimal postId);
+    ResponseEntity<Post> getPost(@ApiParam(value = "", required = true) @PathVariable("postId") String postId);
 
 
     @ApiOperation(value = "Get all posts from user", nickname = "getUserPosts", notes = "Get all the posts of particular user", response = Post.class, responseContainer = "List", tags={ "posts", })
@@ -50,7 +49,7 @@ public interface PostsApi {
     @RequestMapping(value = "/posts/getall/{userId}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Post>> getUserPosts(@ApiParam(value = "", required = true) @PathVariable("userId") BigDecimal userId);
+    ResponseEntity<List<Post>> getUserPosts(@ApiParam(value = "", required = true) @PathVariable("userId") String userId);
 
 
     @ApiOperation(value = "Add post of user", nickname = "post", notes = "Allow a user to post a post (ahah)", response = Boolean.class, tags={ "posts", })

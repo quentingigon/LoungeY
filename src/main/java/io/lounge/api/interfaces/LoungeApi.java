@@ -3,7 +3,7 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-package io.lounge.api;
+package io.lounge.api.interfaces;
 
 import io.lounge.models.Post;
 import io.swagger.annotations.*;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.math.BigDecimal;
 import java.util.List;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T12:49:56.829Z")
 
@@ -26,7 +25,7 @@ public interface LoungeApi {
     @RequestMapping(value = "/lounge/friends/{idUser}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Post>> getFriendsPosts(@ApiParam(value = "", required = true) @PathVariable("idUser") BigDecimal idUser);
+    ResponseEntity<List<Post>> getFriendsPosts(@ApiParam(value = "", required = true) @PathVariable("idUser") String idUser);
 
 
     @ApiOperation(value = "Get all public posts of user", nickname = "getLounge", notes = "Get all the posts of the Lounge of the user", response = Post.class, responseContainer = "List", tags={ "lounge", })
@@ -36,7 +35,7 @@ public interface LoungeApi {
     @RequestMapping(value = "/lounge/{idUser}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Post>> getLounge(@ApiParam(value = "", required = true) @PathVariable("idUser") BigDecimal idUser);
+    ResponseEntity<List<Post>> getLounge(@ApiParam(value = "", required = true) @PathVariable("idUser") String idUser);
 
 
     @ApiOperation(value = "Get all public questions of user", nickname = "getLoungeQuestions", notes = "Get all the public questions of the Lounge of the user", response = Post.class, responseContainer = "List", tags={ "lounge", })
@@ -46,6 +45,6 @@ public interface LoungeApi {
     @RequestMapping(value = "/lounge/questions/{idUser}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Post>> getLoungeQuestions(@ApiParam(value = "", required = true) @PathVariable("idUser") BigDecimal idUser);
+    ResponseEntity<List<Post>> getLoungeQuestions(@ApiParam(value = "", required = true) @PathVariable("idUser") String idUser);
 
 }

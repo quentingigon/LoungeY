@@ -1,8 +1,8 @@
-package io.lounge.api;
+package io.lounge.api.controllers;
 
-import java.math.BigDecimal;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
+import io.lounge.api.interfaces.SettingsApi;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -10,9 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.constraints.*;
-import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T12:49:56.829Z")
@@ -32,7 +32,7 @@ public class SettingsApiController implements SettingsApi {
         this.request = request;
     }
 
-    public ResponseEntity<Boolean> settings(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "idUser", required = true) BigDecimal idUser,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "token", required = true) String token) {
+    public ResponseEntity<Boolean> settings(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "idUser", required = true) String idUser,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "token", required = true) String token) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {

@@ -3,9 +3,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-package io.lounge.api;
+package io.lounge.api.interfaces;
 
-import io.lounge.models.NewUser;
+import io.lounge.models.InlineResponse200;
+import io.lounge.models.UserLogin;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,16 +17,16 @@ import javax.validation.Valid;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T12:49:56.829Z")
 
-@Api(value = "register", description = "the register API")
-public interface RegisterApi {
+@Api(value = "login", description = "the login API")
+public interface LoginApi {
 
-    @ApiOperation(value = "Register new user", nickname = "register", notes = "Register new user", response = Boolean.class, tags={ "auth", })
+    @ApiOperation(value = "Log user in", nickname = "login", notes = "Log user in", response = InlineResponse200.class, tags={ "auth", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Boolean.class),
+        @ApiResponse(code = 200, message = "successful operation", response = InlineResponse200.class),
         @ApiResponse(code = 500, message = "Internal server error") })
-    @RequestMapping(value = "/register",
+    @RequestMapping(value = "/login",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Boolean> register(@ApiParam(value = "The new user to register", required = true) @Valid @RequestBody NewUser newUser);
+    ResponseEntity<InlineResponse200> login(@ApiParam(value = "The user who wants to log in", required = true) @Valid @RequestBody UserLogin user);
 
 }

@@ -36,6 +36,7 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 	}
 
 	public List<PostDO> getPostsOfUser(UserDO user) {
+		// TODO fix this, it is way too slow !
 
 		List<PostDO> postsofUser = new ArrayList();
 		List<PostDO> allpost = new ArrayList();

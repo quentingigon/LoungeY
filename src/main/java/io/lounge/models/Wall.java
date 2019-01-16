@@ -1,14 +1,13 @@
 package io.lounge.models;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 
-import java.math.BigDecimal;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
+import java.util.Objects;
 
 /**
  * Wall
@@ -21,7 +20,7 @@ public class Wall   {
   private String username = null;
 
   @JsonProperty("yearOfStudy")
-  private BigDecimal yearOfStudy = null;
+  private String yearOfStudy = null;
 
   @JsonProperty("posts")
   @Valid
@@ -47,7 +46,7 @@ public class Wall   {
     this.username = username;
   }
 
-  public Wall yearOfStudy(BigDecimal yearOfStudy) {
+  public Wall yearOfStudy(String yearOfStudy) {
     this.yearOfStudy = yearOfStudy;
     return this;
   }
@@ -60,11 +59,11 @@ public class Wall   {
 
   @Valid
 
-  public BigDecimal getYearOfStudy() {
+  public String getYearOfStudy() {
     return yearOfStudy;
   }
 
-  public void setYearOfStudy(BigDecimal yearOfStudy) {
+  public void setYearOfStudy(String yearOfStudy) {
     this.yearOfStudy = yearOfStudy;
   }
 

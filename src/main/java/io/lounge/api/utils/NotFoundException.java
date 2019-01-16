@@ -1,4 +1,4 @@
-package io.lounge.api;
+package io.lounge.api.utils;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T12:49:56.829Z")
 

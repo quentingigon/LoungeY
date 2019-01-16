@@ -1,4 +1,4 @@
-package io.lounge.api;
+package io.lounge.api.utils;
 
 import javax.xml.bind.annotation.XmlTransient;
 

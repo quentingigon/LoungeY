@@ -1,11 +1,11 @@
 package io.lounge.models;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
+
 import javax.validation.Valid;
+import java.util.Objects;
 
 /**
  * UserDO
@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 public class User   {
   @JsonProperty("id")
-  private BigDecimal id = null;
+  private String id = null;
 
   @JsonProperty("username")
   private String username = null;
@@ -23,7 +23,7 @@ public class User   {
   @JsonProperty("email")
   private String email = null;
 
-  public User id(BigDecimal id) {
+  public User id(String id) {
     this.id = id;
     return this;
   }
@@ -36,11 +36,11 @@ public class User   {
 
   @Valid
 
-  public BigDecimal getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(BigDecimal id) {
+  public void setId(String id) {
     this.id = id;
   }
 

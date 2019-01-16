@@ -1,4 +1,4 @@
-package io.lounge.configuration;
+package io.lounge.configuration.doc;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

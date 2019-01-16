@@ -3,36 +3,29 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-package io.lounge.api;
+package io.lounge.api.interfaces;
 
-import java.math.BigDecimal;
+import io.lounge.models.NewUser;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.validation.constraints.*;
-import java.util.List;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T12:49:56.829Z")
 
-@Api(value = "logout", description = "the logout API")
-public interface LogoutApi {
+@Api(value = "register", description = "the register API")
+public interface RegisterApi {
 
-    @ApiOperation(value = "Logout current user", nickname = "logout", notes = "Logout user", response = Boolean.class, tags={ "auth", })
+    @ApiOperation(value = "Register new user", nickname = "register", notes = "Register new user", response = Boolean.class, tags={ "auth", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Boolean.class),
         @ApiResponse(code = 500, message = "Internal server error") })
-    @RequestMapping(value = "/logout",
+    @RequestMapping(value = "/register",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Boolean> logout(@ApiParam(value = "The id of user to log out", required = true) @Valid @RequestBody BigDecimal userId);
+    ResponseEntity<Boolean> register(@ApiParam(value = "The new user to register", required = true) @Valid @RequestBody NewUser newUser);
 
 }

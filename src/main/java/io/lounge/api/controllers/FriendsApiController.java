@@ -1,9 +1,9 @@
-package io.lounge.api;
+package io.lounge.api.controllers;
 
-import java.math.BigDecimal;
-import io.lounge.models.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
+import io.lounge.api.interfaces.FriendsApi;
+import io.lounge.models.User;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -31,7 +31,7 @@ public class FriendsApiController implements FriendsApi {
         this.request = request;
     }
 
-    public ResponseEntity<Boolean> addFriend(@ApiParam(value = "",required=true) @PathVariable("idCurrentUser") BigDecimal idCurrentUser,@ApiParam(value = "",required=true) @PathVariable("idNewFriend") BigDecimal idNewFriend) {
+    public ResponseEntity<Boolean> addFriend(@ApiParam(value = "",required=true) @PathVariable("idCurrentUser") String idCurrentUser,@ApiParam(value = "",required=true) @PathVariable("idNewFriend") String idNewFriend) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
@@ -45,7 +45,7 @@ public class FriendsApiController implements FriendsApi {
         return new ResponseEntity<Boolean>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<List<User>> getFriends(@ApiParam(value = "",required=true) @PathVariable("idCurrentUser") BigDecimal idCurrentUser) {
+    public ResponseEntity<List<User>> getFriends(@ApiParam(value = "",required=true) @PathVariable("idCurrentUser") String idCurrentUser) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {

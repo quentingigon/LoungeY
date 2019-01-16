@@ -4,24 +4,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.Valid;
 import java.util.Objects;
 
 /**
- * NewPost
+ * UserLogin
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T12:49:56.829Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T15:12:08.288Z")
 
-public class NewPost   {
+public class UserLogin   {
   @JsonProperty("username")
   private String username = null;
 
-  @JsonProperty("post")
-  private Post post = null;
+  @JsonProperty("password")
+  private String password = null;
 
-  public NewPost userId(String userId) {
-    this.username = userId;
+  public UserLogin username(String username) {
+    this.username = username;
     return this;
   }
 
@@ -31,7 +30,6 @@ public class NewPost   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
 
   public String getUsername() {
     return username;
@@ -41,25 +39,24 @@ public class NewPost   {
     this.username = username;
   }
 
-  public NewPost post(Post post) {
-    this.post = post;
+  public UserLogin password(String password) {
+    this.password = password;
     return this;
   }
 
   /**
-   * Get post
-   * @return post
+   * Get password
+   * @return password
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
 
-  public Post getPost() {
-    return post;
+  public String getPassword() {
+    return password;
   }
 
-  public void setPost(Post post) {
-    this.post = post;
+  public void setPassword(String password) {
+    this.password = password;
   }
 
 
@@ -71,23 +68,23 @@ public class NewPost   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    NewPost newPost = (NewPost) o;
-    return Objects.equals(this.username, newPost.username) &&
-        Objects.equals(this.post, newPost.post);
+    UserLogin userLogin = (UserLogin) o;
+    return Objects.equals(this.username, userLogin.username) &&
+        Objects.equals(this.password, userLogin.password);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(username, post);
+    return Objects.hash(username, password);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class NewPost {\n");
+    sb.append("class UserLogin {\n");
     
     sb.append("    username: ").append(toIndentedString(username)).append("\n");
-    sb.append("    post: ").append(toIndentedString(post)).append("\n");
+    sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("}");
     return sb.toString();
   }

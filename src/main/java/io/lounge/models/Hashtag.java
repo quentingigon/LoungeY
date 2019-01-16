@@ -1,14 +1,15 @@
 package io.lounge.models;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.lounge.mongo.dao.domodels.HashtagDO;
 import io.swagger.annotations.ApiModelProperty;
+import org.bson.types.ObjectId;
+import org.springframework.validation.annotation.Validated;
 
-import java.math.BigDecimal;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
+import java.util.Objects;
 
 /**
  * HashtagDO
@@ -22,7 +23,7 @@ public class Hashtag   {
 
   @JsonProperty("postsWithThisHashtag")
   @Valid
-  private List<BigDecimal> postsWithThisHashtag = null;
+  private List<String> postsWithThisHashtag = null;
 
   @JsonProperty("conditions")
   private HashtagConditions conditions = null;
@@ -47,14 +48,14 @@ public class Hashtag   {
     this.name = name;
   }
 
-  public Hashtag postsWithThisHashtag(List<BigDecimal> postsWithThisHashtag) {
+  public Hashtag postsWithThisHashtag(List<String> postsWithThisHashtag) {
     this.postsWithThisHashtag = postsWithThisHashtag;
     return this;
   }
 
-  public Hashtag addPostsWithThisHashtagItem(BigDecimal postsWithThisHashtagItem) {
+  public Hashtag addPostsWithThisHashtagItem(String postsWithThisHashtagItem) {
     if (this.postsWithThisHashtag == null) {
-      this.postsWithThisHashtag = new ArrayList<BigDecimal>();
+      this.postsWithThisHashtag = new ArrayList<String>();
     }
     this.postsWithThisHashtag.add(postsWithThisHashtagItem);
     return this;
@@ -68,11 +69,11 @@ public class Hashtag   {
 
   @Valid
 
-  public List<BigDecimal> getPostsWithThisHashtag() {
+  public List<String> getPostsWithThisHashtag() {
     return postsWithThisHashtag;
   }
 
-  public void setPostsWithThisHashtag(List<BigDecimal> postsWithThisHashtag) {
+  public void setPostsWithThisHashtag(List<String> postsWithThisHashtag) {
     this.postsWithThisHashtag = postsWithThisHashtag;
   }
 
@@ -127,6 +128,19 @@ public class Hashtag   {
     sb.append("    conditions: ").append(toIndentedString(conditions)).append("\n");
     sb.append("}");
     return sb.toString();
+  }
+
+  public HashtagDO toHashtagDO() {
+  	HashtagDO hashtagDO = new HashtagDO(name);
+
+  	ArrayList<ObjectId> posts = new ArrayList<>();
+
+  	for (String s : postsWithThisHashtag) {
+  		posts.add(new ObjectId(s));
+	}
+
+	hashtagDO.setPostsContainingHashtag(posts);
+	return hashtagDO;
   }
 
   /**

@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -16,15 +15,15 @@ import java.util.Objects;
 
 public class Comment   {
   @JsonProperty("userId")
-  private BigDecimal userId = null;
+  private String userId = null;
 
   @JsonProperty("rootPostId")
-  private BigDecimal rootPostId = null;
+  private String rootPostId = null;
 
   @JsonProperty("post")
   private Post post = null;
 
-  public Comment userId(BigDecimal userId) {
+  public Comment userId(String userId) {
     this.userId = userId;
     return this;
   }
@@ -37,15 +36,15 @@ public class Comment   {
 
   @Valid
 
-  public BigDecimal getUserId() {
+  public String getUserId() {
     return userId;
   }
 
-  public void setUserId(BigDecimal userId) {
+  public void setUserId(String userId) {
     this.userId = userId;
   }
 
-  public Comment rootPostId(BigDecimal rootPostId) {
+  public Comment rootPostId(String rootPostId) {
     this.rootPostId = rootPostId;
     return this;
   }
@@ -58,11 +57,11 @@ public class Comment   {
 
   @Valid
 
-  public BigDecimal getRootPostId() {
+  public String getRootPostId() {
     return rootPostId;
   }
 
-  public void setRootPostId(BigDecimal rootPostId) {
+  public void setRootPostId(String rootPostId) {
     this.rootPostId = rootPostId;
   }
 

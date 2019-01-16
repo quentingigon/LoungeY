@@ -1,4 +1,4 @@
-package io.lounge.configuration;
+package io.lounge.configuration.security;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -54,7 +55,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 											Authentication auth) throws IOException, ServletException {
 
 		String token = JWT.create()
-			.withSubject(((UserDO) auth.getPrincipal()).getUsername())
+			.withSubject(((User) auth.getPrincipal()).getUsername())
 			.withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
 			.sign(HMAC512(SECRET.getBytes()));
 		res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);

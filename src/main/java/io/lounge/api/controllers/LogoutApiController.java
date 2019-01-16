@@ -1,8 +1,8 @@
-package io.lounge.api;
+package io.lounge.api.controllers;
 
-import java.math.BigDecimal;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
+import io.lounge.api.interfaces.LogoutApi;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -10,10 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.constraints.*;
-import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import javax.validation.Valid;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T12:49:56.829Z")
 
@@ -32,18 +30,10 @@ public class LogoutApiController implements LogoutApi {
         this.request = request;
     }
 
-    public ResponseEntity<Boolean> logout(@ApiParam(value = "The id of user to log out" ,required=true )  @Valid @RequestBody BigDecimal userId) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<Boolean>(objectMapper.readValue("true", Boolean.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<Boolean>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
+    public ResponseEntity<Boolean> logout(@ApiParam(value = "The id of user to log out" ,required=true )  @Valid @RequestBody String userId) {
 
-        return new ResponseEntity<Boolean>(HttpStatus.NOT_IMPLEMENTED);
+		// TODO logout
+    	return new ResponseEntity<Boolean>(false, HttpStatus.NOT_IMPLEMENTED);
     }
 
 }

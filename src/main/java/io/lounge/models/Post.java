@@ -1,15 +1,16 @@
 package io.lounge.models;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.lounge.mongo.dao.domodels.HashtagDO;
+import io.lounge.mongo.dao.domodels.PostDO;
+import io.lounge.mongo.dao.domodels.PostType;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 
-import java.math.BigDecimal;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import org.threeten.bp.OffsetDateTime;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
+import java.util.Objects;
 
 /**
  * PostDO
@@ -19,19 +20,19 @@ import javax.validation.Valid;
 
 public class Post   {
   @JsonProperty("id")
-  private BigDecimal id = null;
+  private String id = null;
 
   @JsonProperty("timestamp")
-  private OffsetDateTime timestamp = null;
+  private String timestamp = null;
 
   @JsonProperty("userId")
-  private BigDecimal userId = null;
+  private String userId = null;
 
   @JsonProperty("text")
   private String text = null;
 
   @JsonProperty("type")
-  private BigDecimal type = null;
+  private String type = null;
 
   @JsonProperty("isCorrectAnswer")
   private Boolean isCorrectAnswer = null;
@@ -44,7 +45,7 @@ public class Post   {
   @Valid
   private List<Hashtag> hashtags = null;
 
-  public Post id(BigDecimal id) {
+  public Post id(String id) {
     this.id = id;
     return this;
   }
@@ -57,15 +58,15 @@ public class Post   {
 
   @Valid
 
-  public BigDecimal getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(BigDecimal id) {
+  public void setId(String id) {
     this.id = id;
   }
 
-  public Post timestamp(OffsetDateTime timestamp) {
+  public Post timestamp(String timestamp) {
     this.timestamp = timestamp;
     return this;
   }
@@ -78,15 +79,15 @@ public class Post   {
 
   @Valid
 
-  public OffsetDateTime getTimestamp() {
+  public String getTimestamp() {
     return timestamp;
   }
 
-  public void setTimestamp(OffsetDateTime timestamp) {
+  public void setTimestamp(String timestamp) {
     this.timestamp = timestamp;
   }
 
-  public Post userId(BigDecimal userId) {
+  public Post userId(String userId) {
     this.userId = userId;
     return this;
   }
@@ -99,11 +100,11 @@ public class Post   {
 
   @Valid
 
-  public BigDecimal getUserId() {
+  public String getUserId() {
     return userId;
   }
 
-  public void setUserId(BigDecimal userId) {
+  public void setUserId(String userId) {
     this.userId = userId;
   }
 
@@ -127,7 +128,7 @@ public class Post   {
     this.text = text;
   }
 
-  public Post type(BigDecimal type) {
+  public Post type(String type) {
     this.type = type;
     return this;
   }
@@ -140,11 +141,11 @@ public class Post   {
 
   @Valid
 
-  public BigDecimal getType() {
+  public String getType() {
     return type;
   }
 
-  public void setType(BigDecimal type) {
+  public void setType(String type) {
     this.type = type;
   }
 
@@ -266,6 +267,20 @@ public class Post   {
     sb.append("    hashtags: ").append(toIndentedString(hashtags)).append("\n");
     sb.append("}");
     return sb.toString();
+  }
+
+  public PostDO toPostDO() {
+  	PostDO postDO = new PostDO(text, timestamp.toString(), PostType.valueOf(type), userId, new ArrayList<HashtagDO>());
+
+  	ArrayList<HashtagDO> hashtagsDO = new ArrayList<>();
+
+  	for (Hashtag hash : hashtags) {
+  		hashtagsDO.add(hash.toHashtagDO());
+	}
+
+  	postDO.setHashtagsList(hashtagsDO);
+
+  	return postDO;
   }
 
   /**

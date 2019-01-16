@@ -1,5 +1,6 @@
-package io.lounge.api;
+package io.lounge.api.controllers;
 
+import io.lounge.api.interfaces.SearchApi;
 import io.lounge.models.Post;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;

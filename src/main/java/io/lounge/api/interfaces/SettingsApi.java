@@ -3,24 +3,16 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-package io.lounge.api;
+package io.lounge.api.interfaces;
 
-import java.math.BigDecimal;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.validation.constraints.*;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T12:49:56.829Z")
 
 @Api(value = "settings", description = "the settings API")
@@ -34,6 +26,6 @@ public interface SettingsApi {
     @RequestMapping(value = "/settings",
         consumes = { "application/json" },
         method = RequestMethod.GET)
-    ResponseEntity<Boolean> settings(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "idUser", required = true) BigDecimal idUser, @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "token", required = true) String token);
+    ResponseEntity<Boolean> settings(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "idUser", required = true) String idUser, @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "token", required = true) String token);
 
 }
