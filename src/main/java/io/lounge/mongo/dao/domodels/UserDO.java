@@ -1,0 +1,114 @@
+package io.lounge.mongo.dao.domodels;
+
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Entity;
+
+import java.util.ArrayList;
+
+@Entity
+public class UserDO extends BasicDO {
+
+	private String username;
+	private String password;
+	private String email;
+
+	private boolean isAdmin;
+
+	private ArrayList<ObjectId> friendsList;
+	private ArrayList<ObjectId> pendingInviteList;
+
+	public UserDO() {}
+
+	public UserDO(String email, String username, String password) {
+		this.setId(new ObjectId());
+		this.email = email;
+		this.username = username;
+		this.password = password;
+		this.isAdmin = false;
+
+		friendsList = new ArrayList<>();
+		pendingInviteList = new ArrayList<>();
+	}
+
+	public ArrayList<ObjectId> getFriendsList() {
+		return friendsList;
+	}
+
+	public void setFriendsList(ArrayList<ObjectId> friendsList) {
+		this.friendsList = friendsList;
+	}
+
+	public void addFriendInvite(UserDO other){
+		if(this.friendsList == null)
+			this.friendsList=new ArrayList<>() ;
+
+		if(!this.friendsList.contains(other.getId()))
+			this.friendsList.add(other.getId()); // TODO je pense qu'il faut l'ajouter a la liste d'amis
+												 // quand l'autre a accepté et pas avant
+
+		if(!isFriendWith(other)){
+			if(other.pendingInviteList == null)
+				other.pendingInviteList = new ArrayList<>();
+			if(!other.pendingInviteList.contains(this.getId()))
+				other.pendingInviteList.add(this.getId());
+		}
+
+		if(this.pendingInviteList != null && this.pendingInviteList.contains(other.getId()))
+			this.pendingInviteList.remove(other.getId());
+	}
+
+	public void removeFriendInvite(UserDO other){
+		if(this.friendsList != null && this.friendsList.contains(other.getId()))
+			this.friendsList.remove(other.getId());
+
+		if(other.friendsList != null && other.friendsList.contains(other.getId()))
+			other.friendsList.remove(this.getId());
+
+		if(other.pendingInviteList != null && other.pendingInviteList.contains(this.getId()))
+			other.pendingInviteList.remove(this.getId());
+
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public boolean isFriendWith(UserDO other){
+		if(this.friendsList!=null && other.friendsList!=null)
+			return (this.friendsList.contains(other.getId()) && other.friendsList.contains(this.getId()));
+
+		return false;
+	}
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean admin) {
+		isAdmin = admin;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String toString(){
+		return this.username+"@"+this.getId().toString();
+	}
+}
