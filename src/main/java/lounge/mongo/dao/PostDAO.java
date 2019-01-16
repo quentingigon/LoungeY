@@ -1,6 +1,7 @@
 package lounge.mongo.dao;
 
 import com.mongodb.DBObject;
+import javafx.geometry.Pos;
 import lounge.models.Hashtag;
 import lounge.models.Post;
 import lounge.models.PostType;
@@ -20,8 +21,6 @@ public class PostDAO extends BasicDAO<Post, ObjectId> {
 	}
 
 	public boolean addPost(Post post) {
-
-
 		MongoConnection conn = MongoConnection.getInstance();
 		conn.init();
 		DBObject tmp = conn.getMorphia().toDBObject(post);
@@ -29,11 +28,48 @@ public class PostDAO extends BasicDAO<Post, ObjectId> {
 		return  getCollection().save(tmp).wasAcknowledged();
 	}
 
-	public boolean addComment(Post comment, Post parent) {
-		comment.setAuthor(parent.getAuthor());
-		comment.setType(PostType.COMMENT);
+	public Post getPost(ObjectId pId) {
+		return findOne("_id", pId);
+	}
 
-		return  addPost(comment) ;
+	public boolean postExists(ObjectId pId){
+		return (getPost(pId) != null);
+	}
+
+	public boolean updatePost(Post p) {
+		if(postExists(p.getId())) {
+			MongoConnection conn = MongoConnection.getInstance();
+			conn.init();
+			DBObject newPost = conn.getMorphia().toDBObject(p);
+			DBObject oldPost = conn.getMorphia().toDBObject(getPost(p.getId()));
+			return getCollection().update(oldPost, newPost).wasAcknowledged();
+		} else {
+			System.out.println("Cannot update unexisting post");
+			return false;
+		}
+
+	}
+
+	public boolean addComment(Post comment, Post parent) {
+
+		if(comment.getAuthor()!=null){
+			if(comment.getType() != PostType.COMMENT)
+				comment.setType(PostType.COMMENT);
+
+			parent.addComment(comment);
+
+			return  updatePost(parent);
+		}
+
+		return false;
+	}
+
+	public boolean remComment(ObjectId cId, ObjectId parentId){
+		Post parent = getPost(parentId);
+		parent.delComment(cId);
+
+		updatePost(parent);
+		return false;
 	}
 
 	public List<Post> getPostsOfUser(User user) {

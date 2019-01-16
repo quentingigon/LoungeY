@@ -1,5 +1,6 @@
 package lounge.models;
 
+import javafx.geometry.Pos;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 
@@ -13,18 +14,26 @@ public class Post extends BasicDO {
 	private PostType type;
 	private ObjectId author;
 	private boolean isCorrectAnswer;
+	private ObjectId parentId;
 
 	private ArrayList<Post> responsesList;
 	private ArrayList<Hashtag> hashtagsList;
 
-	public Post() {}
+	private Post() {}
 
-	public Post(String text, String date, PostType type, ObjectId author, ArrayList<Hashtag> hashtagsList) {
+	public Post(String text, String date, PostType type, ObjectId author) {
+		this.setId(new ObjectId());
+
 		this.text = text;
 		this.date = date;
 		this.type = type;
 		this.author = author;
-		this.hashtagsList = hashtagsList;
+		this.hashtagsList = getHashtagsFromText(text);
+		this.responsesList = new ArrayList<>();
+	}
+
+	private ArrayList<Hashtag> getHashtagsFromText(String text){
+		return new ArrayList<>();
 	}
 
 	public String getText() {
@@ -81,5 +90,34 @@ public class Post extends BasicDO {
 
 	public void setHashtagsList(ArrayList<Hashtag> hashtagsList) {
 		this.hashtagsList = hashtagsList;
+	}
+
+	public ObjectId getParentId(){
+		return this.parentId;
+	}
+
+	public void setParentId(ObjectId id){
+		if(this.parentId==null)
+			this.parentId = id;
+	}
+
+	public void addComment(Post comment){
+		if(this.responsesList == null)
+			this.responsesList = new ArrayList<>();
+
+		comment.setParentId(this.getId());
+		this.responsesList.add(comment);
+	}
+
+	public void delComment(ObjectId id){
+		for(Post p : this.responsesList){
+			if(p.getId().equals(id)){
+				System.out.println("Found comment to del");
+				this.responsesList.remove(p);
+				return;
+			}
+		}
+
+		System.out.println("Comment not found");
 	}
 }
