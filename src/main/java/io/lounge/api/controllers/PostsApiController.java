@@ -86,7 +86,8 @@ public class PostsApiController implements PostsApi {
 
     }
 
-    public ResponseEntity<List<Post>> getUserPosts(@ApiParam(value = "",required=true) @PathVariable("userId") String userId) {
+    public ResponseEntity<List<Post>> getUserPosts(@ApiParam(value = "",required=true) @PathVariable("userId") String userId,
+																					   @PathVariable("amount") String amount) {
 		MongoConnection conn = MongoConnection.getInstance();
 		conn.init();
 		PostDAO postDAO = new PostDAO(conn.getDatastore());
@@ -97,6 +98,7 @@ public class PostsApiController implements PostsApi {
 		if (user != null) {
 			List<Post> posts = new ArrayList<>();
 
+			// TODO postDAO.getNFirstPostsOfUser(user, n)
 			for (PostDO p : postDAO.getPostsOfUser(user)) {
 				posts.add(p.toPost());
 			}
