@@ -46,8 +46,14 @@ public class Main {
 		PostDO commToDel = new PostDO("To REMOVE", "16/01/19", PostType.COMMENT, robin.getId());
 		pDAO.addComment(commToDel, p);
 
-		
+
 		pDAO.remComment(commToDel.getId(), commToDel.getParentId());
+
+		System.out.println("Robin posts :");
+		for(PostDO pp : pDAO.getPostsOfUser(robin)){
+			System.out.println(pp.getId() + "; ");
+		}
+
 		user.setPassword("test2");
 
 		System.out.println("Password : " + userDAO.getUser(user.getUsername()).getPassword());

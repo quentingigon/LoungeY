@@ -78,11 +78,9 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 
 
 	public List<PostDO> getPostsOfUser(UserDO user) {
-		// TODO fix this, it is way too slow !
+		Query<PostDO> findQuery = createQuery().field("author").equal(user.getId());
 
-		DBObject document1 = new BasicDBObject("author", user.getId());
-
-		return find((Query)document1).asList();
+		return find(findQuery).asList();
 	}
 
 	public List<PostDO> getPostsWithHashtag(HashtagDO hashtag) {
