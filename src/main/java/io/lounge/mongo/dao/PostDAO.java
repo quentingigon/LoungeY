@@ -18,6 +18,10 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 		super(ds);
 	}
 
+	public PostDO getPostById(String id) {
+		return findOne("_id", new ObjectId(id));
+	}
+
 	public boolean addPost(PostDO post) {
 
 
@@ -32,7 +36,9 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 		comment.setAuthor(parent.getAuthor());
 		comment.setType(PostType.COMMENT);
 
-		return  addPost(comment) ;
+		parent.addResponse(comment);
+
+		return addPost(comment) ;
 	}
 
 	public List<PostDO> getPostsOfUser(UserDO user) {

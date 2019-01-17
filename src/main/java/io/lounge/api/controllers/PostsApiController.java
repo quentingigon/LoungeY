@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T12:49:56.829Z")
@@ -43,32 +42,48 @@ public class PostsApiController implements PostsApi {
         this.request = request;
     }
 
-    public ResponseEntity<Boolean> comment(@ApiParam(value = "The id of user to log out" ,required=true )  @Valid @RequestBody Comment newPost) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<Boolean>(objectMapper.readValue("true", Boolean.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<Boolean>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
+    public ResponseEntity<Boolean> comment(@ApiParam(value = "The id of user to log out" ,required=true )  @Valid @RequestBody Comment comment) {
+		MongoConnection conn = MongoConnection.getInstance();
+		conn.init();
+		PostDAO postDAO = new PostDAO(conn.getDatastore());
 
-        return new ResponseEntity<Boolean>(HttpStatus.NOT_IMPLEMENTED);
+		PostDO commentDO = comment.getPost().toPostDO();
+		PostDO rootPostDO = postDAO.getPostById(comment.getRootPostId());
+
+		if (commentDO != null && rootPostDO != null) {
+
+			if (postDAO.addComment(commentDO, rootPostDO)) {
+				// comment is correctly added
+				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+			}
+			else {
+				return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+		else {
+			return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+
     }
 
     public ResponseEntity<Post> getPost(@ApiParam(value = "",required=true) @PathVariable("postId") String postId) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<Post>(objectMapper.readValue("{  \"hashtags\" : [ {    \"name\" : \"name\",    \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],    \"conditions\" : {      \"levelValues\" : [ \"levelValues\", \"levelValues\" ],      \"name\" : \"name\",      \"collection\" : \"collection\",      \"operator\" : \"operator\"    }  }, {    \"name\" : \"name\",    \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],    \"conditions\" : {      \"levelValues\" : [ \"levelValues\", \"levelValues\" ],      \"name\" : \"name\",      \"collection\" : \"collection\",      \"operator\" : \"operator\"    }  } ],  \"responses\" : [ null, null ],  \"id\" : 6.02745618307040320615897144307382404804229736328125,  \"text\" : \"text\",  \"type\" : 5.962133916683182377482808078639209270477294921875,  \"userId\" : 1.46581298050294517310021547018550336360931396484375,  \"isCorrectAnswer\" : true,  \"timestamp\" : \"2000-01-23T04:56:07.000+00:00\"}", Post.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<Post>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
+		MongoConnection conn = MongoConnection.getInstance();
+		conn.init();
+		PostDAO postDAO = new PostDAO(conn.getDatastore());
 
-        return new ResponseEntity<Post>(HttpStatus.NOT_IMPLEMENTED);
+		PostDO postDO = postDAO.getPostById(postId);
+
+		if (postDO != null) {
+			Post post = postDO.toPost();
+
+			return new ResponseEntity<Post>(post, HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<Post>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+
     }
 
     public ResponseEntity<List<Post>> getUserPosts(@ApiParam(value = "",required=true) @PathVariable("userId") String userId) {

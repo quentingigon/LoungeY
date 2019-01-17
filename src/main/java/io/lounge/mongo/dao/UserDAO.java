@@ -24,9 +24,7 @@ public class UserDAO extends BasicDAO<UserDO, ObjectId> {
 		return findOne("username", username);
 	}
 
-	public UserDO getUserById(Long id) {
-		return findOne("_id", id);
-	}
+	v
 
 	public List<UserDO> getAllUsers() {
 		return find().asList();

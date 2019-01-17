@@ -94,6 +94,10 @@ public class PostDO extends BasicDO {
 		return p;
 	}
 
+	public void addResponse(PostDO comment) {
+		this.responsesList.add(comment);
+	}
+
 	public String getText() {
 		return text;
 	}

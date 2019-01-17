@@ -1,6 +1,7 @@
 package io.lounge.mongo.dao.domodels;
 
 import io.lounge.models.NewUser;
+import io.lounge.models.User;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 
@@ -35,6 +36,15 @@ public class UserDO extends BasicDO {
 
 		friendsList = new ArrayList<>();
 		pendingInviteList = new ArrayList<>();
+	}
+
+	public User toUser() {
+		User user = new User();
+		user.setEmail(email);
+		user.setId(getId().toHexString());
+		user.setUsername(username);
+
+		return user;
 	}
 
 	public ArrayList<ObjectId> getFriendsList() {
