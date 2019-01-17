@@ -16,6 +16,7 @@ public class PostDO extends BasicDO {
 	private PostType type;
 	private ObjectId author;
 	private boolean isCorrectAnswer;
+	private ObjectId parentId;
 
 	private ArrayList<PostDO> responsesList;
 	private ArrayList<HashtagDO> hashtagsList;
@@ -34,6 +35,17 @@ public class PostDO extends BasicDO {
 
 	public PostDO(NewPost newPost) {
 		PostDO postDO = new PostDO(newPost.getPost());
+	}
+
+	public PostDO(String text, String date, PostType type, ObjectId author) {
+		this.setId(new ObjectId());
+
+		this.text = text;
+		this.date = date;
+		this.type = type;
+		this.author = author;
+		this.hashtagsList = getHashtagsFromText(text);
+		this.responsesList = new ArrayList<>();
 	}
 
 	public PostDO(Post post) {
@@ -94,8 +106,8 @@ public class PostDO extends BasicDO {
 		return p;
 	}
 
-	public void addResponse(PostDO comment) {
-		this.responsesList.add(comment);
+	private ArrayList<HashtagDO> getHashtagsFromText(String text){
+		return new ArrayList<>();
 	}
 
 	public String getText() {
@@ -152,5 +164,34 @@ public class PostDO extends BasicDO {
 
 	public void setHashtagsList(ArrayList<HashtagDO> hashtagsList) {
 		this.hashtagsList = hashtagsList;
+	}
+
+	public ObjectId getParentId(){
+		return this.parentId;
+	}
+
+	public void setParentId(ObjectId id){
+		if(this.parentId==null)
+			this.parentId = id;
+	}
+
+	public void addComment(PostDO comment){
+		if(this.responsesList == null)
+			this.responsesList = new ArrayList<>();
+
+		comment.setParentId(this.getId());
+		this.responsesList.add(comment);
+	}
+
+	public void delComment(ObjectId id){
+		for(PostDO p : this.responsesList){
+			if(p.getId().equals(id)){
+				System.out.println("Found comment to del");
+				this.responsesList.remove(p);
+				return;
+			}
+		}
+
+		System.out.println("Comment not found");
 	}
 }

@@ -1,5 +1,6 @@
 package io.lounge.mongo.dao;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import io.lounge.mongo.dao.domodels.HashtagDO;
 import io.lounge.mongo.dao.domodels.PostDO;
@@ -8,6 +9,7 @@ import io.lounge.mongo.dao.domodels.UserDO;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.dao.BasicDAO;
+import org.mongodb.morphia.query.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +20,7 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 		super(ds);
 	}
 
-	public PostDO getPostById(String id) {
-		return findOne("_id", new ObjectId(id));
-	}
-
 	public boolean addPost(PostDO post) {
-
-
 		MongoConnection conn = MongoConnection.getInstance();
 		conn.init();
 		DBObject tmp = conn.getMorphia().toDBObject(post);
@@ -32,30 +28,66 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 		return  getCollection().save(tmp).wasAcknowledged();
 	}
 
-	public boolean addComment(PostDO comment, PostDO parent) {
-		comment.setAuthor(parent.getAuthor());
-		comment.setType(PostType.COMMENT);
-
-		parent.addResponse(comment);
-
-		return addPost(comment) ;
+	public PostDO getPost(ObjectId pId) {
+		return findOne("_id", pId);
 	}
+
+	public PostDO getPostById(String sPId){
+		return getPost(new ObjectId(sPId));
+	}
+
+	public boolean postExists(ObjectId pId){
+		return (getPost(pId) != null);
+	}
+
+	public boolean updatePost(PostDO p) {
+		if(postExists(p.getId())) {
+			MongoConnection conn = MongoConnection.getInstance();
+			conn.init();
+			DBObject newPost = conn.getMorphia().toDBObject(p);
+			DBObject oldPost = conn.getMorphia().toDBObject(getPost(p.getId()));
+			return getCollection().update(oldPost, newPost).wasAcknowledged();
+		} else {
+			System.out.println("Cannot update unexisting post");
+			return false;
+		}
+
+	}
+
+	public boolean addComment(PostDO comment, PostDO parent) {
+
+		if(comment.getAuthor()!=null){
+			if(comment.getType() != PostType.COMMENT)
+				comment.setType(PostType.COMMENT);
+
+			parent.addComment(comment);
+
+			return  updatePost(parent);
+		}
+
+		return false;
+	}
+
+	public boolean remComment(ObjectId cId, ObjectId parentId){
+		PostDO parent = getPost(parentId);
+		parent.delComment(cId);
+
+		updatePost(parent);
+		return false;
+	}
+
 
 	public List<PostDO> getPostsOfUser(UserDO user) {
 		// TODO fix this, it is way too slow !
 
-		List<PostDO> postsofUser = new ArrayList();
-		List<PostDO> allpost = new ArrayList();
-		allpost = find().asList();
-		for(PostDO post: allpost){
-			if(post.getAuthor()==user.getId()){
-				postsofUser.add(post);
-			}
-		}
-		return postsofUser;
+		DBObject document1 = new BasicDBObject("author", user.getId());
+
+		return find((Query)document1).asList();
 	}
 
 	public List<PostDO> getPostsWithHashtag(HashtagDO hashtag) {
+		//TODO
+
 		List<PostDO> postsWithHastag = new ArrayList();
 		List<PostDO> allposthastag = new ArrayList();
 		allposthastag = find().asList();
@@ -71,6 +103,8 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 	}
 
 	public List<PostDO> getPostsWithHashtags(List<HashtagDO> hashtags) {
+
+		// TODO
 
 		List<PostDO> postsWithHastag = new ArrayList();
 		List<PostDO> allpost= new ArrayList();
