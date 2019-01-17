@@ -2,8 +2,14 @@ package io.lounge.api.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.lounge.api.interfaces.LoungeApi;
+import io.lounge.api.utils.DAOUtils;
 import io.lounge.models.Post;
+import io.lounge.mongo.dao.PostDAO;
+import io.lounge.mongo.dao.UserDAO;
+import io.lounge.mongo.dao.domodels.PostDO;
+import io.lounge.mongo.dao.domodels.UserDO;
 import io.swagger.annotations.ApiParam;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -12,7 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T12:49:56.829Z")
 
@@ -32,45 +38,59 @@ public class LoungeApiController implements LoungeApi {
     }
 
     public ResponseEntity<List<Post>> getFriendsPosts(@ApiParam(value = "",required=true) @PathVariable("idUser") String idUser) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<List<Post>>(objectMapper.readValue("[ {  \"hashtags\" : [ {    \"name\" : \"name\",    \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],    \"conditions\" : {      \"levelValues\" : [ \"levelValues\", \"levelValues\" ],      \"name\" : \"name\",      \"collection\" : \"collection\",      \"operator\" : \"operator\"    }  }, {    \"name\" : \"name\",    \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],    \"conditions\" : {      \"levelValues\" : [ \"levelValues\", \"levelValues\" ],      \"name\" : \"name\",      \"collection\" : \"collection\",      \"operator\" : \"operator\"    }  } ],  \"responses\" : [ null, null ],  \"id\" : 6.02745618307040320615897144307382404804229736328125,  \"text\" : \"text\",  \"type\" : 5.962133916683182377482808078639209270477294921875,  \"userId\" : 1.46581298050294517310021547018550336360931396484375,  \"isCorrectAnswer\" : true,  \"timestamp\" : \"2000-01-23T04:56:07.000+00:00\"}, {  \"hashtags\" : [ {    \"name\" : \"name\",    \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],    \"conditions\" : {      \"levelValues\" : [ \"levelValues\", \"levelValues\" ],      \"name\" : \"name\",      \"collection\" : \"collection\",      \"operator\" : \"operator\"    }  }, {    \"name\" : \"name\",    \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],    \"conditions\" : {      \"levelValues\" : [ \"levelValues\", \"levelValues\" ],      \"name\" : \"name\",      \"collection\" : \"collection\",      \"operator\" : \"operator\"    }  } ],  \"responses\" : [ null, null ],  \"id\" : 6.02745618307040320615897144307382404804229736328125,  \"text\" : \"text\",  \"type\" : 5.962133916683182377482808078639209270477294921875,  \"userId\" : 1.46581298050294517310021547018550336360931396484375,  \"isCorrectAnswer\" : true,  \"timestamp\" : \"2000-01-23T04:56:07.000+00:00\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<List<Post>>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
+        PostDAO postDAO = DAOUtils.getPostDAO();
+		UserDAO userDAO = DAOUtils.getUserDAO();
 
-        return new ResponseEntity<List<Post>>(HttpStatus.NOT_IMPLEMENTED);
+		UserDO user = userDAO.getUserById(idUser);
+
+		if (user != null) {
+
+			ArrayList<Post> friendsPosts = new ArrayList<>();
+
+			for (ObjectId friendId : user.getFriendsList()) {
+
+				UserDO friend = userDAO.getUserById(friendId.toHexString());
+				// TODO use get N first posts
+				for (PostDO postDO : postDAO.getPostsOfUser(friend)) {
+					if (postDO != null)
+						friendsPosts.add(postDO.toPost());
+				}
+			}
+			return new ResponseEntity<List<Post>>(friendsPosts, HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<List<Post>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
     }
 
     public ResponseEntity<List<Post>> getLounge(@ApiParam(value = "",required=true) @PathVariable("idUser") String idUser) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<List<Post>>(objectMapper.readValue("[ {  \"hashtags\" : [ {    \"name\" : \"name\",    \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],    \"conditions\" : {      \"levelValues\" : [ \"levelValues\", \"levelValues\" ],      \"name\" : \"name\",      \"collection\" : \"collection\",      \"operator\" : \"operator\"    }  }, {    \"name\" : \"name\",    \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],    \"conditions\" : {      \"levelValues\" : [ \"levelValues\", \"levelValues\" ],      \"name\" : \"name\",      \"collection\" : \"collection\",      \"operator\" : \"operator\"    }  } ],  \"responses\" : [ null, null ],  \"id\" : 6.02745618307040320615897144307382404804229736328125,  \"text\" : \"text\",  \"type\" : 5.962133916683182377482808078639209270477294921875,  \"userId\" : 1.46581298050294517310021547018550336360931396484375,  \"isCorrectAnswer\" : true,  \"timestamp\" : \"2000-01-23T04:56:07.000+00:00\"}, {  \"hashtags\" : [ {    \"name\" : \"name\",    \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],    \"conditions\" : {      \"levelValues\" : [ \"levelValues\", \"levelValues\" ],      \"name\" : \"name\",      \"collection\" : \"collection\",      \"operator\" : \"operator\"    }  }, {    \"name\" : \"name\",    \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],    \"conditions\" : {      \"levelValues\" : [ \"levelValues\", \"levelValues\" ],      \"name\" : \"name\",      \"collection\" : \"collection\",      \"operator\" : \"operator\"    }  } ],  \"responses\" : [ null, null ],  \"id\" : 6.02745618307040320615897144307382404804229736328125,  \"text\" : \"text\",  \"type\" : 5.962133916683182377482808078639209270477294921875,  \"userId\" : 1.46581298050294517310021547018550336360931396484375,  \"isCorrectAnswer\" : true,  \"timestamp\" : \"2000-01-23T04:56:07.000+00:00\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<List<Post>>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
+		PostDAO postDAO = DAOUtils.getPostDAO();
+		UserDAO userDAO = DAOUtils.getUserDAO();
+
+		UserDO user = userDAO.getUserById(idUser);
+
+		// TODO define what the "feed" of a user is
 
         return new ResponseEntity<List<Post>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<List<Post>> getLoungeQuestions(@ApiParam(value = "",required=true) @PathVariable("idUser") String idUser) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<List<Post>>(objectMapper.readValue("[ {  \"hashtags\" : [ {    \"name\" : \"name\",    \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],    \"conditions\" : {      \"levelValues\" : [ \"levelValues\", \"levelValues\" ],      \"name\" : \"name\",      \"collection\" : \"collection\",      \"operator\" : \"operator\"    }  }, {    \"name\" : \"name\",    \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],    \"conditions\" : {      \"levelValues\" : [ \"levelValues\", \"levelValues\" ],      \"name\" : \"name\",      \"collection\" : \"collection\",      \"operator\" : \"operator\"    }  } ],  \"responses\" : [ null, null ],  \"id\" : 6.02745618307040320615897144307382404804229736328125,  \"text\" : \"text\",  \"type\" : 5.962133916683182377482808078639209270477294921875,  \"userId\" : 1.46581298050294517310021547018550336360931396484375,  \"isCorrectAnswer\" : true,  \"timestamp\" : \"2000-01-23T04:56:07.000+00:00\"}, {  \"hashtags\" : [ {    \"name\" : \"name\",    \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],    \"conditions\" : {      \"levelValues\" : [ \"levelValues\", \"levelValues\" ],      \"name\" : \"name\",      \"collection\" : \"collection\",      \"operator\" : \"operator\"    }  }, {    \"name\" : \"name\",    \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],    \"conditions\" : {      \"levelValues\" : [ \"levelValues\", \"levelValues\" ],      \"name\" : \"name\",      \"collection\" : \"collection\",      \"operator\" : \"operator\"    }  } ],  \"responses\" : [ null, null ],  \"id\" : 6.02745618307040320615897144307382404804229736328125,  \"text\" : \"text\",  \"type\" : 5.962133916683182377482808078639209270477294921875,  \"userId\" : 1.46581298050294517310021547018550336360931396484375,  \"isCorrectAnswer\" : true,  \"timestamp\" : \"2000-01-23T04:56:07.000+00:00\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<List<Post>>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
+		PostDAO postDAO = DAOUtils.getPostDAO();
+		UserDAO userDAO = DAOUtils.getUserDAO();
 
-        return new ResponseEntity<List<Post>>(HttpStatus.NOT_IMPLEMENTED);
+		UserDO user = userDAO.getUserById(idUser);
+
+		if (user != null) {
+			ArrayList<Post> questions = new ArrayList<>();
+
+			for (PostDO postDO : postDAO.getLoungeFeedQuestionsOnly(user)) {
+				if (postDO != null)
+					questions.add(postDO.toPost());
+			}
+			return new ResponseEntity<List<Post>>(questions, HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<List<Post>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
     }
-
 }

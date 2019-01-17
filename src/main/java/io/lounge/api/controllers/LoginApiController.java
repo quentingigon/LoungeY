@@ -2,9 +2,9 @@ package io.lounge.api.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.lounge.api.interfaces.LoginApi;
+import io.lounge.api.utils.DAOUtils;
 import io.lounge.models.InlineResponse200;
 import io.lounge.models.UserLogin;
-import io.lounge.mongo.dao.MongoConnection;
 import io.lounge.mongo.dao.UserDAO;
 import io.lounge.mongo.dao.domodels.UserDO;
 import io.swagger.annotations.ApiParam;
@@ -43,10 +43,7 @@ public class LoginApiController implements LoginApi {
     }
 
     public ResponseEntity<InlineResponse200> login(@ApiParam(value = "The user who wants to log in" ,required=true )  @Valid @RequestBody UserLogin user) {
-
-		MongoConnection conn = MongoConnection.getInstance();
-		conn.init();
-		UserDAO userDAO = new UserDAO(conn.getDatastore());
+		UserDAO userDAO = DAOUtils.getUserDAO();
 
 		UserDO userDO = userDAO.getUser(user.getUsername());
 

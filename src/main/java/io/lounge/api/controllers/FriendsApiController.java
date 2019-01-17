@@ -2,8 +2,8 @@ package io.lounge.api.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.lounge.api.interfaces.FriendsApi;
+import io.lounge.api.utils.DAOUtils;
 import io.lounge.models.User;
-import io.lounge.mongo.dao.MongoConnection;
 import io.lounge.mongo.dao.UserDAO;
 import io.lounge.mongo.dao.domodels.UserDO;
 import io.swagger.annotations.ApiParam;
@@ -35,9 +35,7 @@ public class FriendsApiController implements FriendsApi {
     }
 
     public ResponseEntity<Boolean> addFriend(@ApiParam(value = "",required=true) @PathVariable("idCurrentUser") String idCurrentUser,@ApiParam(value = "",required=true) @PathVariable("idNewFriend") String idNewFriend) {
-        MongoConnection conn = MongoConnection.getInstance();
-        conn.init();
-        UserDAO userDAO = new UserDAO(conn.getDatastore());
+    	UserDAO userDAO = DAOUtils.getUserDAO();
 
 		UserDO currentUser = userDAO.getUserById(idCurrentUser);
 		UserDO newFriend = userDAO.getUserById(idNewFriend);
@@ -60,9 +58,7 @@ public class FriendsApiController implements FriendsApi {
     }
 
     public ResponseEntity<List<User>> getFriends(@ApiParam(value = "",required=true) @PathVariable("idCurrentUser") String idCurrentUser) {
-		MongoConnection conn = MongoConnection.getInstance();
-		conn.init();
-		UserDAO userDAO = new UserDAO(conn.getDatastore());
+    	UserDAO userDAO = DAOUtils.getUserDAO();
 
 		UserDO currentUser = userDAO.getUserById(idCurrentUser);
 
