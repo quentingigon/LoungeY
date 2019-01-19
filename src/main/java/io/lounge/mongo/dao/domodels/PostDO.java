@@ -34,7 +34,8 @@ public class PostDO extends BasicDO {
 	}
 
 	public PostDO(NewPost newPost) {
-		PostDO postDO = new PostDO(newPost.getPost());
+		new PostDO(new PostDO(newPost.getPost()));
+
 	}
 
 	public PostDO(String text, String date, PostType type, ObjectId author) {
@@ -83,11 +84,11 @@ public class PostDO extends BasicDO {
 		p.setText(text);
 		p.setTimestamp(date);
 		p.setIsCorrectAnswer(isCorrectAnswer);
-		p.setType(type.toString());
-		p.setUserId(author.toHexString());
+		p.setType(type != null ? type.toString() : "");
+		p.setUserId(author != null ? author.toHexString() : "");
 
 		// used to distinguished post and responses
-		if (!responsesList.isEmpty()) {
+		if (responsesList != null && !responsesList.isEmpty()) {
 			ArrayList<Post> responses = new ArrayList<>();
 			for (PostDO resp : responsesList) {
 				if (resp != null)
@@ -97,9 +98,12 @@ public class PostDO extends BasicDO {
 		}
 
 		ArrayList<Hashtag> hashtags = new ArrayList<>();
-		for (HashtagDO hash : hashtagsList) {
-			if (hash != null)
-				hashtags.add(hash.toHashtag());
+
+		if (hashtagsList != null) {
+			for (HashtagDO hash : hashtagsList) {
+				if (hash != null)
+					hashtags.add(hash.toHashtag());
+			}
 		}
 		p.setHashtags(hashtags);
 
