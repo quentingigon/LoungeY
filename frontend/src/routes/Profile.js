@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import AppBar from '../components/AppBar';
 import ProfileHeader from '../components/ProfileHeader';
 import PostCard from '../components/PostCard';
+import FormPost from '../components/FormPost';
 
 const styles = theme => ({
   root: {},
@@ -19,6 +20,9 @@ const styles = theme => ({
     marginBottom: 24,
   }
 });
+
+console.log(`logt ${window.location.href}`);
+let i = 0;
 
 const PageProfile = ({ classes }) => (
   <div className={classes.root}>
@@ -38,6 +42,10 @@ const PageProfile = ({ classes }) => (
       />
 
       <Grid container spacing={24}>
+      <Grid item xs={24} sm={12} md={24}>
+      <FormPost></FormPost>
+
+        </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <PostCard
             title="Spicy Carrot Salad"

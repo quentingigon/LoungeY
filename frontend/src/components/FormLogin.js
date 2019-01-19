@@ -51,7 +51,7 @@ const FormLogin = ({ classes, className, onSubmit }) => {
             className={classes.submitButton}
             variant="contained"
             type="submit"
-            color="primary"
+            color="secondary"
           >
             Login
           </Button>

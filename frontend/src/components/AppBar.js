@@ -58,7 +58,7 @@ const AppBar = ({ classes, children }) => {
     <AppBarBase className={classes.appBar} position="static" color="default">
       <Toolbar className={classes.toolbar}>
         <Typography variant="h6" color="inherit">
-          <Link to="/">Social app</Link>
+          <Link to="/lounge">Lounge</Link>
         </Typography>
         <InputSearch
           className={classes.search}

@@ -23,9 +23,9 @@ const PageLogin = ({ classes, history }) => {
   const handleSubmit = (values) => {
     console.log('submitting formValues', values);
     history.push('/login');
-    console.log(BACKEND.url);
+    console.log(values.username);
     
-
+    if(values.username !== ""){
     fetch(BACKEND.login, {
       method: "POST",
       mode:"cors",
@@ -70,8 +70,8 @@ const PageLogin = ({ classes, history }) => {
 
     })
     .catch(error => console.log(error) );
-    ;
-
+    
+  }
   };
 
   return (
