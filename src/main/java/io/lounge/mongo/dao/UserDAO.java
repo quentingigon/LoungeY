@@ -117,50 +117,44 @@ public class UserDAO extends BasicDAO<UserDO, ObjectId> {
 					friends.add(u);
 				}
 			}
-
 		}
-
 		return friends;
 	}
 
-	public void followGuy(UserDO user, UserDO other){
-		user.addFriendInvite(other);
-		updateUser(user);
-		updateUser(other);
+	public void sendFriendInvite(UserDO current, UserDO newFriend) {
+
+		ObjectId currentId = current.getId();
+		ObjectId newFriendId = newFriend.getId();
+		// TODO send notifications
+		// if the person we add as friend already did the same
+		if (newFriend.getPendingInviteList() != null && newFriend.getPendingInviteList().contains(currentId)) {
+			// add each other to their friends list
+			current.addToFriendsList(newFriendId);
+			newFriend.addToFriendsList(currentId);
+			newFriend.removeFromPendingInviteList(currentId);
+			updateUser(current);
+			updateUser(newFriend);
+		}
+		else {
+			// add user to pending invites
+			current.addToPendingInviteList(newFriend.getId());
+			updateUser(current);
+		}
 	}
 
-	public void followGuy(String username, String othername){
-		followGuy(getUser(username), getUser(othername));
+	public void sendFriendInvite(String username, String othername){
+		sendFriendInvite(getUser(username), getUser(othername));
 	}
 
-	public void unfollowGuy(UserDO user, UserDO other){
-        //TODO
-	}
-
-	public void addFriend(String username, String otherusername) {
-		addFriend(getUser(username), getUser(otherusername));
-	}
-
-	public boolean addFriend(UserDO user, UserDO other) {
-		user.addFriendInvite(other);
-		other.addFriendInvite(user);
-		updateUser(user);
-		updateUser(other);
-
-		return false;
+	public void removeFriend(UserDO user, UserDO other){
+		// TODO send notifications
+        user.removeFromFriendList(other.getId());
+        other.removeFromFriendList(user.getId());
+        updateUser(user);
+        updateUser(other);
 	}
 
 	public boolean areFriends(String username, String otherusername){
 		return getUser(username).isFriendWith(getUser(otherusername));
-	}
-
-
-	public boolean removeFriend(UserDO user, UserDO other) {
-
-		user.removeFriendInvite(other);
-		updateUser(user);
-		updateUser(other);
-
-		return false;
 	}
 }

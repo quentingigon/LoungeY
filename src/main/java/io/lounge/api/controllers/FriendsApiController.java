@@ -3,6 +3,7 @@ package io.lounge.api.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.lounge.api.interfaces.FriendsApi;
 import io.lounge.api.utils.DAOUtils;
+import io.lounge.models.FriendInvite;
 import io.lounge.models.User;
 import io.lounge.mongo.dao.UserDAO;
 import io.lounge.mongo.dao.domodels.UserDO;
@@ -13,8 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T12:49:56.829Z")
@@ -34,21 +37,16 @@ public class FriendsApiController implements FriendsApi {
         this.request = request;
     }
 
-    public ResponseEntity<Boolean> addFriend(@ApiParam(value = "",required=true) @PathVariable("username") String username,@ApiParam(value = "",required=true) @PathVariable("newFriendUsername") String newFriendUsername) {
+    public ResponseEntity<Boolean> addFriend(@ApiParam(value = "",required=true) @Valid @RequestBody FriendInvite invite) {
     	UserDAO userDAO = DAOUtils.getUserDAO();
 
-		UserDO currentUser = userDAO.getUser(username);
-		UserDO newFriend = userDAO.getUser(newFriendUsername);
+		UserDO currentUser = userDAO.getUser(invite.getFromUser());
+		UserDO newFriend = userDAO.getUser(invite.getToUser());
 
 		if (currentUser != null && newFriend != null) {
 
-			if (userDAO.addFriend(currentUser, newFriend)) {
-				// friend added
-				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
-			}
-			else {
-				return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
-			}
+			userDAO.sendFriendInvite(currentUser, newFriend);
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		}
 		else {
 			return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);

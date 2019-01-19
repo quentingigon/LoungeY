@@ -61,10 +61,10 @@ public class Main {
 
 		System.out.println("Password : " + userDAO.getUser(user.getUsername()).getPassword());
 
-		userDAO.followGuy("test", "Robin");
-		userDAO.followGuy("Robin", "test");
-		userDAO.addFriend("test", "testy");
-		userDAO.followGuy("test", "quatre");
+		userDAO.sendFriendInvite("test", "Robin");
+		userDAO.sendFriendInvite("Robin", "test");
+		//userDAO.addFriend("test", "testy");
+		userDAO.sendFriendInvite("test", "quatre");
 
 		System.out.println("Changed test pwd to test2 : " +  userDAO.getUser(user.getUsername()).getPassword());
 
