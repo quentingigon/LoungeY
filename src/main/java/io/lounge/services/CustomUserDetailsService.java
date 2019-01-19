@@ -1,6 +1,6 @@
 package io.lounge.services;
 
-import io.lounge.mongo.dao.MongoConnection;
+import io.lounge.mongo.dao.utils.MongoConnection;
 import io.lounge.mongo.dao.UserDAO;
 import io.lounge.mongo.dao.domodels.UserDO;
 import org.springframework.security.core.GrantedAuthority;

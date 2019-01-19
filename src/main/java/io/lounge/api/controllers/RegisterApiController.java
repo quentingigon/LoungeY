@@ -3,6 +3,7 @@ package io.lounge.api.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.lounge.api.interfaces.RegisterApi;
 import io.lounge.api.utils.DAOUtils;
+import io.lounge.configuration.HeigConstants;
 import io.lounge.models.NewUser;
 import io.lounge.mongo.dao.UserDAO;
 import io.lounge.mongo.dao.domodels.UserDO;
@@ -46,13 +47,19 @@ public class RegisterApiController implements RegisterApi {
 
 		UserDO newUserDO = userDAO.getUser(newUser.getUsername());
 
-		if (newUserDO == null) {
+		// ensure username is unique and email is from heig-vd. (in an indeal world we would have the emails
+		// of all the students to be absolutely sure they are from the heig)
+		// also ensure that year of study is between 1 and 7 and that the orientation exists.
+		if (newUserDO == null
+			&& newUser.getEmail().endsWith("@heig-vd.ch")
+			&& (Integer.valueOf(newUser.getYear()) >= 1 && Integer.valueOf(newUser.getYear()) <= 7)
+			&& HeigConstants.ORIENTATIONS.contains(newUser.getOrientation())) {
 
 			// encode password
 			getEncoder();
 			newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
 
-			if (userDAO.addUser(new UserDO(newUser))) {
+			if (userDAO.addUser(newUser.toUserDO())) {
 				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 			}
 			else {
@@ -63,5 +70,4 @@ public class RegisterApiController implements RegisterApi {
 			return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
     }
-
 }

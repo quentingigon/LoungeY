@@ -1,6 +1,5 @@
 package io.lounge.mongo.dao.domodels;
 
-import io.lounge.models.NewUser;
 import io.lounge.models.User;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
@@ -16,7 +15,10 @@ public class UserDO extends BasicDO {
 	private String name;
 	private String orientation;
 	private String yearOfStudy;
+
 	private String favBeer;
+	private String djRank;
+
 	private String profilePic;
 	private String coverPic;
 
@@ -39,12 +41,6 @@ public class UserDO extends BasicDO {
 
 		friendsList = new ArrayList<>();
 		pendingInviteList = new ArrayList<>();
-	}
-
-	public UserDO(NewUser newUser) {
-		this.username = newUser.getUsername();
-		this.email = newUser.getEmail();
-		this.password = newUser.getPassword();
 	}
 
 	public UserDO(String email, String username, String password) {
@@ -199,6 +195,14 @@ public class UserDO extends BasicDO {
 
 	public void setCoverPic(String coverPic) {
 		this.coverPic = coverPic;
+	}
+
+	public String getDjRank() {
+		return djRank;
+	}
+
+	public void setDjRank(String djRank) {
+		this.djRank = djRank;
 	}
 
 	public String toString(){

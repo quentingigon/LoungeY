@@ -1,4 +1,4 @@
-package io.lounge.mongo.dao;
+package io.lounge.mongo.dao.utils;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;

@@ -52,18 +52,18 @@ public class WallApiController implements WallApi {
 		if (currentUserDO != null && userWatchedDO != null) {
 			// TODO add all wanted info
 			Wall userWall = new Wall();
-			userWall.setUsername(currentUserDO.getUsername());
+			userWall.setUsername(userWatchedDO.getUsername());
 			userWall.setName("name");
 
 			// add first post TODO change
-			if (postDAO.getPostsOfUser(currentUserDO) != null)
-				userWall.addPostsItem(postDAO.getPostsOfUser(currentUserDO).get(0).toPost());
+			if (postDAO.getPostsOfUser(userWatchedDO) != null)
+				userWall.addPostsItem(postDAO.getPostsOfUser(userWatchedDO).get(0).toPost());
 
 			// profile pic URL
 			Resource profilePicResource = null;
 			try {
 				// try to get profile pic of user
-				profilePicResource = fileStorageService.loadFileAsResource(currentUserDO.getUsername() + "_pic");
+				profilePicResource = fileStorageService.loadFileAsResource(userWatchedDO.getUsername() + "_pic");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -80,7 +80,7 @@ public class WallApiController implements WallApi {
 			Resource coverPicResource = null;
 			try {
 				// try to get cover pic of user
-				coverPicResource = fileStorageService.loadFileAsResource(currentUserDO.getUsername() + "_cover");
+				coverPicResource = fileStorageService.loadFileAsResource(userWatchedDO.getUsername() + "_cover");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -95,10 +95,10 @@ public class WallApiController implements WallApi {
 
 			// check if users are friends to limit info sent if they are not
 			if (userDAO.areFriends(currentUsername, userWatched)) {
-				userWall.setYearOfStudy("2019");
-				userWall.setFavBeer("favbeer");
-				userWall.setDjRank("djrank");
-				userWall.setOrientation("orientation");
+				userWall.setYearOfStudy(userWatchedDO.getYearOfStudy());
+				userWall.setFavBeer(userWatchedDO.getFavBeer());
+				userWall.setDjRank(userWatchedDO.getDjRank());
+				userWall.setOrientation(userWatchedDO.getOrientation());
 			}
 
 			return new ResponseEntity<Wall>(userWall, HttpStatus.OK);
