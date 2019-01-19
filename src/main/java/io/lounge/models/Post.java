@@ -22,8 +22,8 @@ public class Post   {
   @JsonProperty("id")
   private String id = null;
 
-  @JsonProperty("timestamp")
-  private String timestamp = null;
+  @JsonProperty("date")
+  private String date = null;
 
   @JsonProperty("userId")
   private String userId = null;
@@ -66,25 +66,25 @@ public class Post   {
     this.id = id;
   }
 
-  public Post timestamp(String timestamp) {
-    this.timestamp = timestamp;
+  public Post date(String date) {
+    this.date = date;
     return this;
   }
 
   /**
    * date of post
-   * @return timestamp
+   * @return date
   **/
   @ApiModelProperty(value = "date of post")
 
   @Valid
 
-  public String getTimestamp() {
-    return timestamp;
+  public String getDate() {
+    return date;
   }
 
-  public void setTimestamp(String timestamp) {
-    this.timestamp = timestamp;
+  public void setDate(String date) {
+    this.date = date;
   }
 
   public Post userId(String userId) {
@@ -238,7 +238,7 @@ public class Post   {
     }
     Post post = (Post) o;
     return Objects.equals(this.id, post.id) &&
-        Objects.equals(this.timestamp, post.timestamp) &&
+        Objects.equals(this.date, post.date) &&
         Objects.equals(this.userId, post.userId) &&
         Objects.equals(this.text, post.text) &&
         Objects.equals(this.type, post.type) &&
@@ -249,7 +249,7 @@ public class Post   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, timestamp, userId, text, type, isCorrectAnswer, responses, hashtags);
+    return Objects.hash(id, date, userId, text, type, isCorrectAnswer, responses, hashtags);
   }
 
   @Override
@@ -258,7 +258,7 @@ public class Post   {
     sb.append("class PostDO {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
+    sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    text: ").append(toIndentedString(text)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
@@ -270,7 +270,7 @@ public class Post   {
   }
 
   public PostDO toPostDO() {
-  	PostDO postDO = new PostDO(text, timestamp.toString(), PostType.valueOf(type), userId, new ArrayList<HashtagDO>());
+  	PostDO postDO = new PostDO(text, date.toString(), PostType.valueOf(type), userId, new ArrayList<HashtagDO>());
 
   	ArrayList<PostDO> responsesDO = new ArrayList<>();
   	if (responses != null) {

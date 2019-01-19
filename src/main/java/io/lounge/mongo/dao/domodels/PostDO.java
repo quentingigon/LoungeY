@@ -1,22 +1,17 @@
 package io.lounge.mongo.dao.domodels;
 
-import io.lounge.models.NewPost;
 import io.lounge.models.Post;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 @Entity
 public class PostDO extends BasicDO {
 
 
-	public static DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	private String text;
-	private Date date;
+	private String date;
 	private PostType type;
 	private ObjectId author;
 	private boolean isCorrectAnswer;
@@ -24,24 +19,6 @@ public class PostDO extends BasicDO {
 
 	private ArrayList<PostDO> responsesList;
 	private ArrayList<HashtagDO> hashtagsList;
-
-
-	public PostDO() {}
-
-	public PostDO(PostDO postDO) {
-		this.text = postDO.text;
-		this.date = postDO.date;
-		this.type = postDO.type;
-		this.author = postDO.author;
-		this.isCorrectAnswer = postDO.isCorrectAnswer;
-		this.responsesList = postDO.responsesList;
-		this.hashtagsList = postDO.hashtagsList;
-	}
-
-	public PostDO(NewPost newPost) {
-		new PostDO(new PostDO(newPost.getPost()));
-
-	}
 
 	public PostDO(String text, String date, PostType type, ObjectId author) {
 		this.setId(new ObjectId());
@@ -52,26 +29,6 @@ public class PostDO extends BasicDO {
 		this.author = author;
 		this.hashtagsList = getHashtagsFromText(text);
 		this.responsesList = new ArrayList<>();
-	}
-
-	public PostDO(Post post) {
-		text = post.getText();
-		try {
-			date = dateFormat.parse(post.getTimestamp());
-		} catch( java.text.ParseException e){}
-
-		type = PostType.valueOf(post.getType());
-		author = new ObjectId(post.getUserId());
-		isCorrectAnswer = post.isIsCorrectAnswer();
-
-		responsesList = new ArrayList<>();
-		for (Post resp : post.getResponses()) {
-			if (resp != null)
-				responsesList.add(resp.toPostDO());
-		}
-
-		hashtagsList = new ArrayList<>();
-
 	}
 
 	public PostDO(String text, String date, PostType type, String author, ArrayList<HashtagDO> hashtagsList) {
@@ -86,7 +43,7 @@ public class PostDO extends BasicDO {
 		Post p = new Post();
 		p.setId(getId().toHexString());
 		p.setText(text);
-		p.setTimestamp(dateFormat.format(date));
+		p.setDate(date);
 		p.setIsCorrectAnswer(isCorrectAnswer);
 		p.setType(type != null ? type.toString() : "");
 		p.setUserId(author != null ? author.toHexString() : "");
@@ -127,13 +84,11 @@ public class PostDO extends BasicDO {
 	}
 
 	public String getDate() {
-		return dateFormat.format(date);
+		return date;
 	}
 
 	public void setDate(String date) {
-		try {
-			this.date = dateFormat.parse(date);
-		} catch( java.text.ParseException e){}
+		this.date = date;
 	}
 
 	public PostType getType() {

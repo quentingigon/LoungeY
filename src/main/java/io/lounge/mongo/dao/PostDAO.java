@@ -17,7 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 
@@ -101,6 +100,15 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 		return find(findQuery).asList().subList(0, ((nbPosts <= nbQueryResults)?nbPosts:nbQueryResults));
 	}
 
+	public List<PostDO> getLoungeFeed(int nbPosts) {
+		Query<PostDO> findQuery = createQuery().field("_id").exists();
+		findQuery.order("-date");
+
+		int nbQueryResults = (int) findQuery.count();
+
+		return find(findQuery).asList().subList(0, ((nbPosts <= nbQueryResults)?nbPosts:nbQueryResults));
+	}
+
 	public List<PostDO> getPostsWithHashtag(HashtagDO hashtag) {
 		List<ObjectId> postsId = hashtag.getPostsContainingHashtag();
 		List<PostDO> postsWithHastag = new ArrayList<>();
@@ -141,11 +149,6 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 		return postsUser;
 	}
 
-	public List<PostDO> getLoungeFeed(UserDO user) {
-		// TODO
-		return null;
-	}
-
 	public List<PostDO> getLoungeFeedQuestionsOnly(UserDO user) {
 
 		List<PostDO> postsUserQuestions = new ArrayList();
@@ -172,7 +175,8 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 
 		// TODO maybe this can be optimized
 		for (String name : hashtags) {
-			hashtagsDO.add(hashtagDAO.getHashtag(name));
+			if (name != null)
+				hashtagsDO.add(hashtagDAO.getHashtag(name));
 		}
 
 		post.setHashtagsList(hashtagsDO);
