@@ -36,11 +36,11 @@ public class LoungeApiController implements LoungeApi {
         this.request = request;
     }
 
-    public ResponseEntity<List<Post>> getFriendsPosts(@ApiParam(value = "",required=true) @PathVariable("idUser") String idUser) {
+    public ResponseEntity<List<Post>> getFriendsPosts(@ApiParam(value = "",required=true) @PathVariable("username") String username) {
         PostDAO postDAO = DAOUtils.getPostDAO();
 		UserDAO userDAO = DAOUtils.getUserDAO();
 
-		UserDO user = userDAO.getUserById(idUser);
+		UserDO user = userDAO.getUser(username);
 
 		if (user != null) {
 			ArrayList<Post> friendsPosts = new ArrayList<>();
@@ -56,22 +56,22 @@ public class LoungeApiController implements LoungeApi {
 		}
     }
 
-    public ResponseEntity<List<Post>> getLounge(@ApiParam(value = "",required=true) @PathVariable("idUser") String idUser) {
+    public ResponseEntity<List<Post>> getLounge(@ApiParam(value = "",required=true) @PathVariable("username") String username) {
 		PostDAO postDAO = DAOUtils.getPostDAO();
 		UserDAO userDAO = DAOUtils.getUserDAO();
 
-		UserDO user = userDAO.getUserById(idUser);
+		UserDO user = userDAO.getUser(username);
 
 		// TODO define what the "feed" of a user is
 
         return new ResponseEntity<List<Post>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<List<Post>> getLoungeQuestions(@ApiParam(value = "",required=true) @PathVariable("idUser") String idUser) {
+    public ResponseEntity<List<Post>> getLoungeQuestions(@ApiParam(value = "",required=true) @PathVariable("username") String username) {
 		PostDAO postDAO = DAOUtils.getPostDAO();
 		UserDAO userDAO = DAOUtils.getUserDAO();
 
-		UserDO user = userDAO.getUserById(idUser);
+		UserDO user = userDAO.getUser(username);
 
 		if (user != null) {
 			ArrayList<Post> questions = new ArrayList<>();

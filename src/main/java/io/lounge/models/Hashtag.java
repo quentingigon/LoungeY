@@ -109,8 +109,10 @@ public class Hashtag   {
 
   	ArrayList<ObjectId> posts = new ArrayList<>();
 
-  	for (String s : postsWithThisHashtag) {
-  		posts.add(new ObjectId(s));
+  	if (postsWithThisHashtag != null) {
+		for (String s : postsWithThisHashtag) {
+			posts.add(new ObjectId(s));
+		}
 	}
 
 	hashtagDO.setPostsContainingHashtag(posts);

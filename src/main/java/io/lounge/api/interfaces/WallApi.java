@@ -23,6 +23,7 @@ public interface WallApi {
     @RequestMapping(value = "/wall/{idUser}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<Wall> getWall(@ApiParam(value = "", required = true) @PathVariable("idUser") String idUser);
+    ResponseEntity<Wall> getWall(@ApiParam(value = "", required = true) @PathVariable("currentUsername") String currentUsername,
+                                 @ApiParam(value = "", required = true) @PathVariable("userWatched") String userWatched);
 
 }

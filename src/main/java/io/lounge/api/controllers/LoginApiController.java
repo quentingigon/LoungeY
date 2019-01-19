@@ -51,9 +51,10 @@ public class LoginApiController implements LoginApi {
 			getEncoder();
 
 			if (bCryptPasswordEncoder.matches(user.getPassword(), userDO.getPassword())) {
-				// user is logged in and loginInfo is in the header
+				// user is logged in and token is in the header
 				LoginInfo loginInfo = new LoginInfo();
-				loginInfo.setUserId(userDO.getId().toHexString());
+				loginInfo.setUsername(userDO.getUsername());
+				// loginInfo.setToken(request.getHeader("Authorization"));
 				return new ResponseEntity<LoginInfo>(loginInfo, HttpStatus.OK);
 			}
 		}

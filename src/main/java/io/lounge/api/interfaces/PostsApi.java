@@ -49,7 +49,7 @@ public interface PostsApi {
     @RequestMapping(value = "/posts/getall/{userId}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Post>> getUserPosts(@ApiParam(value = "", required = true) @PathVariable("userId") String userId);
+    ResponseEntity<List<Post>> getUserPosts(@ApiParam(value = "", required = true) @PathVariable("username") String username);
 
 
     @ApiOperation(value = "Add post of user", nickname = "post", notes = "Allow a user to post a post (ahah)", response = Boolean.class, tags={ "posts", })
@@ -59,6 +59,6 @@ public interface PostsApi {
     @RequestMapping(value = "/posts",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Boolean> post(@ApiParam(value = "The id of user to log out", required = true) @Valid @RequestBody NewPost newPost);
+    ResponseEntity<Boolean> post(@ApiParam(value = "add a new post", required = true) @Valid @RequestBody NewPost newPost);
 
 }

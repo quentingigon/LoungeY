@@ -4,6 +4,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import io.lounge.mongo.dao.domodels.UserDO;
+import io.lounge.mongo.dao.utils.MongoConnection;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.dao.BasicDAO;

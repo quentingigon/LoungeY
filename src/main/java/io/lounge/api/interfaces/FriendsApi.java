@@ -25,7 +25,7 @@ public interface FriendsApi {
     @RequestMapping(value = "/friends/{idCurrentUser}/new/{idNewFriend}",
         produces = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Boolean> addFriend(@ApiParam(value = "", required = true) @PathVariable("idCurrentUser") String idCurrentUser, @ApiParam(value = "", required = true) @PathVariable("idNewFriend") String idNewFriend);
+    ResponseEntity<Boolean> addFriend(@ApiParam(value = "", required = true) @PathVariable("username") String username, @ApiParam(value = "", required = true) @PathVariable("newFriendUsername") String newFriendUsername);
 
 
     @ApiOperation(value = "Get friends of user", nickname = "getFriends", notes = "Returns list of friends", response = User.class, responseContainer = "List", tags={ "friends", })
@@ -35,6 +35,6 @@ public interface FriendsApi {
     @RequestMapping(value = "/friends/{idCurrentUser}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<User>> getFriends(@ApiParam(value = "", required = true) @PathVariable("idCurrentUser") String idCurrentUser);
+    ResponseEntity<List<User>> getFriends(@ApiParam(value = "", required = true) @PathVariable("username") String username);
 
 }

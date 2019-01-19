@@ -5,6 +5,7 @@
  */
 package io.lounge.api.interfaces;
 
+import io.lounge.models.NewUser;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,14 +19,14 @@ import javax.validation.constraints.NotNull;
 @Api(value = "settings", description = "the settings API")
 public interface SettingsApi {
 
-    @ApiOperation(value = "get settings access", nickname = "settings", notes = "Allow user to access settings or not", response = Boolean.class, tags={ "settings", })
+    @ApiOperation(value = "settings for user changes", nickname = "settings", notes = "Allow user to access settings", response = Boolean.class, tags={ "settings", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 201, message = "Access was granted", response = Boolean.class),
+        @ApiResponse(code = 201, message = "Changes Succesful", response = Boolean.class),
         @ApiResponse(code = 400, message = "Invalid input"),
         @ApiResponse(code = 500, message = "Internal server error") })
     @RequestMapping(value = "/settings",
         consumes = { "application/json" },
         method = RequestMethod.GET)
-    ResponseEntity<Boolean> settings(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "idUser", required = true) String idUser, @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "token", required = true) String token);
+    ResponseEntity<Boolean> settings(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "userChanges", required = true) NewUser userChanges);
 
 }

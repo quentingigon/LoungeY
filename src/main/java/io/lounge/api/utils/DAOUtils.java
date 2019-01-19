@@ -1,7 +1,7 @@
 package io.lounge.api.utils;
 
 import io.lounge.mongo.dao.HashtagDAO;
-import io.lounge.mongo.dao.MongoConnection;
+import io.lounge.mongo.dao.utils.MongoConnection;
 import io.lounge.mongo.dao.PostDAO;
 import io.lounge.mongo.dao.UserDAO;
 

@@ -24,6 +24,6 @@ public interface LogoutApi {
     @RequestMapping(value = "/logout",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Boolean> logout(@ApiParam(value = "The id of user to log out", required = true) @Valid @RequestBody String userId);
+    ResponseEntity<Boolean> logout(@ApiParam(value = "The id of user to log out", required = true) @Valid @RequestBody String username);
 
 }

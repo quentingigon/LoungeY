@@ -17,8 +17,8 @@ public class LoginInfo {
   @JsonProperty("token")
   private String token = null;
 
-  @JsonProperty("userId")
-  private String userId = null;
+  @JsonProperty("username")
+  private String username = null;
 
   public LoginInfo token(String token) {
     this.token = token;
@@ -42,19 +42,19 @@ public class LoginInfo {
   }
 
 	/**
-	 * Get userId
-	 * @return userId
+	 * Get username
+	 * @return username
 	 **/
 	@ApiModelProperty(required = true, value = "")
 	@NotNull
 
 
-	public String getUserId() {
-		return userId;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = token;
+	public void setUsername(String username) {
+		this.username = token;
 	}
 
 
@@ -67,7 +67,7 @@ public class LoginInfo {
       return false;
     }
     LoginInfo loginInfo = (LoginInfo) o;
-    return Objects.equals(this.token, loginInfo.token) && Objects.equals(this.userId, loginInfo.userId);
+    return Objects.equals(this.token, loginInfo.token) && Objects.equals(this.username, loginInfo.username);
   }
 
   @Override
@@ -81,7 +81,7 @@ public class LoginInfo {
     sb.append("class LoginInfo {\n");
     
     sb.append("    token: ").append(toIndentedString(token)).append("\n");
-    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
+    sb.append("    username: ").append(toIndentedString(username)).append("\n");
 
 	  sb.append("}");
     return sb.toString();

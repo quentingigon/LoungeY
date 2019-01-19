@@ -25,7 +25,7 @@ public interface LoungeApi {
     @RequestMapping(value = "/lounge/friends/{idUser}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Post>> getFriendsPosts(@ApiParam(value = "", required = true) @PathVariable("idUser") String idUser);
+    ResponseEntity<List<Post>> getFriendsPosts(@ApiParam(value = "", required = true) @PathVariable("username") String username);
 
 
     @ApiOperation(value = "Get all public posts of user", nickname = "getLounge", notes = "Get all the posts of the Lounge of the user", response = Post.class, responseContainer = "List", tags={ "lounge", })
@@ -35,7 +35,7 @@ public interface LoungeApi {
     @RequestMapping(value = "/lounge/{idUser}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Post>> getLounge(@ApiParam(value = "", required = true) @PathVariable("idUser") String idUser);
+    ResponseEntity<List<Post>> getLounge(@ApiParam(value = "", required = true) @PathVariable("username") String username);
 
 
     @ApiOperation(value = "Get all public questions of user", nickname = "getLoungeQuestions", notes = "Get all the public questions of the Lounge of the user", response = Post.class, responseContainer = "List", tags={ "lounge", })
@@ -45,6 +45,6 @@ public interface LoungeApi {
     @RequestMapping(value = "/lounge/questions/{idUser}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Post>> getLoungeQuestions(@ApiParam(value = "", required = true) @PathVariable("idUser") String idUser);
+    ResponseEntity<List<Post>> getLoungeQuestions(@ApiParam(value = "", required = true) @PathVariable("username") String username);
 
 }

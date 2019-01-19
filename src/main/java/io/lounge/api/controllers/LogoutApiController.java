@@ -30,7 +30,7 @@ public class LogoutApiController implements LogoutApi {
         this.request = request;
     }
 
-    public ResponseEntity<Boolean> logout(@ApiParam(value = "The id of user to log out" ,required=true )  @Valid @RequestBody String userId) {
+    public ResponseEntity<Boolean> logout(@ApiParam(value = "The id of user to log out" ,required=true )  @Valid @RequestBody String username) {
 
 		// TODO logout
     	return new ResponseEntity<Boolean>(false, HttpStatus.NOT_IMPLEMENTED);
