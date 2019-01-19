@@ -21,6 +21,7 @@ public class PostDO extends BasicDO {
 	private ArrayList<PostDO> responsesList;
 	private ArrayList<HashtagDO> hashtagsList;
 
+
 	public PostDO() {}
 
 	public PostDO(PostDO postDO) {

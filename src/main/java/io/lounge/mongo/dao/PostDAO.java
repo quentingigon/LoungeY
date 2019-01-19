@@ -11,17 +11,25 @@ import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.dao.BasicDAO;
 import org.mongodb.morphia.query.Query;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 
+	DateFormat dateFormat;
+
 	public PostDAO(Datastore ds) {
 		super(ds);
+		dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	}
 
 	public boolean addPost(PostDO post) {
 		MongoConnection conn = MongoConnection.getInstance();
+
+		post.setDate(dateFormat.format(new Date()));
 		conn.init();
 		DBObject tmp = conn.getMorphia().toDBObject(post);
 
@@ -59,9 +67,8 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 		if(comment.getAuthor()!=null){
 			if(comment.getType() != PostType.COMMENT)
 				comment.setType(PostType.COMMENT);
-
+			comment.setDate( dateFormat.format(new Date()));
 			parent.addComment(comment);
-
 			return  updatePost(parent);
 		}
 
