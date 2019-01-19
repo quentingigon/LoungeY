@@ -1,7 +1,7 @@
 package io.lounge.mongo.dao;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import io.lounge.api.utils.DAOUtils;
 import io.lounge.mongo.dao.domodels.HashtagDO;
 import io.lounge.mongo.dao.domodels.PostDO;
 import io.lounge.mongo.dao.domodels.PostType;
@@ -161,5 +161,19 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 
 
 		return null;
+	}
+
+
+	public void fillHashTagsList(PostDO post, List<String> hashtags) {
+		HashtagDAO hashtagDAO = DAOUtils.getHashtagDAO();
+
+		ArrayList<HashtagDO> hashtagsDO = new ArrayList<>();
+
+		// TODO maybe this can be optimized
+		for (String name : hashtags) {
+			hashtagsDO.add(hashtagDAO.getHashtag(name));
+		}
+
+		post.setHashtagsList(hashtagsDO);
 	}
 }

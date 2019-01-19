@@ -1,6 +1,5 @@
 package io.lounge.mongo.dao.domodels;
 
-import io.lounge.models.Hashtag;
 import io.lounge.models.NewPost;
 import io.lounge.models.Post;
 import org.bson.types.ObjectId;
@@ -63,10 +62,6 @@ public class PostDO extends BasicDO {
 		}
 
 		hashtagsList = new ArrayList<>();
-		for (Hashtag hash : post.getHashtags()) {
-			if (hash != null)
-				hashtagsList.add(hash.toHashtagDO());
-		}
 
 	}
 
@@ -97,12 +92,12 @@ public class PostDO extends BasicDO {
 			p.setResponses(responses);
 		}
 
-		ArrayList<Hashtag> hashtags = new ArrayList<>();
+		ArrayList<String> hashtags = new ArrayList<>();
 
 		if (hashtagsList != null) {
 			for (HashtagDO hash : hashtagsList) {
 				if (hash != null)
-					hashtags.add(hash.toHashtag());
+					hashtags.add(hash.getName());
 			}
 		}
 		p.setHashtags(hashtags);
