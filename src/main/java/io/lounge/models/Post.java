@@ -43,7 +43,7 @@ public class Post   {
 
   @JsonProperty("hashtags")
   @Valid
-  private List<Hashtag> hashtags = null;
+  private List<String> hashtags = null;
 
   public Post id(String id) {
     this.id = id;
@@ -198,14 +198,14 @@ public class Post   {
     this.responses = responses;
   }
 
-  public Post hashtags(List<Hashtag> hashtags) {
+  public Post hashtags(List<String> hashtags) {
     this.hashtags = hashtags;
     return this;
   }
 
-  public Post addHashtagsItem(Hashtag hashtagsItem) {
+  public Post addHashtagsItem(String hashtagsItem) {
     if (this.hashtags == null) {
-      this.hashtags = new ArrayList<Hashtag>();
+      this.hashtags = new ArrayList<String>();
     }
     this.hashtags.add(hashtagsItem);
     return this;
@@ -219,11 +219,11 @@ public class Post   {
 
   @Valid
 
-  public List<Hashtag> getHashtags() {
+  public List<String> getHashtags() {
     return hashtags;
   }
 
-  public void setHashtags(List<Hashtag> hashtags) {
+  public void setHashtags(List<String> hashtags) {
     this.hashtags = hashtags;
   }
 
@@ -272,13 +272,14 @@ public class Post   {
   public PostDO toPostDO() {
   	PostDO postDO = new PostDO(text, timestamp.toString(), PostType.valueOf(type), userId, new ArrayList<HashtagDO>());
 
-  	ArrayList<HashtagDO> hashtagsDO = new ArrayList<>();
-
-  	for (Hashtag hash : hashtags) {
-  		hashtagsDO.add(hash.toHashtagDO());
-	}
-
-  	postDO.setHashtagsList(hashtagsDO);
+  	ArrayList<PostDO> responsesDO = new ArrayList<>();
+  	if (responses != null) {
+  		for (Post p : responses) {
+  			if (p != null)
+  				responsesDO.add(p.toPostDO());
+  		}
+  	}
+  	postDO.setResponsesList(responsesDO);
 
   	return postDO;
   }

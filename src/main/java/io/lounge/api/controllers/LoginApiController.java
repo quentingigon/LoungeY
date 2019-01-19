@@ -3,7 +3,7 @@ package io.lounge.api.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.lounge.api.interfaces.LoginApi;
 import io.lounge.api.utils.DAOUtils;
-import io.lounge.models.InlineResponse200;
+import io.lounge.models.LoginInfo;
 import io.lounge.models.UserLogin;
 import io.lounge.mongo.dao.UserDAO;
 import io.lounge.mongo.dao.domodels.UserDO;
@@ -42,7 +42,7 @@ public class LoginApiController implements LoginApi {
         this.request = request;
     }
 
-    public ResponseEntity<InlineResponse200> login(@ApiParam(value = "The user who wants to log in" ,required=true )  @Valid @RequestBody UserLogin user) {
+    public ResponseEntity<LoginInfo> login(@ApiParam(value = "The user who wants to log in" ,required=true )  @Valid @RequestBody UserLogin user) {
 		UserDAO userDAO = DAOUtils.getUserDAO();
 
 		UserDO userDO = userDAO.getUser(user.getUsername());
@@ -51,16 +51,18 @@ public class LoginApiController implements LoginApi {
 			getEncoder();
 
 			if (bCryptPasswordEncoder.matches(user.getPassword(), userDO.getPassword())) {
-				// user is logged in and token is in the header
-				return new ResponseEntity<InlineResponse200>(HttpStatus.OK);
+				// user is logged in and loginInfo is in the header
+				LoginInfo loginInfo = new LoginInfo();
+				loginInfo.setUsername(userDO.getUsername());
+				return new ResponseEntity<LoginInfo>(loginInfo, HttpStatus.OK);
 			}
 		}
 		else {
 			// explication -> on veut pas donner d'info avec des codes d'erreur trop spécifiques
-			return new ResponseEntity<InlineResponse200>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<LoginInfo>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-        return new ResponseEntity<InlineResponse200>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<LoginInfo>(HttpStatus.NOT_IMPLEMENTED);
     }
 
 }

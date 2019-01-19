@@ -1,6 +1,5 @@
 package io.lounge.mongo.dao.domodels;
 
-import io.lounge.models.Hashtag;
 import io.lounge.models.NewPost;
 import io.lounge.models.Post;
 import org.bson.types.ObjectId;
@@ -35,7 +34,8 @@ public class PostDO extends BasicDO {
 	}
 
 	public PostDO(NewPost newPost) {
-		PostDO postDO = new PostDO(newPost.getPost());
+		new PostDO(new PostDO(newPost.getPost()));
+
 	}
 
 	public PostDO(String text, String date, PostType type, ObjectId author) {
@@ -63,10 +63,6 @@ public class PostDO extends BasicDO {
 		}
 
 		hashtagsList = new ArrayList<>();
-		for (Hashtag hash : post.getHashtags()) {
-			if (hash != null)
-				hashtagsList.add(hash.toHashtagDO());
-		}
 
 	}
 
@@ -84,11 +80,11 @@ public class PostDO extends BasicDO {
 		p.setText(text);
 		p.setTimestamp(date);
 		p.setIsCorrectAnswer(isCorrectAnswer);
-		p.setType(type.toString());
-		p.setUserId(author.toHexString());
+		p.setType(type != null ? type.toString() : "");
+		p.setUserId(author != null ? author.toHexString() : "");
 
 		// used to distinguished post and responses
-		if (!responsesList.isEmpty()) {
+		if (responsesList != null && !responsesList.isEmpty()) {
 			ArrayList<Post> responses = new ArrayList<>();
 			for (PostDO resp : responsesList) {
 				if (resp != null)
@@ -97,10 +93,13 @@ public class PostDO extends BasicDO {
 			p.setResponses(responses);
 		}
 
-		ArrayList<Hashtag> hashtags = new ArrayList<>();
-		for (HashtagDO hash : hashtagsList) {
-			if (hash != null)
-				hashtags.add(hash.toHashtag());
+		ArrayList<String> hashtags = new ArrayList<>();
+
+		if (hashtagsList != null) {
+			for (HashtagDO hash : hashtagsList) {
+				if (hash != null)
+					hashtags.add(hash.getName());
+			}
 		}
 		p.setHashtags(hashtags);
 

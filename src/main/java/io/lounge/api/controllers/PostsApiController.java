@@ -2,11 +2,11 @@ package io.lounge.api.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.lounge.api.interfaces.PostsApi;
+import io.lounge.api.utils.DAOUtils;
 import io.lounge.models.Comment;
 import io.lounge.models.NewPost;
 import io.lounge.models.Post;
 import io.lounge.mongo.dao.HashtagDAO;
-import io.lounge.mongo.dao.MongoConnection;
 import io.lounge.mongo.dao.PostDAO;
 import io.lounge.mongo.dao.UserDAO;
 import io.lounge.mongo.dao.domodels.PostDO;
@@ -43,9 +43,7 @@ public class PostsApiController implements PostsApi {
     }
 
     public ResponseEntity<Boolean> comment(@ApiParam(value = "The id of user to log out" ,required=true )  @Valid @RequestBody Comment comment) {
-		MongoConnection conn = MongoConnection.getInstance();
-		conn.init();
-		PostDAO postDAO = new PostDAO(conn.getDatastore());
+    	PostDAO postDAO = DAOUtils.getPostDAO();
 
 		PostDO commentDO = comment.getPost().toPostDO();
 		PostDO rootPostDO = postDAO.getPostById(comment.getRootPostId());
@@ -68,9 +66,7 @@ public class PostsApiController implements PostsApi {
     }
 
     public ResponseEntity<Post> getPost(@ApiParam(value = "",required=true) @PathVariable("postId") String postId) {
-		MongoConnection conn = MongoConnection.getInstance();
-		conn.init();
-		PostDAO postDAO = new PostDAO(conn.getDatastore());
+		PostDAO postDAO = DAOUtils.getPostDAO();
 
 		PostDO postDO = postDAO.getPostById(postId);
 
@@ -86,12 +82,9 @@ public class PostsApiController implements PostsApi {
 
     }
 
-    public ResponseEntity<List<Post>> getUserPosts(@ApiParam(value = "",required=true) @PathVariable("userId") String userId,
-																					   @PathVariable("amount") String amount) {
-		MongoConnection conn = MongoConnection.getInstance();
-		conn.init();
-		PostDAO postDAO = new PostDAO(conn.getDatastore());
-		UserDAO userDAO = new UserDAO(conn.getDatastore());
+    public ResponseEntity<List<Post>> getUserPosts(@ApiParam(value = "",required=true) @PathVariable("userId") String userId) {
+		PostDAO postDAO = DAOUtils.getPostDAO();
+		UserDAO userDAO = DAOUtils.getUserDAO();
 
 		UserDO user = userDAO.get(new ObjectId(userId));
 
@@ -114,17 +107,21 @@ public class PostsApiController implements PostsApi {
     }
 
     public ResponseEntity<Boolean> post(@ApiParam(value = "New post" ,required=true )  @Valid @RequestBody NewPost newPost) {
+		PostDAO postDAO = DAOUtils.getPostDAO();
+		HashtagDAO hashtagDAO = DAOUtils.getHashtagDAO();
 
-		MongoConnection conn = MongoConnection.getInstance();
-		conn.init();
-		PostDAO postDAO = new PostDAO(conn.getDatastore());
-		HashtagDAO hashtagDAO = new HashtagDAO(conn.getDatastore());
+		PostDO post = newPost.getPost().toPostDO();
 
-		PostDO post = new PostDO(newPost);
+		if (post != null) {
 
-		if (postDAO.addPost(post)) {
+			if (!newPost.getPost().getHashtags().isEmpty())
+				// add our hashtags to the postDO
+				postDAO.fillHashTagsList(post, newPost.getPost().getHashtags());
+
 			// post was correclty saved
+			if (postDAO.addPost(post)) {
 
+			}
 			// update hashtag's lists
 			hashtagDAO.addPostToHashtagsLists(post);
 
