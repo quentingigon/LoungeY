@@ -5,7 +5,7 @@
  */
 package io.lounge.api.interfaces;
 
-import io.lounge.models.InlineResponse200;
+import io.lounge.models.LoginInfo;
 import io.lounge.models.UserLogin;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +20,13 @@ import javax.validation.Valid;
 @Api(value = "login", description = "the login API")
 public interface LoginApi {
 
-    @ApiOperation(value = "Log user in", nickname = "login", notes = "Log user in", response = InlineResponse200.class, tags={ "auth", })
+    @ApiOperation(value = "Log user in", nickname = "login", notes = "Log user in", response = LoginInfo.class, tags={ "auth", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = InlineResponse200.class),
+        @ApiResponse(code = 200, message = "successful operation", response = LoginInfo.class),
         @ApiResponse(code = 500, message = "Internal server error") })
     @RequestMapping(value = "/login",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<InlineResponse200> login(@ApiParam(value = "The user who wants to log in", required = true) @Valid @RequestBody UserLogin user);
+    ResponseEntity<LoginInfo> login(@ApiParam(value = "The user who wants to log in", required = true) @Valid @RequestBody UserLogin user);
 
 }
