@@ -9,11 +9,16 @@ import io.lounge.mongo.dao.domodels.UserDO;
 
 import io.lounge.mongo.dao.UserDAO;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Main {
 
 	public static void main(String[] args) {
 
 		// mongodb usage example
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		MongoConnection conn = MongoConnection.getInstance();
 		conn.init();
 		UserDAO userDAO = new UserDAO(conn.getDatastore());
@@ -33,11 +38,11 @@ public class Main {
 		userDAO.addUser(robin);
 		userDAO.addUser(quatre);
 
-		PostDO p = new PostDO("Hello", "16/01/19", PostType.POST, robin.getId());
+		PostDO p = new PostDO("Hello", "", PostType.POST, robin.getId());
 
 		pDAO.addPost(p);
 
-		p.addComment(new PostDO("wORLD", "16/01/19", PostType.COMMENT, robin.getId()));
+		p.addComment(new PostDO("wORLD", dateFormat.format(new Date()), PostType.COMMENT, robin.getId()));
 
 		pDAO.addComment(new PostDO("World", "16/01/19", PostType.COMMENT, robin.getId()), p);
 
@@ -48,7 +53,7 @@ public class Main {
 		pDAO.remComment(commToDel.getId(), commToDel.getParentId());
 
 		System.out.println("Robin posts :");
-		for(PostDO pp : pDAO.getPostsOfUser(robin)){
+		for(PostDO pp : pDAO.getPostsOfUser(robin, 5)){
 			System.out.println(pp.getId() + "; ");
 		}
 
