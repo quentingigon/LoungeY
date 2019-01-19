@@ -9,7 +9,6 @@ import io.lounge.mongo.dao.UserDAO;
 import io.lounge.mongo.dao.domodels.PostDO;
 import io.lounge.mongo.dao.domodels.UserDO;
 import io.swagger.annotations.ApiParam;
-import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -44,17 +43,11 @@ public class LoungeApiController implements LoungeApi {
 		UserDO user = userDAO.getUserById(idUser);
 
 		if (user != null) {
-
 			ArrayList<Post> friendsPosts = new ArrayList<>();
 
-			for (ObjectId friendId : user.getFriendsList()) {
-
-				UserDO friend = userDAO.getUserById(friendId.toHexString());
-				// TODO use get N first posts
-				for (PostDO postDO : postDAO.getPostsOfUser(friend)) {
-					if (postDO != null)
-						friendsPosts.add(postDO.toPost());
-				}
+			for (PostDO postDO : postDAO.getLoungeFeedFriendsPostsOnly(user)) {
+				if (postDO != null)
+					friendsPosts.add(postDO.toPost());
 			}
 			return new ResponseEntity<List<Post>>(friendsPosts, HttpStatus.OK);
 		}

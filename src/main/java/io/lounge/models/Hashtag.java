@@ -25,9 +25,6 @@ public class Hashtag   {
   @Valid
   private List<String> postsWithThisHashtag = null;
 
-  @JsonProperty("conditions")
-  private HashtagConditions conditions = null;
-
   public Hashtag name(String name) {
     this.name = name;
     return this;
@@ -77,27 +74,6 @@ public class Hashtag   {
     this.postsWithThisHashtag = postsWithThisHashtag;
   }
 
-  public Hashtag conditions(HashtagConditions conditions) {
-    this.conditions = conditions;
-    return this;
-  }
-
-  /**
-   * Get conditions
-   * @return conditions
-  **/
-  @ApiModelProperty(value = "")
-
-  @Valid
-
-  public HashtagConditions getConditions() {
-    return conditions;
-  }
-
-  public void setConditions(HashtagConditions conditions) {
-    this.conditions = conditions;
-  }
-
 
   @Override
   public boolean equals(Object o) {
@@ -109,13 +85,12 @@ public class Hashtag   {
     }
     Hashtag hashtag = (Hashtag) o;
     return Objects.equals(this.name, hashtag.name) &&
-        Objects.equals(this.postsWithThisHashtag, hashtag.postsWithThisHashtag) &&
-        Objects.equals(this.conditions, hashtag.conditions);
+        Objects.equals(this.postsWithThisHashtag, hashtag.postsWithThisHashtag);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, postsWithThisHashtag, conditions);
+    return Objects.hash(name, postsWithThisHashtag);
   }
 
   @Override
@@ -125,7 +100,6 @@ public class Hashtag   {
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    postsWithThisHashtag: ").append(toIndentedString(postsWithThisHashtag)).append("\n");
-    sb.append("    conditions: ").append(toIndentedString(conditions)).append("\n");
     sb.append("}");
     return sb.toString();
   }
