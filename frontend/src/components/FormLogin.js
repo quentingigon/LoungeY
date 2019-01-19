@@ -18,12 +18,12 @@ const styles = theme => ({
 });
 
 const FormLogin = ({ classes, className, onSubmit }) => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ email, password });
+    onSubmit({ username, password });
   };
 
   return (
@@ -35,8 +35,8 @@ const FormLogin = ({ classes, className, onSubmit }) => {
             type="text"
             label="Email"
             margin="normal"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             required
           />
           <TextField

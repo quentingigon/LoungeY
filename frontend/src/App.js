@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import PageHome from './routes/PageHome';
+import Lounge from './routes/Lounge';
 import PageLogin from './routes/PageLogin';
 import PageProfile from './routes/PageProfile';
-import PageSignUp from './routes/PageSignUp';
+import Register from './routes/Register';
 
 class App extends Component {
   render() {
     return (
       <Switch>
-        <Route path="/" exact component={PageHome} />
+        <Route path="/lounge" exact component={Lounge} />
         <Route path="/login" component={PageLogin} />
-        <Route path="/register" component={PageSignUp} />
+        <Route path="/register" component={Register} />
         <Route path="/profile/:username" component={PageProfile} />
       </Switch>
+      
     );
   }
 }
+
 
 export default App;
