@@ -2,7 +2,11 @@ package io.lounge.api.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.lounge.api.interfaces.WallApi;
+import io.lounge.api.utils.DAOUtils;
 import io.lounge.models.Wall;
+import io.lounge.mongo.dao.PostDAO;
+import io.lounge.mongo.dao.UserDAO;
+import io.lounge.mongo.dao.domodels.UserDO;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.List;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T12:49:56.829Z")
 
 @Controller
@@ -31,18 +33,30 @@ public class WallApiController implements WallApi {
         this.request = request;
     }
 
-    public ResponseEntity<List<Wall>> getWall(@ApiParam(value = "",required=true) @PathVariable("idUser") String idUser) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<List<Wall>>(objectMapper.readValue("[ {  \"yearOfStudy\" : 0.80082819046101150206595775671303272247314453125,  \"posts\" : [ {    \"hashtags\" : [ {      \"name\" : \"name\",      \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],      \"conditions\" : {        \"levelValues\" : [ \"levelValues\", \"levelValues\" ],        \"name\" : \"name\",        \"collection\" : \"collection\",        \"operator\" : \"operator\"      }    }, {      \"name\" : \"name\",      \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],      \"conditions\" : {        \"levelValues\" : [ \"levelValues\", \"levelValues\" ],        \"name\" : \"name\",        \"collection\" : \"collection\",        \"operator\" : \"operator\"      }    } ],    \"responses\" : [ null, null ],    \"id\" : 6.02745618307040320615897144307382404804229736328125,    \"text\" : \"text\",    \"type\" : 5.962133916683182377482808078639209270477294921875,    \"userId\" : 1.46581298050294517310021547018550336360931396484375,    \"isCorrectAnswer\" : true,    \"timestamp\" : \"2000-01-23T04:56:07.000+00:00\"  }, {    \"hashtags\" : [ {      \"name\" : \"name\",      \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],      \"conditions\" : {        \"levelValues\" : [ \"levelValues\", \"levelValues\" ],        \"name\" : \"name\",        \"collection\" : \"collection\",        \"operator\" : \"operator\"      }    }, {      \"name\" : \"name\",      \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],      \"conditions\" : {        \"levelValues\" : [ \"levelValues\", \"levelValues\" ],        \"name\" : \"name\",        \"collection\" : \"collection\",        \"operator\" : \"operator\"      }    } ],    \"responses\" : [ null, null ],    \"id\" : 6.02745618307040320615897144307382404804229736328125,    \"text\" : \"text\",    \"type\" : 5.962133916683182377482808078639209270477294921875,    \"userId\" : 1.46581298050294517310021547018550336360931396484375,    \"isCorrectAnswer\" : true,    \"timestamp\" : \"2000-01-23T04:56:07.000+00:00\"  } ],  \"username\" : \"username\"}, {  \"yearOfStudy\" : 0.80082819046101150206595775671303272247314453125,  \"posts\" : [ {    \"hashtags\" : [ {      \"name\" : \"name\",      \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],      \"conditions\" : {        \"levelValues\" : [ \"levelValues\", \"levelValues\" ],        \"name\" : \"name\",        \"collection\" : \"collection\",        \"operator\" : \"operator\"      }    }, {      \"name\" : \"name\",      \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],      \"conditions\" : {        \"levelValues\" : [ \"levelValues\", \"levelValues\" ],        \"name\" : \"name\",        \"collection\" : \"collection\",        \"operator\" : \"operator\"      }    } ],    \"responses\" : [ null, null ],    \"id\" : 6.02745618307040320615897144307382404804229736328125,    \"text\" : \"text\",    \"type\" : 5.962133916683182377482808078639209270477294921875,    \"userId\" : 1.46581298050294517310021547018550336360931396484375,    \"isCorrectAnswer\" : true,    \"timestamp\" : \"2000-01-23T04:56:07.000+00:00\"  }, {    \"hashtags\" : [ {      \"name\" : \"name\",      \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],      \"conditions\" : {        \"levelValues\" : [ \"levelValues\", \"levelValues\" ],        \"name\" : \"name\",        \"collection\" : \"collection\",        \"operator\" : \"operator\"      }    }, {      \"name\" : \"name\",      \"postsWithThisHashtag\" : [ 5.63737665663332876420099637471139430999755859375, 5.63737665663332876420099637471139430999755859375 ],      \"conditions\" : {        \"levelValues\" : [ \"levelValues\", \"levelValues\" ],        \"name\" : \"name\",        \"collection\" : \"collection\",        \"operator\" : \"operator\"      }    } ],    \"responses\" : [ null, null ],    \"id\" : 6.02745618307040320615897144307382404804229736328125,    \"text\" : \"text\",    \"type\" : 5.962133916683182377482808078639209270477294921875,    \"userId\" : 1.46581298050294517310021547018550336360931396484375,    \"isCorrectAnswer\" : true,    \"timestamp\" : \"2000-01-23T04:56:07.000+00:00\"  } ],  \"username\" : \"username\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<List<Wall>>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
+    public ResponseEntity<Wall> getWall(@ApiParam(value = "",required=true) @PathVariable("idUser") String idUser) {
+		UserDAO userDAO = DAOUtils.getUserDAO();
+		PostDAO postDAO = DAOUtils.getPostDAO();
 
-        return new ResponseEntity<List<Wall>>(HttpStatus.NOT_IMPLEMENTED);
+		UserDO userDO = userDAO.getUserById(idUser);
+
+		if (userDO != null) {
+
+			// TODO add all wanted info
+			Wall userWall = new Wall();
+			userWall.setUsername(userDO.getUsername());
+			userWall.setYearOfStudy("2019");
+
+			// add first post TODO change
+			if (postDAO.getPostsOfUser(userDO) != null)
+				userWall.addPostsItem(postDAO.getPostsOfUser(userDO).get(0).toPost());
+
+			return new ResponseEntity<Wall>(userWall, HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<Wall>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+
     }
 
 }

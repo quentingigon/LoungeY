@@ -1,6 +1,7 @@
 package io.lounge.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.lounge.mongo.dao.domodels.PostDO;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 
@@ -90,6 +91,10 @@ public class NewPost   {
     sb.append("    post: ").append(toIndentedString(post)).append("\n");
     sb.append("}");
     return sb.toString();
+  }
+
+  public PostDO toPostDO() {
+  	return post.toPostDO();
   }
 
   /**

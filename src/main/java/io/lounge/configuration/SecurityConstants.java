@@ -8,5 +8,6 @@ public class SecurityConstants {
 	public static final String HEADER_STRING = "Authorization";
 	public static final String SIGN_UP_URL = "/register";
 	public static final String LOGIN_URL = "/login";
-	public static final String CONSOLE_URL = "/swagger-ui.html";
+	public static final String SWAGGER_UI_URL = "/swagger-ui.html";
+
 }

@@ -1,23 +1,26 @@
 package io.lounge.models;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 /**
- * InlineResponse200
+ * LoginInfo
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T12:49:56.829Z")
 
-public class InlineResponse200   {
+public class LoginInfo {
   @JsonProperty("token")
   private String token = null;
 
-  public InlineResponse200 token(String token) {
+  @JsonProperty("userId")
+  private String userId = null;
+
+  public LoginInfo token(String token) {
     this.token = token;
     return this;
   }
@@ -38,6 +41,22 @@ public class InlineResponse200   {
     this.token = token;
   }
 
+	/**
+	 * Get userId
+	 * @return userId
+	 **/
+	@ApiModelProperty(required = true, value = "")
+	@NotNull
+
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = token;
+	}
+
 
   @Override
   public boolean equals(Object o) {
@@ -47,8 +66,8 @@ public class InlineResponse200   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    InlineResponse200 inlineResponse200 = (InlineResponse200) o;
-    return Objects.equals(this.token, inlineResponse200.token);
+    LoginInfo loginInfo = (LoginInfo) o;
+    return Objects.equals(this.token, loginInfo.token) && Objects.equals(this.userId, loginInfo.userId);
   }
 
   @Override
@@ -59,10 +78,12 @@ public class InlineResponse200   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class InlineResponse200 {\n");
+    sb.append("class LoginInfo {\n");
     
     sb.append("    token: ").append(toIndentedString(token)).append("\n");
-    sb.append("}");
+    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
+
+	  sb.append("}");
     return sb.toString();
   }
 
