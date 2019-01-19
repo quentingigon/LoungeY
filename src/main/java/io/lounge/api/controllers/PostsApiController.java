@@ -12,7 +12,6 @@ import io.lounge.mongo.dao.UserDAO;
 import io.lounge.mongo.dao.domodels.PostDO;
 import io.lounge.mongo.dao.domodels.UserDO;
 import io.swagger.annotations.ApiParam;
-import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -82,11 +81,11 @@ public class PostsApiController implements PostsApi {
 
     }
 
-    public ResponseEntity<List<Post>> getUserPosts(@ApiParam(value = "",required=true) @PathVariable("userId") String userId) {
+    public ResponseEntity<List<Post>> getUserPosts(@ApiParam(value = "",required=true) @PathVariable("username") String username) {
 		PostDAO postDAO = DAOUtils.getPostDAO();
 		UserDAO userDAO = DAOUtils.getUserDAO();
 
-		UserDO user = userDAO.get(new ObjectId(userId));
+		UserDO user = userDAO.getUser(username);
 
 		if (user != null) {
 			List<Post> posts = new ArrayList<>();

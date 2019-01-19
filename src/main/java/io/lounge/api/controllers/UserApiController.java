@@ -37,7 +37,7 @@ public class UserApiController implements UserApi {
     	UserDAO userDAO = DAOUtils.getUserDAO();
 
 		UserDO userDO = userDAO.getUser(username);
-		
+
 		if (userDO != null) {
 			return new ResponseEntity<User>(userDO.toUser(), HttpStatus.OK);
 		}

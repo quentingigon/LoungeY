@@ -34,11 +34,11 @@ public class FriendsApiController implements FriendsApi {
         this.request = request;
     }
 
-    public ResponseEntity<Boolean> addFriend(@ApiParam(value = "",required=true) @PathVariable("idCurrentUser") String idCurrentUser,@ApiParam(value = "",required=true) @PathVariable("idNewFriend") String idNewFriend) {
+    public ResponseEntity<Boolean> addFriend(@ApiParam(value = "",required=true) @PathVariable("username") String username,@ApiParam(value = "",required=true) @PathVariable("newFriendUsername") String newFriendUsername) {
     	UserDAO userDAO = DAOUtils.getUserDAO();
 
-		UserDO currentUser = userDAO.getUserById(idCurrentUser);
-		UserDO newFriend = userDAO.getUserById(idNewFriend);
+		UserDO currentUser = userDAO.getUser(username);
+		UserDO newFriend = userDAO.getUser(newFriendUsername);
 
 		if (currentUser != null && newFriend != null) {
 
@@ -57,10 +57,10 @@ public class FriendsApiController implements FriendsApi {
 
     }
 
-    public ResponseEntity<List<User>> getFriends(@ApiParam(value = "",required=true) @PathVariable("idCurrentUser") String idCurrentUser) {
+    public ResponseEntity<List<User>> getFriends(@ApiParam(value = "",required=true) @PathVariable("username") String username) {
     	UserDAO userDAO = DAOUtils.getUserDAO();
 
-		UserDO currentUser = userDAO.getUserById(idCurrentUser);
+		UserDO currentUser = userDAO.getUser(username);
 
 		if (currentUser != null) {
 			ArrayList<User> friends = new ArrayList<>();
