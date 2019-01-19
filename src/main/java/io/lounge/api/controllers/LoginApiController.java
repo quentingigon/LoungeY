@@ -53,7 +53,7 @@ public class LoginApiController implements LoginApi {
 			if (bCryptPasswordEncoder.matches(user.getPassword(), userDO.getPassword())) {
 				// user is logged in and loginInfo is in the header
 				LoginInfo loginInfo = new LoginInfo();
-				loginInfo.setUserId(userDO.getId().toHexString());
+				loginInfo.setUsername(userDO.getUsername());
 				return new ResponseEntity<LoginInfo>(loginInfo, HttpStatus.OK);
 			}
 		}
