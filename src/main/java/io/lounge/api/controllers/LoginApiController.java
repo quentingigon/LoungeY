@@ -54,6 +54,7 @@ public class LoginApiController implements LoginApi {
 				// user is logged in and loginInfo is in the header
 				LoginInfo loginInfo = new LoginInfo();
 				loginInfo.setUsername(userDO.getUsername());
+				// loginInfo.setToken(request.getHeader("Authorization"));
 				return new ResponseEntity<LoginInfo>(loginInfo, HttpStatus.OK);
 			}
 		}

@@ -41,7 +41,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
 			.antMatchers(HttpMethod.GET, SWAGGER_UI_URL).permitAll()
 			.antMatchers(HttpMethod.POST, LOGIN_URL).permitAll()
-			.antMatchers(HttpMethod.GET, "/lounge/tags").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.addFilter(new JWTAuthenticationFilter(authenticationManager()))
