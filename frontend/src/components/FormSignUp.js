@@ -37,7 +37,7 @@ const FormSignUp = ({ classes, className, onSubmit }) => {
   return (
     <Paper className={className}>
       <CardContent>
-        <Typography variant="h4" align="center">Login</Typography>
+        <Typography variant="h4" align="center">Register</Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <TextField
             type="text"
@@ -77,7 +77,7 @@ const FormSignUp = ({ classes, className, onSubmit }) => {
             type="submit"
             color="primary"
           >
-            Login
+            Register
           </Button>
         </form>
       </CardContent>
