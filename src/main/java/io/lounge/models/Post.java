@@ -273,12 +273,22 @@ public class Post   {
   	PostDO postDO = new PostDO(text, timestamp.toString(), PostType.valueOf(type), userId, new ArrayList<HashtagDO>());
 
   	ArrayList<HashtagDO> hashtagsDO = new ArrayList<>();
-
-  	for (Hashtag hash : hashtags) {
-  		hashtagsDO.add(hash.toHashtagDO());
+  	if (hashtags != null) {
+		for (Hashtag hash : hashtags) {
+			if (hash != null)
+				hashtagsDO.add(hash.toHashtagDO());
+		}
 	}
-
   	postDO.setHashtagsList(hashtagsDO);
+
+  	ArrayList<PostDO> responsesDO = new ArrayList<>();
+  	if (responses != null) {
+  		for (Post p : responses) {
+  			if (p != null)
+  				responsesDO.add(p.toPostDO());
+  		}
+  	}
+  	postDO.setResponsesList(responsesDO);
 
   	return postDO;
   }

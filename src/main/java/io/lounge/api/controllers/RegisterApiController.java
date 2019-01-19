@@ -2,8 +2,8 @@ package io.lounge.api.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.lounge.api.interfaces.RegisterApi;
+import io.lounge.api.utils.DAOUtils;
 import io.lounge.models.NewUser;
-import io.lounge.mongo.dao.MongoConnection;
 import io.lounge.mongo.dao.UserDAO;
 import io.lounge.mongo.dao.domodels.UserDO;
 import io.swagger.annotations.ApiParam;
@@ -42,9 +42,7 @@ public class RegisterApiController implements RegisterApi {
     }
 
     public ResponseEntity<Boolean> register(@ApiParam(value = "The new user to register" ,required=true )  @Valid @RequestBody NewUser newUser) {
-		MongoConnection conn = MongoConnection.getInstance();
-		conn.init();
-		UserDAO userDAO = new UserDAO(conn.getDatastore());
+		UserDAO userDAO = DAOUtils.getUserDAO();
 
 		UserDO newUserDO = userDAO.getUser(newUser.getUsername());
 
