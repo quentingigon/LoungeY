@@ -7,19 +7,19 @@ import org.springframework.validation.annotation.Validated;
 import java.util.Objects;
 
 /**
- * FriendInvite
+ * FriendMessage
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-19T20:02:09.331Z")
 
-public class FriendInvite   {
+public class FriendMessage {
   @JsonProperty("fromUser")
   private String fromUser = null;
 
   @JsonProperty("toUser")
   private String toUser = null;
 
-  public FriendInvite fromUser(String fromUser) {
+  public FriendMessage fromUser(String fromUser) {
     this.fromUser = fromUser;
     return this;
   }
@@ -39,7 +39,7 @@ public class FriendInvite   {
     this.fromUser = fromUser;
   }
 
-  public FriendInvite toUser(String toUser) {
+  public FriendMessage toUser(String toUser) {
     this.toUser = toUser;
     return this;
   }
@@ -68,9 +68,9 @@ public class FriendInvite   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    FriendInvite friendInvite = (FriendInvite) o;
-    return Objects.equals(this.fromUser, friendInvite.fromUser) &&
-        Objects.equals(this.toUser, friendInvite.toUser);
+    FriendMessage friendMessage = (FriendMessage) o;
+    return Objects.equals(this.fromUser, friendMessage.fromUser) &&
+        Objects.equals(this.toUser, friendMessage.toUser);
   }
 
   @Override
@@ -81,7 +81,7 @@ public class FriendInvite   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class FriendInvite {\n");
+    sb.append("class FriendMessage {\n");
     
     sb.append("    fromUser: ").append(toIndentedString(fromUser)).append("\n");
     sb.append("    toUser: ").append(toIndentedString(toUser)).append("\n");

@@ -5,7 +5,7 @@
  */
 package io.lounge.api.interfaces;
 
-import io.lounge.models.FriendInvite;
+import io.lounge.models.FriendMessage;
 import io.lounge.models.User;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +28,16 @@ public interface FriendsApi {
     @RequestMapping(value = "/friends/new",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Boolean> addFriend(@ApiParam(value = "", required = true) @Valid @RequestBody FriendInvite invite);
+    ResponseEntity<Boolean> addFriend(@ApiParam(value = "", required = true) @Valid @RequestBody FriendMessage message);
+
+    @ApiOperation(value = "remove user as friend", nickname = "removeFriend", notes = "", response = Boolean.class, tags={ "friends", })
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "successful operation", response = Boolean.class),
+        @ApiResponse(code = 500, message = "Internal server error") })
+    @RequestMapping(value = "/friends/remove",
+        consumes = { "application/json" },
+        method = RequestMethod.POST)
+    ResponseEntity<Boolean> removeFriend(@ApiParam(value = "", required = true) @Valid @RequestBody FriendMessage message);
 
 
     @ApiOperation(value = "Get friends of user", nickname = "getFriends", notes = "Returns list of friends", response = User.class, responseContainer = "List", tags={ "friends", })

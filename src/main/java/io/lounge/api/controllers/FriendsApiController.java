@@ -3,7 +3,7 @@ package io.lounge.api.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.lounge.api.interfaces.FriendsApi;
 import io.lounge.api.utils.DAOUtils;
-import io.lounge.models.FriendInvite;
+import io.lounge.models.FriendMessage;
 import io.lounge.models.User;
 import io.lounge.mongo.dao.UserDAO;
 import io.lounge.mongo.dao.domodels.UserDO;
@@ -37,7 +37,7 @@ public class FriendsApiController implements FriendsApi {
         this.request = request;
     }
 
-    public ResponseEntity<Boolean> addFriend(@ApiParam(value = "",required=true) @Valid @RequestBody FriendInvite invite) {
+    public ResponseEntity<Boolean> addFriend(@ApiParam(value = "",required=true) @Valid @RequestBody FriendMessage invite) {
     	UserDAO userDAO = DAOUtils.getUserDAO();
 
 		UserDO currentUser = userDAO.getUser(invite.getFromUser());
@@ -51,9 +51,23 @@ public class FriendsApiController implements FriendsApi {
 		else {
 			return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-
     }
+
+	public ResponseEntity<Boolean> removeFriend(@ApiParam(value = "",required=true) @Valid @RequestBody FriendMessage invite) {
+		UserDAO userDAO = DAOUtils.getUserDAO();
+
+		UserDO currentUser = userDAO.getUser(invite.getFromUser());
+		UserDO newFriend = userDAO.getUser(invite.getToUser());
+
+		if (currentUser != null && newFriend != null) {
+
+			userDAO.removeFriend(currentUser, newFriend);
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
     public ResponseEntity<List<User>> getFriends(@ApiParam(value = "",required=true) @PathVariable("username") String username) {
     	UserDAO userDAO = DAOUtils.getUserDAO();
