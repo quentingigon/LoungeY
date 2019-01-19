@@ -34,20 +34,28 @@ public class HashtagDAO extends BasicDAO<HashtagDO, ObjectId> {
 		return postDAO.getPostsWithHashtag(hashtag) ;
 	}
 
-	// add post to each of the hashtag's list
-	public void addPostToHashtagsLists(PostDO post) {
+	public boolean updateHashtag(HashtagDO hashtag){
 		MongoConnection conn = MongoConnection.getInstance();
 		conn.init();
+		HashtagDO tmpOldHastag = getHashtag(hashtag.getName());
 
-		for (HashtagDO hash : post.getHashtagsList()) {
+		if(tmpOldHastag!=null){
+			DBObject newHashtag = conn.getMorphia().toDBObject(hashtag);
+			DBObject oldHashtag = conn.getMorphia().toDBObject(tmpOldHastag);
 
-			DBObject oldHashtag = conn.getMorphia().toDBObject(hash);
-			hash.addToPostsList(post.getId().toHexString());
-			DBObject newHashtag = conn.getMorphia().toDBObject(hash);
-
-			getCollection().update(oldHashtag, newHashtag);
+			return getCollection().update(oldHashtag, newHashtag).wasAcknowledged();
 		}
 
+		System.out.println("Cannot update unexisting hashtag");
+		return false;
+	}
 
+	// add post to each of the hashtag's list
+	public void addPostToHashtagsLists(PostDO post) {
+
+		for (HashtagDO hash : post.getHashtagsList()) {
+			hash.addToPostsList(post.getId().toHexString());
+			updateHashtag(hash);
+		}
 	}
 }

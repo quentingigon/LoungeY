@@ -5,13 +5,18 @@ import io.lounge.models.Post;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 @Entity
 public class PostDO extends BasicDO {
 
+
+	public static DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	private String text;
-	private String date;
+	private Date date;
 	private PostType type;
 	private ObjectId author;
 	private boolean isCorrectAnswer;
@@ -42,7 +47,7 @@ public class PostDO extends BasicDO {
 		this.setId(new ObjectId());
 
 		this.text = text;
-		this.date = date;
+		this.setDate(date);
 		this.type = type;
 		this.author = author;
 		this.hashtagsList = getHashtagsFromText(text);
@@ -51,7 +56,10 @@ public class PostDO extends BasicDO {
 
 	public PostDO(Post post) {
 		text = post.getText();
-		date = post.getTimestamp();
+		try {
+			date = dateFormat.parse(post.getTimestamp());
+		} catch( java.text.ParseException e){}
+
 		type = PostType.valueOf(post.getType());
 		author = new ObjectId(post.getUserId());
 		isCorrectAnswer = post.isIsCorrectAnswer();
@@ -68,7 +76,7 @@ public class PostDO extends BasicDO {
 
 	public PostDO(String text, String date, PostType type, String author, ArrayList<HashtagDO> hashtagsList) {
 		this.text = text;
-		this.date = date;
+		this.setDate(date);
 		this.type = type;
 		this.author = new ObjectId(author);
 		this.hashtagsList = hashtagsList;
@@ -78,7 +86,7 @@ public class PostDO extends BasicDO {
 		Post p = new Post();
 		p.setId(getId().toHexString());
 		p.setText(text);
-		p.setTimestamp(date);
+		p.setTimestamp(dateFormat.format(date));
 		p.setIsCorrectAnswer(isCorrectAnswer);
 		p.setType(type != null ? type.toString() : "");
 		p.setUserId(author != null ? author.toHexString() : "");
@@ -119,11 +127,13 @@ public class PostDO extends BasicDO {
 	}
 
 	public String getDate() {
-		return date;
+		return dateFormat.format(date);
 	}
 
 	public void setDate(String date) {
-		this.date = date;
+		try {
+			this.date = dateFormat.parse(date);
+		} catch( java.text.ParseException e){}
 	}
 
 	public PostType getType() {

@@ -55,7 +55,7 @@ public class Main {
 		pDAO.remComment(commToDel.getId(), commToDel.getParentId());
 
 		System.out.println("Robin posts :");
-		for(PostDO pp : pDAO.getPostsOfUser(robin)){
+		for(PostDO pp : pDAO.getPostsOfUser(robin, 5)){
 			System.out.println(pp.getId() + "; ");
 		}
 
