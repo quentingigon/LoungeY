@@ -54,11 +54,13 @@ public class HashtagDAO extends BasicDAO<HashtagDO, ObjectId> {
 	// add post to each of the hashtag's list
 	public void addPostIdToHashtagsLists(List<String> hashtags, String postId) {
 
-		for (String hashName : hashtags) {
-			if (hashName != null) {
-				HashtagDO realHash = getHashtag(hashName);
-				realHash.addToPostsList(postId);
-				updateHashtag(realHash);
+		if (hashtags != null) {
+			for (String hashName : hashtags) {
+				if (hashName != null) {
+					HashtagDO realHash = getHashtag(hashName);
+					realHash.addToPostsList(postId);
+					updateHashtag(realHash);
+				}
 			}
 		}
 	}

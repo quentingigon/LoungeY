@@ -131,7 +131,7 @@ public class PostsApiController implements PostsApi {
 			// if post was correclty transformed to postDO
 			if (postDO != null) {
 
-				if (!post.getHashtags().isEmpty())
+				if (post.getHashtags() != null && !post.getHashtags().isEmpty())
 					// add our hashtags to the postDO
 					postDAO.fillHashTagsListOfPostDO(postDO, post.getHashtags());
 
