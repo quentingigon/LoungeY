@@ -38,15 +38,15 @@ public class Main {
 		userDAO.addUser(robin);
 		userDAO.addUser(quatre);
 
-		PostDO p = new PostDO("Hello", "", PostType.POST, robin.getId());
+		PostDO p = new PostDO("Hello", "", String.valueOf(PostType.POST), robin.getId());
 
 		pDAO.addPost(p);
 
-		p.addComment(new PostDO("wORLD", dateFormat.format(new Date()), PostType.COMMENT, robin.getId()));
+		p.addComment(new PostDO("wORLD", dateFormat.format(new Date()), String.valueOf(PostType.COMMENT), robin.getId()));
 
-		pDAO.addComment(new PostDO("World", "16/01/19", PostType.COMMENT, robin.getId()), p);
+		pDAO.addComment(new PostDO("World", "16/01/19", String.valueOf(PostType.COMMENT), robin.getId()), p);
 
-		PostDO commToDel = new PostDO("To REMOVE", "16/01/19", PostType.COMMENT, robin.getId());
+		PostDO commToDel = new PostDO("To REMOVE", "16/01/19", String.valueOf(PostType.COMMENT), robin.getId());
 		pDAO.addComment(commToDel, p);
 
 

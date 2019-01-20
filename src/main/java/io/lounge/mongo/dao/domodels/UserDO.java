@@ -26,7 +26,7 @@ public class UserDO extends BasicDO {
 
 	private ArrayList<ObjectId> friendsList;
 	private ArrayList<ObjectId> pendingInviteList;
-	private ArrayList<ObjectId> notifications;
+	private ArrayList<NotificationDO> notifications;
 
 	public UserDO() {}
 
@@ -85,22 +85,22 @@ public class UserDO extends BasicDO {
 		friendsList.remove(userId);
 	}
 
-	public ArrayList<ObjectId> getNotifications() {
+	public ArrayList<NotificationDO> getNotifications() {
 		return notifications;
 	}
 
-	public void setNotifications(ArrayList<ObjectId> notifications) {
+	public void setNotifications(ArrayList<NotificationDO> notifications) {
 		this.notifications = notifications;
 	}
 
-	public void addNotification(ObjectId notifId) {
+	public void addNotification(NotificationDO notifId) {
 		if (notifications == null) {
 			notifications = new ArrayList<>();
 		}
 		notifications.add(notifId);
 	}
 
-	public void removeNotification(ObjectId notifId) {
+	public void removeNotification(NotificationDO notifId) {
 		notifications.remove(notifId);
 	}
 

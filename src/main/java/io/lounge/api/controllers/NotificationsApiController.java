@@ -6,9 +6,9 @@ import io.lounge.api.utils.DAOUtils;
 import io.lounge.models.Notification;
 import io.lounge.mongo.dao.NotificationDAO;
 import io.lounge.mongo.dao.UserDAO;
+import io.lounge.mongo.dao.domodels.NotificationDO;
 import io.lounge.mongo.dao.domodels.UserDO;
 import io.swagger.annotations.ApiParam;
-import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -47,9 +47,9 @@ public class NotificationsApiController implements NotificationsApi {
 			ArrayList<Notification> notifications = new ArrayList<>();
 
 			if (!userDO.getNotifications().isEmpty()) {
-				for (ObjectId notifId : userDO.getNotifications()) {
-					if (notifId != null)
-						notifications.add(notificationDAO.get(notifId).toNotification());
+				for (NotificationDO notif : userDO.getNotifications()) {
+					if (notif != null)
+						notifications.add(notificationDAO.get(notif.getId()).toNotification());
 				}
 				// TODO maybe its a bad plan
 				// when we gave notifs, they are not new anymore so we delete them

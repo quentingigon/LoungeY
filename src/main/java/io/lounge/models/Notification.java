@@ -14,8 +14,11 @@ import java.util.Objects;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-20T11:58:30.925Z")
 
 public class Notification   {
-  @JsonProperty("user")
-  private String user = null;
+  @JsonProperty("fromUser")
+  private String fromUser = null;
+
+  @JsonProperty("fromUser")
+  private String toUser = null;
 
   @JsonProperty("text")
   private String text = null;
@@ -24,29 +27,45 @@ public class Notification   {
   private String type = null;
 
   public Notification friendUsername(String friendUsername) {
-    this.user = friendUsername;
+    this.fromUser = friendUsername;
     return this;
   }
 
   /**
-   * Get user
-   * @return user
+   * Get fromUser
+   * @return fromUser
   **/
   @ApiModelProperty(value = "")
 
 
-  public String getUser() {
-    return user;
+  public String getFromUser() {
+    return fromUser;
   }
 
-  public void setUser(String user) {
-    this.user = user;
+  public void setFromUser(String fromUser) {
+    this.fromUser = fromUser;
   }
 
   public Notification text(String text) {
     this.text = text;
     return this;
   }
+
+  /**
+   * Get toUser
+   * @return toUser
+   **/
+  @ApiModelProperty(value = "")
+
+
+  public String getToUser() {
+    return toUser;
+  }
+
+  public void setToUser(String toUser) {
+    this.toUser = toUser;
+  }
+
 
   /**
    * Get text
@@ -93,18 +112,18 @@ public class Notification   {
       return false;
     }
     Notification notification = (Notification) o;
-    return Objects.equals(this.user, notification.user) &&
+    return Objects.equals(this.fromUser, notification.fromUser) &&
         Objects.equals(this.text, notification.text) &&
         Objects.equals(this.type, notification.type);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(user, text, type);
+    return Objects.hash(fromUser, text, type);
   }
 
   public NotificationDO toNotificationDO() {
-    return new NotificationDO(text, user, type);
+    return new NotificationDO(text, fromUser, toUser, type);
   }
 
   @Override
@@ -112,7 +131,7 @@ public class Notification   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Notification {\n");
     
-    sb.append("    user: ").append(toIndentedString(user)).append("\n");
+    sb.append("    fromUser: ").append(toIndentedString(fromUser)).append("\n");
     sb.append("    text: ").append(toIndentedString(text)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("}");

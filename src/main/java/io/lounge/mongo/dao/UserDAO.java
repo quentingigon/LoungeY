@@ -3,6 +3,7 @@ package io.lounge.mongo.dao;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import io.lounge.api.utils.DAOUtils;
 import io.lounge.mongo.dao.domodels.NotificationDO;
 import io.lounge.mongo.dao.domodels.NotificationType;
 import io.lounge.mongo.dao.domodels.UserDO;
@@ -128,30 +129,46 @@ public class UserDAO extends BasicDAO<UserDO, ObjectId> {
 
 	public void sendFriendInvite(UserDO current, UserDO newFriend) {
 
+		NotificationDAO notifDAO = DAOUtils.getNotificationDAO();
 		ObjectId currentId = current.getId();
 		ObjectId newFriendId = newFriend.getId();
-		// TODO send notifications
-		// if the person we add as friend already did the same
-		if (newFriend.getPendingInviteList() != null && newFriend.getPendingInviteList().contains(currentId)) {
-			// add each other to their friends list
-			current.addToFriendsList(newFriendId);
-			newFriend.addToFriendsList(currentId);
-			newFriend.removeFromPendingInviteList(currentId);
-			// add a notification to both users to inform them they are now friends
-			current.addNotification(new NotificationDO(FRIEND_NOTIF, newFriend.getUsername(),
-				String.valueOf(NotificationType.NEWFRIEND)).getId());
-			newFriend.addNotification(new NotificationDO(FRIEND_NOTIF, current.getUsername(),
-				String.valueOf(NotificationType.NEWFRIEND)).getId());
-			updateUser(current);
-			updateUser(newFriend);
-		}
-		else {
-			// add user to pending invites
-			current.addToPendingInviteList(newFriend.getId());
-			// add notification of new friend invite
-			current.addNotification(new NotificationDO(FRIENDINVITE_NOTIF, newFriend.getUsername(),
-				String.valueOf(NotificationType.FRIENDINVITE)).getId());
-			updateUser(current);
+
+		if (!areFriends(current.getUsername(), newFriend.getUsername())) {
+
+			// if the person we add as friend already did the same
+			if (newFriend.getPendingInviteList() != null && newFriend.getPendingInviteList().contains(currentId)) {
+				// add each other to their friends list
+				current.addToFriendsList(newFriendId);
+				newFriend.addToFriendsList(currentId);
+				newFriend.removeFromPendingInviteList(currentId);
+				// remove last notif of invite between users
+				current.removeNotification(notifDAO.getLastFriendInviteBetweenUsers(current.getUsername(), newFriend.getUsername()));
+
+				// add a notification to both users to inform them they are now friends
+				NotificationDO newNotifDO = new NotificationDO(FRIEND_NOTIF, newFriend.getUsername(), current.getUsername(),
+					String.valueOf(NotificationType.NEWFRIEND));
+				current.addNotification(newNotifDO);
+				newNotifDO.setFromUser(current.getUsername());
+				newNotifDO.setToUser(newFriend.getUsername());
+				newFriend.addNotification(newNotifDO);
+
+				updateUser(current);
+				updateUser(newFriend);
+			}
+			else {
+				// add user to pending invites
+				current.addToPendingInviteList(newFriend.getId());
+
+				// TODO maybe verify that there is not already a friendInvite from this user to the other
+				// add notification of new friend invite
+				NotificationDO newNotifDO = new NotificationDO(FRIENDINVITE_NOTIF, current.getUsername(),
+					newFriend.getUsername(), String.valueOf(NotificationType.FRIENDINVITE));
+				notifDAO.addNotification(newNotifDO);
+				newFriend.addNotification(newNotifDO);
+
+				updateUser(current);
+				updateUser(newFriend);
+			}
 		}
 	}
 
