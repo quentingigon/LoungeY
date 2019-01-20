@@ -7,9 +7,12 @@ import App from './App';
 import ThemeProvider from './components/Theme';
 import * as serviceWorker from './serviceWorker';
 
+
 ReactDOM.render(
+
   <BrowserRouter>
     <ThemeProvider>
+
       <App />
     </ThemeProvider>
   </BrowserRouter>,

@@ -22,7 +22,7 @@ const styles = theme => ({
 const PageLogin = ({ classes, history }) => {
   const handleSubmit = (values) => {
     console.log('submitting formValues', values);
-    history.push('/login');
+   // history.push('/login');
     console.log(values.username);
     
     if(values.username !== ""){
@@ -46,6 +46,7 @@ const PageLogin = ({ classes, history }) => {
     .then( (response) => {
       console.log( response.headers.get('Authorization'));
 
+        
         if (response.status >= 200 && response.status < 300) {
      
           cookies.set('token', response.headers.get('Content-Language'), { path: '/' });

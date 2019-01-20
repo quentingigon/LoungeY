@@ -10,7 +10,7 @@ import Cookies from 'universal-cookie';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-
+import AddPostIcon from '@material-ui/icons/AddComment'
 
 
 
@@ -23,8 +23,8 @@ const styles = theme => ({
   },
   submitButton: {
     marginTop: 24,
-    float:'right',
-    width:'30%'
+//    width:'30%'
+    float:'right'
   }
 });
 
@@ -33,6 +33,8 @@ const styles = theme => ({
 const FormPost = ({ classes, className, onSubmit }) => {
 
   const [corpus, setcorpus] = useState('');
+  const [postType, setpostType] = useState('');
+  const [isPublic, setisPublic] = useState('');
 
   const [state, setState] = React.useState({
     checkedA: true,
@@ -52,7 +54,7 @@ const FormPost = ({ classes, className, onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ corpus });
+    onSubmit({ corpus, postType, isPublic });
   };
 
   return (
@@ -74,8 +76,8 @@ const FormPost = ({ classes, className, onSubmit }) => {
             onChange={(e) => setcorpus(e.target.value)}
           />
            
-        <Grid container spacing={24}>
-            <Grid item xs={12} sm={6} md={4}>
+        <Grid container spacing={12}>
+            <Grid item xs={16} sm={8} md={8}>
             <FormControlLabel
                 control={
         
@@ -88,14 +90,16 @@ const FormPost = ({ classes, className, onSubmit }) => {
 
             />
             </Grid>
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid item xs={8} sm={4} md={4}>
                 <Button
                     className={classes.submitButton}
                     variant="text"
                     type="submit"
                     color="secondary"
                 >
-                    Post
+                     <AddPostIcon />
+                      Post
+
                 </Button>
                 </Grid>
         </Grid>
