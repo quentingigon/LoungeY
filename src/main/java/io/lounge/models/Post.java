@@ -36,6 +36,9 @@ public class Post   {
   @JsonProperty("isCorrectAnswer")
   private Boolean isCorrectAnswer = null;
 
+  @JsonProperty("isCorrectAnswer")
+  private Boolean isPublic = null;
+
   @JsonProperty("responses")
   @Valid
   private List<Post> responses = null;
@@ -168,6 +171,21 @@ public class Post   {
     this.isCorrectAnswer = isCorrectAnswer;
   }
 
+  /**
+   * Get isPublic
+   * @return isPublic
+   **/
+  @ApiModelProperty(value = "")
+
+
+  public Boolean isIsPublic() {
+    return isPublic;
+  }
+
+  public void setIsPublic(Boolean isPublic) {
+    this.isPublic = isPublic;
+  }
+
   public Post responses(List<Post> responses) {
     this.responses = responses;
     return this;
@@ -269,7 +287,7 @@ public class Post   {
   }
 
   public PostDO toPostDO() {
-  	PostDO postDO = new PostDO(text, date.toString(), type, userId, new ArrayList<HashtagDO>());
+  	PostDO postDO = new PostDO(text, date.toString(), type, userId, isPublic, new ArrayList<HashtagDO>());
 
   	ArrayList<PostDO> responsesDO = new ArrayList<>();
   	if (responses != null) {

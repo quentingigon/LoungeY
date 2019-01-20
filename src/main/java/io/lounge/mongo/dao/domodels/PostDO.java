@@ -15,6 +15,7 @@ public class PostDO extends BasicDO {
 	private String type;
 	private ObjectId author;
 	private boolean isCorrectAnswer;
+	private boolean isPublic;
 	private ObjectId parentId;
 
 	private ArrayList<PostDO> responsesList;
@@ -31,11 +32,12 @@ public class PostDO extends BasicDO {
 		this.responsesList = new ArrayList<>();
 	}
 
-	public PostDO(String text, String date, String type, String author, ArrayList<HashtagDO> hashtagsList) {
+	public PostDO(String text, String date, String type, String author, boolean isPublic, ArrayList<HashtagDO> hashtagsList) {
 		this.text = text;
 		this.setDate(date);
 		this.type = type;
 		this.author = new ObjectId(author);
+		this.isPublic = isPublic;
 		this.hashtagsList = hashtagsList;
 	}
 
@@ -47,6 +49,7 @@ public class PostDO extends BasicDO {
 		p.setIsCorrectAnswer(isCorrectAnswer);
 		p.setType(type != null ? type.toString() : "");
 		p.setUserId(author != null ? author.toHexString() : "");
+		p.setIsPublic(isPublic);
 
 		// used to distinguished post and responses
 		if (responsesList != null && !responsesList.isEmpty()) {
@@ -113,6 +116,14 @@ public class PostDO extends BasicDO {
 
 	public void setCorrectAnswer(boolean correctAnswer) {
 		isCorrectAnswer = correctAnswer;
+	}
+
+	public boolean isPublic() {
+		return isPublic;
+	}
+
+	public void setPublic(boolean aPublic) {
+		isPublic = aPublic;
 	}
 
 	public ArrayList<PostDO> getResponsesList() {

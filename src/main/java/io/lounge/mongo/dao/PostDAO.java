@@ -84,6 +84,15 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 		return false;
 	}
 
+	public List<PostDO> getPublicPostsOfUser(UserDO user, int nbPosts) {
+		Query<PostDO> findQuery = createQuery()
+			.field("author").equal(user.getId())
+			.field("isPublic").equal(true);
+
+		int nbQueryResults = (int) findQuery.count();
+
+		return find(findQuery).asList().subList(0, ((nbPosts <= nbQueryResults) ? nbPosts : nbQueryResults));
+	}
 
 	public List<PostDO> getPostsOfUser(UserDO user) {
 		Query<PostDO> findQuery = createQuery().field("author").equal(user.getId());
