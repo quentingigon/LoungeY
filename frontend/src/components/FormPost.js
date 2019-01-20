@@ -34,9 +34,9 @@ const FormPost = ({ classes, className, onSubmit }) => {
 
   const [corpus, setcorpus] = useState('');
   const [postType, setpostType] = useState('');
-  const [isPublic, setisPublic] = useState('');
-
-  const [state, setState] = React.useState({
+  const [isPublic, setisPublic] = useState(false);
+    
+    const [state, setState] = React.useState({
     checkedA: true,
     labelText: 'only your friends'
   });
@@ -50,7 +50,7 @@ const FormPost = ({ classes, className, onSubmit }) => {
     setState({ ...state, 
         [name]: event.target.checked, 
         labelText: textLabel,
-        isPublic:event.target.checked });
+        isPublic: event.target.checked });
 
  
   };

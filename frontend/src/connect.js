@@ -15,7 +15,7 @@ export function queryBackend( jsonBody, responseHandle ) {
           'Cache-Control': 'no-cache'
         },
       
-        body: jsonBody
+        body: `${jsonBody}`
       })
       .then( (response) => {
         console.log( response.headers.get('Authorization'));

@@ -32,20 +32,49 @@ const PageProfile = ({ classes, history }) => {
 
   const handleSubmit = (values) => {
     console.log('submitting post', values);
- //   history.push('/profile');
-    console.log(values);
+
+    /*sanitarization*/
+    let corpus = String(values.corpus);
+    let postType = "POST";
+    //generate type of post
+    if(corpus.indexOf("?") != -1 ){
+      postType = "QUESTION";
+    }
+
+    //generate hashtags list
+    let cur = corpus.indexOf("#", cur+1);
+    let hashtagList = [];
+    let i = 0;
+    do{
+
+      console.log("cur is:" + cur);
+
+      let endHashTag = corpus.indexOf(" ", cur);
+      endHashTag = endHashTag == -1 ? corpus.length : endHashTag;
+      console.log("end is:" + endHashTag);
+
+      hashtagList.push( corpus.substring(cur+1, endHashTag))
+      i++;
+      cur = corpus.indexOf("#", cur+1);
+
+    }while( cur != -1 && i < corpus.length);
+
+    console.log("hashtag list");
+    console.log(hashtagList);
+    /*---------------------*/
+
+    //create body for POST request
     let jsonBody = JSON.stringify({
       username: cookies.get('username'),
       post: {
         date:'',
-        username: cookies.get('username'),
-        text:values.corpus, 
-        type:"POST",//values.postType,
-        isCorrectAnswer: false, //never when post is new
-        isPublic: false,
-        hastags:[
-          "AMT","XOU"
-        ]
+        username:         cookies.get('username'),
+        text:             values.corpus, 
+        type:             postType,//values.postType,
+        isCorrectAnswer:  false, //never when post is new
+        isPublic:         values.isPublic,
+        responses:        [ null ],
+        hashtags:         hashtagList
         //  "ON","SAMUSE","QUENTIN","CEST_LA_TEUF"
 
       }
@@ -72,7 +101,7 @@ const PageProfile = ({ classes, history }) => {
       />
 
       <Grid container spacing={24}>
-      <Grid item xs={24} sm={12} md={24}>
+      <Grid item xs={12} sm={12} md={12}>
       <FormPost
         className={classes.form}
         onSubmit={handleSubmit}
