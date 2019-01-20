@@ -14,6 +14,11 @@ import NotificationIcon from '@material-ui/icons/Notifications';
 import InputSearch from './InputSearch';
 import ActivityListItem from './ActivityListItem';
 
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
+let username = cookies.get('username');
+
 const styles = theme => ({
   root: {},
   appBar: {
@@ -45,12 +50,15 @@ const AppBar = ({ classes, children }) => {
   const handleToggleNotification = () => {
     setNotificationOpen(!notificationOpen);
   };
+  const redirectProfile = (url ) => {
+
+  }
 
   return (
     <AppBarBase className={classes.appBar} position="static" color="default">
       <Toolbar className={classes.toolbar}>
         <Typography variant="h6" color="inherit">
-          <Link to="/">Social app</Link>
+          <Link to="/lounge">Lounge</Link>
         </Typography>
         <InputSearch
           className={classes.search}
@@ -101,10 +109,15 @@ const AppBar = ({ classes, children }) => {
             />
           </List>
         </Popover>
-        <Avatar
-          className={classes.icon}
-          src="https://source.unsplash.com/collection/895539"
-        />
+        <Link to={`/profile/${username}`}>
+
+          <Avatar
+            className={classes.icon}
+            src="https://source.unsplash.com/collection/895539"
+
+          />
+
+        </Link>
       </Toolbar>
     </AppBarBase >
   );
