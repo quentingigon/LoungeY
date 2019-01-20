@@ -124,8 +124,5 @@ public class WallApiController implements WallApi {
 		else {
 			return new ResponseEntity<Wall>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-
     }
-
 }

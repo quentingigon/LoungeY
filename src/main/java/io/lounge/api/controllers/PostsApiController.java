@@ -11,6 +11,7 @@ import io.lounge.mongo.dao.PostDAO;
 import io.lounge.mongo.dao.UserDAO;
 import io.lounge.mongo.dao.domodels.PostDO;
 import io.lounge.mongo.dao.domodels.UserDO;
+import io.lounge.mongo.dao.utils.MongoDBUtils;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +42,7 @@ public class PostsApiController implements PostsApi {
         this.request = request;
     }
 
-    public ResponseEntity<Boolean> comment(@ApiParam(value = "The id of user to log out" ,required=true )  @Valid @RequestBody Comment comment) {
+    public ResponseEntity<Boolean> comment(@ApiParam(value = "The new comment" ,required=true )  @Valid @RequestBody Comment comment) {
     	PostDAO postDAO = DAOUtils.getPostDAO();
 
 		PostDO commentDO = comment.getPost().toPostDO();
@@ -64,7 +65,7 @@ public class PostsApiController implements PostsApi {
 
     }
 
-    public ResponseEntity<Post> getPost(@ApiParam(value = "",required=true) @PathVariable("postId") String postId) {
+    public ResponseEntity<Post> getPost(@ApiParam(value = "The id of the post to get",required=true) @PathVariable("postId") String postId) {
 		PostDAO postDAO = DAOUtils.getPostDAO();
 
 		PostDO postDO = postDAO.getPostById(postId);
@@ -81,7 +82,7 @@ public class PostsApiController implements PostsApi {
 
     }
 
-    public ResponseEntity<List<Post>> getUserPosts(@ApiParam(value = "",required=true) @PathVariable("username") String username) {
+    public ResponseEntity<List<Post>> getUserPosts(@ApiParam(value = "Username of the user",required=true) @PathVariable("username") String username) {
 		PostDAO postDAO = DAOUtils.getPostDAO();
 		UserDAO userDAO = DAOUtils.getUserDAO();
 
@@ -108,26 +109,51 @@ public class PostsApiController implements PostsApi {
     public ResponseEntity<Boolean> post(@ApiParam(value = "New post" ,required=true )  @Valid @RequestBody NewPost newPost) {
 		PostDAO postDAO = DAOUtils.getPostDAO();
 		HashtagDAO hashtagDAO = DAOUtils.getHashtagDAO();
+		UserDAO userDAO = DAOUtils.getUserDAO();
 
-		PostDO post = newPost.getPost().toPostDO();
-
-		if (post != null) {
-
-			if (!newPost.getPost().getHashtags().isEmpty())
-				// add our hashtags to the postDO
-				postDAO.fillHashTagsList(post, newPost.getPost().getHashtags());
-
-			// post was correclty saved
-			if (postDAO.addPost(post)) {
-
-			}
-			// update hashtag's lists
-			hashtagDAO.addPostToHashtagsLists(post);
-
-			return new ResponseEntity<Boolean>(HttpStatus.OK);
+		// if hashtags list is not initialized, initialize it
+		// TODO its not very clean, we should do a script at db start up if possible
+		if (hashtagDAO.find().asList().isEmpty()) {
+			MongoDBUtils mongoDBUtils = new MongoDBUtils();
+			mongoDBUtils.fillHashtagList();
 		}
 
-        return new ResponseEntity<Boolean>(HttpStatus.NOT_IMPLEMENTED);
+		UserDO userDO = userDAO.getUser(newPost.getUsername());
+
+
+		// if user exists
+		if (userDO != null) {
+			// set userId of Post before transforming it into a PostDO
+			Post post = newPost.getPost();
+			post.setUserId(userDO.getId().toHexString());
+			PostDO postDO = newPost.getPost().toPostDO();
+
+			// if post was correclty transformed to postDO
+			if (postDO != null) {
+
+				if (!newPost.getPost().getHashtags().isEmpty())
+					// add our hashtags to the postDO
+					postDAO.fillHashTagsListOfPostDO(postDO, newPost.getPost().getHashtags());
+
+				String postId = postDAO.addPost(postDO, userDO);
+
+				// post was correclty saved
+				if (postId != null) {
+					// update hashtag's lists
+					hashtagDAO.addPostIdToHashtagsLists(post.getHashtags(), postId);
+					return new ResponseEntity<Boolean>(HttpStatus.OK);
+				}
+				else {
+					return new ResponseEntity<Boolean>(HttpStatus.INTERNAL_SERVER_ERROR);
+				}
+			}
+			else {
+				return new ResponseEntity<Boolean>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+		else {
+			return new ResponseEntity<Boolean>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
     }
 
 }

@@ -20,6 +20,8 @@ public class PostDO extends BasicDO {
 	private ArrayList<PostDO> responsesList;
 	private ArrayList<HashtagDO> hashtagsList;
 
+	public PostDO() {}
+
 	public PostDO(String text, String date, String type, ObjectId author) {
 		this.setId(new ObjectId());
 
@@ -47,7 +49,7 @@ public class PostDO extends BasicDO {
 		p.setDate(date);
 		p.setIsCorrectAnswer(isCorrectAnswer);
 		p.setType(type != null ? type.toString() : "");
-		p.setUserId(author != null ? author.toHexString() : "");
+		p.setUsername(author != null ? author.toHexString() : "");
 		p.setIsPublic(isPublic);
 
 		// used to distinguished post and responses

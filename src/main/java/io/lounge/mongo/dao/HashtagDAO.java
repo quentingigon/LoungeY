@@ -17,10 +17,10 @@ public class HashtagDAO extends BasicDAO<HashtagDO, ObjectId> {
 	}
 
 	public HashtagDO getHashtag(String name) {
-		return findOne(name, false);
+		return findOne("name", name);
 	}
 
-	public boolean addHashtag(HashtagDO hashtag) {
+	public boolean createHashtag(HashtagDO hashtag) {
 		MongoConnection conn = MongoConnection.getInstance();
 		conn.init();
 		DBObject tmp = conn.getMorphia().toDBObject(hashtag);
@@ -47,16 +47,19 @@ public class HashtagDAO extends BasicDAO<HashtagDO, ObjectId> {
 			return getCollection().update(oldHashtag, newHashtag).wasAcknowledged();
 		}
 
-		System.out.println("Cannot update unexisting hashtag");
+		System.out.println("Cannot update un-existing hashtag");
 		return false;
 	}
 
 	// add post to each of the hashtag's list
-	public void addPostToHashtagsLists(PostDO post) {
+	public void addPostIdToHashtagsLists(List<String> hashtags, String postId) {
 
-		for (HashtagDO hash : post.getHashtagsList()) {
-			hash.addToPostsList(post.getId().toHexString());
-			updateHashtag(hash);
+		for (String hashName : hashtags) {
+			if (hashName != null) {
+				HashtagDO realHash = getHashtag(hashName);
+				realHash.addToPostsList(postId);
+				updateHashtag(realHash);
+			}
 		}
 	}
 }

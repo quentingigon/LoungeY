@@ -34,7 +34,20 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 		conn.init();
 		DBObject tmp = conn.getMorphia().toDBObject(post);
 
-		return  getCollection().save(tmp).wasAcknowledged();
+		return getCollection().save(tmp).wasAcknowledged();
+	}
+
+	public String addPost(PostDO newPost, UserDO user) {
+		MongoConnection conn = MongoConnection.getInstance();
+
+		newPost.setDate(dateFormat.format(new Date()));
+		conn.init();
+		DBObject tmp = conn.getMorphia().toDBObject(newPost);
+
+		getCollection().save(tmp).wasAcknowledged();
+
+		// return id of last post of user => newPost
+		return getPostsOfUser(user, 1).get(0).getId().toHexString();
 	}
 
 	public PostDO getPost(ObjectId pId) {
@@ -177,7 +190,7 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 	}
 
 
-	public void fillHashTagsList(PostDO post, List<String> hashtags) {
+	public void fillHashTagsListOfPostDO(PostDO post, List<String> hashtags) {
 		HashtagDAO hashtagDAO = DAOUtils.getHashtagDAO();
 
 		ArrayList<HashtagDO> hashtagsDO = new ArrayList<>();
