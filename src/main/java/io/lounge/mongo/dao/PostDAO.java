@@ -197,10 +197,12 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 
 		// TODO maybe this can be optimized
 		for (String name : hashtags) {
-			if (name != null)
-				hashtagsDO.add(hashtagDAO.getHashtag(name));
+			if (name != null) {
+				HashtagDO hashtagDO = hashtagDAO.getHashtag(name);
+				if (hashtagDO != null)
+					hashtagsDO.add(hashtagDO);
+			}
 		}
-
 		post.setHashtagsList(hashtagsDO);
 	}
 }
