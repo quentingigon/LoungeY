@@ -9,7 +9,6 @@ import java.util.ArrayList;
 @Entity
 public class PostDO extends BasicDO {
 
-
 	private String text;
 	private String date;
 	private String type;

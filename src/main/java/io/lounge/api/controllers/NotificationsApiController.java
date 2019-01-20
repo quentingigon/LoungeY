@@ -49,8 +49,13 @@ public class NotificationsApiController implements NotificationsApi {
 			// return last ten notifs
 			if (!notificationDAO.getLastTenNotificationsOfUser(userDO).isEmpty()) {
 				for (NotificationDO notif : notificationDAO.getLastTenNotificationsOfUser(userDO)) {
-					if (notif != null)
-						notifications.add(notificationDAO.get(notif.getId()).toNotification());
+					if (notif != null) {
+						Notification n = notificationDAO.get(notif.getId()).toNotification();
+						// for security reasons, we do not send te username of the current user
+						n.setToUser("");
+						notifications.add(n);
+					}
+
 				}
 				return new ResponseEntity<List<Notification>>(notifications, HttpStatus.OK);
 			}

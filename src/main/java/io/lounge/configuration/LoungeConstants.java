@@ -9,4 +9,5 @@ public class LoungeConstants {
 	public static final int NBPOSTSPERLOUNGEPAGE = 10;
 	public static final String FRIENDINVITE_NOTIF = " asks to be your friend.";
 	public static final String FRIEND_NOTIF = " are now friends!";
+	public static final String NEWPIC_NOTIF = " changed his/her profile picture!";
 }
