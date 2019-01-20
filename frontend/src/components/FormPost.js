@@ -47,7 +47,10 @@ const FormPost = ({ classes, className, onSubmit }) => {
 
       console.log(event.target.checked);
       console.log(textLabel);
-    setState({ ...state, [name]: event.target.checked, labelText: textLabel });
+    setState({ ...state, 
+        [name]: event.target.checked, 
+        labelText: textLabel,
+        isPublic:event.target.checked });
 
  
   };

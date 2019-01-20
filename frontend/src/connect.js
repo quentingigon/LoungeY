@@ -4,7 +4,7 @@ const cookies = new Cookies();
 const { BACKEND } = require('./config.js'); 
 
 export function queryBackend( jsonBody, responseHandle ) {
-    fetch(BACKEND.login, {
+    fetch(BACKEND.posts, {
         method: "POST",
         mode:"cors",
         credentials: "omit",    // include, *same-origin, omit
@@ -12,6 +12,7 @@ export function queryBackend( jsonBody, responseHandle ) {
         headers: {
           'Authorization': `Bearer ${cookies.get('token')}`,
           'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache'
         },
       
         body: jsonBody

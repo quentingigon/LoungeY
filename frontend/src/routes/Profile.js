@@ -40,12 +40,13 @@ const PageProfile = ({ classes, history }) => {
         date:'',
         username: cookies.get('username'),
         text:values.corpus, 
-        type:values.postType,
+        type:"POST",//values.postType,
         isCorrectAnswer: false, //never when post is new
-        isPublic: values.isPublic,
+        isPublic: false,
         hastags:[
-          "ON","SAMUSE","QUENTIN","CEST_LA_TEUF"
+          "AMT","XOU"
         ]
+        //  "ON","SAMUSE","QUENTIN","CEST_LA_TEUF"
 
       }
     })
