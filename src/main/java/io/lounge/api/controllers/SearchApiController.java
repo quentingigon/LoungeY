@@ -37,7 +37,6 @@ public class SearchApiController implements SearchApi {
     }
 
     public ResponseEntity<List<Post>> searchPosts(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "searchString", required = true) String searchString) {
-        // TODO maybe verify userId ?
 		PostDAO postDAO = DAOUtils.getPostDAO();
 		ArrayList<Post> posts = new ArrayList<>();
 

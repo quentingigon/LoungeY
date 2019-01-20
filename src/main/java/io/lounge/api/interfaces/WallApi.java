@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T12:49:56.829Z")
 
 @Api(value = "wall", description = "the wall API")
@@ -20,10 +22,10 @@ public interface WallApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Wall.class, responseContainer = "List"),
         @ApiResponse(code = 500, message = "Internal server error") })
-    @RequestMapping(value = "/wall/{idUser}",
+    @RequestMapping(value = "/wall/{currentUsername}/",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<Wall> getWall(@ApiParam(value = "", required = true) @PathVariable("currentUsername") String currentUsername,
-                                 @ApiParam(value = "", required = true) @PathVariable("userWatched") String userWatched);
+                                 @ApiParam(value = "", required = true) @RequestParam("userWatched") String userWatched);
 
 }

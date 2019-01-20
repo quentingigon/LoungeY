@@ -26,6 +26,7 @@ public class UserDO extends BasicDO {
 
 	private ArrayList<ObjectId> friendsList;
 	private ArrayList<ObjectId> pendingInviteList;
+	private ArrayList<NotificationDO> notifications;
 
 	public UserDO() {}
 
@@ -41,6 +42,7 @@ public class UserDO extends BasicDO {
 
 		friendsList = new ArrayList<>();
 		pendingInviteList = new ArrayList<>();
+		notifications = new ArrayList<>();
 	}
 
 	public UserDO(String email, String username, String password) {
@@ -52,6 +54,7 @@ public class UserDO extends BasicDO {
 
 		friendsList = new ArrayList<>();
 		pendingInviteList = new ArrayList<>();
+		notifications = new ArrayList<>();
 	}
 
 	public User toUser() {
@@ -71,35 +74,34 @@ public class UserDO extends BasicDO {
 		this.friendsList = friendsList;
 	}
 
-	public void addFriendInvite(UserDO other){
-		if(this.friendsList == null)
-			this.friendsList=new ArrayList<>() ;
-
-		if(!this.friendsList.contains(other.getId()))
-			this.friendsList.add(other.getId()); // TODO je pense qu'il faut l'ajouter a la liste d'amis
-												 // quand l'autre a accepté et pas avant
-
-		if(!isFriendWith(other)){
-			if(other.pendingInviteList == null)
-				other.pendingInviteList = new ArrayList<>();
-			if(!other.pendingInviteList.contains(this.getId()))
-				other.pendingInviteList.add(this.getId());
+	public void addToFriendsList(ObjectId newFriend) {
+		if (friendsList == null) {
+			friendsList = new ArrayList<>();
 		}
-
-		if(this.pendingInviteList != null && this.pendingInviteList.contains(other.getId()))
-			this.pendingInviteList.remove(other.getId());
+		friendsList.add(newFriend);
 	}
 
-	public void removeFriendInvite(UserDO other){
-		if(this.friendsList != null && this.friendsList.contains(other.getId()))
-			this.friendsList.remove(other.getId());
+	public void removeFromFriendList(ObjectId userId) {
+		friendsList.remove(userId);
+	}
 
-		if(other.friendsList != null && other.friendsList.contains(other.getId()))
-			other.friendsList.remove(this.getId());
+	public ArrayList<NotificationDO> getNotifications() {
+		return notifications;
+	}
 
-		if(other.pendingInviteList != null && other.pendingInviteList.contains(this.getId()))
-			other.pendingInviteList.remove(this.getId());
+	public void setNotifications(ArrayList<NotificationDO> notifications) {
+		this.notifications = notifications;
+	}
 
+	public void addNotification(NotificationDO notifId) {
+		if (notifications == null) {
+			notifications = new ArrayList<>();
+		}
+		notifications.add(notifId);
+	}
+
+	public void removeNotification(NotificationDO notifId) {
+		notifications.remove(notifId);
 	}
 
 	public String getEmail() {
@@ -113,7 +115,6 @@ public class UserDO extends BasicDO {
 	public boolean isFriendWith(UserDO other){
 		if(this.friendsList!=null && other.friendsList!=null)
 			return (this.friendsList.contains(other.getId()) && other.friendsList.contains(this.getId()));
-
 		return false;
 	}
 
@@ -179,6 +180,17 @@ public class UserDO extends BasicDO {
 
 	public void setPendingInviteList(ArrayList<ObjectId> pendingInviteList) {
 		this.pendingInviteList = pendingInviteList;
+	}
+
+	public void addToPendingInviteList(ObjectId newInvite) {
+		if (pendingInviteList == null) {
+			pendingInviteList = new ArrayList<>();
+		}
+		pendingInviteList.add(newInvite);
+	}
+
+	public void removeFromPendingInviteList(ObjectId inviteId) {
+		pendingInviteList.remove(inviteId);
 	}
 
 	public String getProfilePic() {

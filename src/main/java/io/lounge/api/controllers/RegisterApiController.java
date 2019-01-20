@@ -3,7 +3,7 @@ package io.lounge.api.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.lounge.api.interfaces.RegisterApi;
 import io.lounge.api.utils.DAOUtils;
-import io.lounge.configuration.HeigConstants;
+import io.lounge.configuration.LoungeConstants;
 import io.lounge.models.NewUser;
 import io.lounge.mongo.dao.UserDAO;
 import io.lounge.mongo.dao.domodels.UserDO;
@@ -53,7 +53,7 @@ public class RegisterApiController implements RegisterApi {
 		if (newUserDO == null
 			&& newUser.getEmail().endsWith("@heig-vd.ch")
 			&& (Integer.valueOf(newUser.getYear()) >= 1 && Integer.valueOf(newUser.getYear()) <= 7)
-			&& HeigConstants.ORIENTATIONS.contains(newUser.getOrientation())) {
+			&& LoungeConstants.ORIENTATIONS.contains(newUser.getOrientation())) {
 
 			// encode password
 			getEncoder();

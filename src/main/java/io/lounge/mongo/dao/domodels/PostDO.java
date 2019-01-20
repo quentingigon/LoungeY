@@ -1,6 +1,5 @@
 package io.lounge.mongo.dao.domodels;
 
-import io.lounge.models.NewPost;
 import io.lounge.models.Post;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
@@ -10,9 +9,10 @@ import java.util.ArrayList;
 @Entity
 public class PostDO extends BasicDO {
 
+
 	private String text;
 	private String date;
-	private PostType type;
+	private String type;
 	private ObjectId author;
 	private boolean isCorrectAnswer;
 	private ObjectId parentId;
@@ -20,54 +20,20 @@ public class PostDO extends BasicDO {
 	private ArrayList<PostDO> responsesList;
 	private ArrayList<HashtagDO> hashtagsList;
 
-	public PostDO() {}
-
-	public PostDO(PostDO postDO) {
-		this.text = postDO.text;
-		this.date = postDO.date;
-		this.type = postDO.type;
-		this.author = postDO.author;
-		this.isCorrectAnswer = postDO.isCorrectAnswer;
-		this.responsesList = postDO.responsesList;
-		this.hashtagsList = postDO.hashtagsList;
-	}
-
-	public PostDO(NewPost newPost) {
-		new PostDO(new PostDO(newPost.getPost()));
-
-	}
-
-	public PostDO(String text, String date, PostType type, ObjectId author) {
+	public PostDO(String text, String date, String type, ObjectId author) {
 		this.setId(new ObjectId());
 
 		this.text = text;
-		this.date = date;
+		this.setDate(date);
 		this.type = type;
 		this.author = author;
 		this.hashtagsList = getHashtagsFromText(text);
 		this.responsesList = new ArrayList<>();
 	}
 
-	public PostDO(Post post) {
-		text = post.getText();
-		date = post.getTimestamp();
-		type = PostType.valueOf(post.getType());
-		author = new ObjectId(post.getUserId());
-		isCorrectAnswer = post.isIsCorrectAnswer();
-
-		responsesList = new ArrayList<>();
-		for (Post resp : post.getResponses()) {
-			if (resp != null)
-				responsesList.add(resp.toPostDO());
-		}
-
-		hashtagsList = new ArrayList<>();
-
-	}
-
-	public PostDO(String text, String date, PostType type, String author, ArrayList<HashtagDO> hashtagsList) {
+	public PostDO(String text, String date, String type, String author, ArrayList<HashtagDO> hashtagsList) {
 		this.text = text;
-		this.date = date;
+		this.setDate(date);
 		this.type = type;
 		this.author = new ObjectId(author);
 		this.hashtagsList = hashtagsList;
@@ -77,7 +43,7 @@ public class PostDO extends BasicDO {
 		Post p = new Post();
 		p.setId(getId().toHexString());
 		p.setText(text);
-		p.setTimestamp(date);
+		p.setDate(date);
 		p.setIsCorrectAnswer(isCorrectAnswer);
 		p.setType(type != null ? type.toString() : "");
 		p.setUserId(author != null ? author.toHexString() : "");
@@ -125,11 +91,11 @@ public class PostDO extends BasicDO {
 		this.date = date;
 	}
 
-	public PostType getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(PostType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 

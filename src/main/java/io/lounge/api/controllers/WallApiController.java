@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -42,7 +43,7 @@ public class WallApiController implements WallApi {
     }
 
     public ResponseEntity<Wall> getWall(@ApiParam(value = "",required=true) @PathVariable("currentUsername") String currentUsername,
-										@ApiParam(value = "", required = true) @PathVariable("userWatched") String userWatched) {
+										@ApiParam(value = "", required = true) @RequestParam("userWatched") String userWatched) {
 		UserDAO userDAO = DAOUtils.getUserDAO();
 		PostDAO postDAO = DAOUtils.getPostDAO();
 
