@@ -95,7 +95,7 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 		Query<PostDO> findQuery = createQuery().field("author").equal(user.getId());
 		findQuery.order("-date");
 
-		int nbQueryResults = (int)findQuery.count();
+		int nbQueryResults = (int) findQuery.count();
 
 		return find(findQuery).asList().subList(0, ((nbPosts <= nbQueryResults)?nbPosts:nbQueryResults));
 	}
