@@ -26,6 +26,7 @@ public class UserDO extends BasicDO {
 
 	private ArrayList<ObjectId> friendsList;
 	private ArrayList<ObjectId> pendingInviteList;
+	private ArrayList<ObjectId> notifications;
 
 	public UserDO() {}
 
@@ -41,6 +42,7 @@ public class UserDO extends BasicDO {
 
 		friendsList = new ArrayList<>();
 		pendingInviteList = new ArrayList<>();
+		notifications = new ArrayList<>();
 	}
 
 	public UserDO(String email, String username, String password) {
@@ -52,6 +54,7 @@ public class UserDO extends BasicDO {
 
 		friendsList = new ArrayList<>();
 		pendingInviteList = new ArrayList<>();
+		notifications = new ArrayList<>();
 	}
 
 	public User toUser() {
@@ -80,6 +83,25 @@ public class UserDO extends BasicDO {
 
 	public void removeFromFriendList(ObjectId userId) {
 		friendsList.remove(userId);
+	}
+
+	public ArrayList<ObjectId> getNotifications() {
+		return notifications;
+	}
+
+	public void setNotifications(ArrayList<ObjectId> notifications) {
+		this.notifications = notifications;
+	}
+
+	public void addNotification(ObjectId notifId) {
+		if (notifications == null) {
+			notifications = new ArrayList<>();
+		}
+		notifications.add(notifId);
+	}
+
+	public void removeNotification(ObjectId notifId) {
+		notifications.remove(notifId);
 	}
 
 	public String getEmail() {

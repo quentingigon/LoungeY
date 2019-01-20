@@ -3,7 +3,6 @@ package io.lounge.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.lounge.mongo.dao.domodels.HashtagDO;
 import io.lounge.mongo.dao.domodels.PostDO;
-import io.lounge.mongo.dao.domodels.PostType;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 
@@ -270,7 +269,7 @@ public class Post   {
   }
 
   public PostDO toPostDO() {
-  	PostDO postDO = new PostDO(text, date.toString(), PostType.valueOf(type), userId, new ArrayList<HashtagDO>());
+  	PostDO postDO = new PostDO(text, date.toString(), type, userId, new ArrayList<HashtagDO>());
 
   	ArrayList<PostDO> responsesDO = new ArrayList<>();
   	if (responses != null) {

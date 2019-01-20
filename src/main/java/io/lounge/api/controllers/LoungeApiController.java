@@ -68,10 +68,10 @@ public class LoungeApiController implements LoungeApi {
 		if (user != null) {
 
 			List<Post> posts = new ArrayList<>();
-			List<PostDO> allPostsDO = postDAO.getLoungeFeed(NBPOSTSPERLOUNGEPAGE);
+			List<PostDO> lastPostsDO = postDAO.getLoungeFeed(NBPOSTSPERLOUNGEPAGE);
 
-			if (allPostsDO != null) {
-				for (PostDO postDO : allPostsDO) {
+			if (lastPostsDO != null) {
+				for (PostDO postDO : lastPostsDO) {
 					if (postDO != null) {
 						posts.add(postDO.toPost());
 					}

@@ -3,6 +3,8 @@ package io.lounge.mongo.dao;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import io.lounge.mongo.dao.domodels.NotificationDO;
+import io.lounge.mongo.dao.domodels.NotificationType;
 import io.lounge.mongo.dao.domodels.UserDO;
 import io.lounge.mongo.dao.utils.MongoConnection;
 import org.bson.types.ObjectId;
@@ -13,6 +15,9 @@ import org.mongodb.morphia.query.Query;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import static io.lounge.configuration.LoungeConstants.FRIENDINVITE_NOTIF;
+import static io.lounge.configuration.LoungeConstants.FRIEND_NOTIF;
 
 public class UserDAO extends BasicDAO<UserDO, ObjectId> {
 
@@ -132,12 +137,20 @@ public class UserDAO extends BasicDAO<UserDO, ObjectId> {
 			current.addToFriendsList(newFriendId);
 			newFriend.addToFriendsList(currentId);
 			newFriend.removeFromPendingInviteList(currentId);
+			// add a notification to both users to inform them they are now friends
+			current.addNotification(new NotificationDO(FRIEND_NOTIF, newFriend.getUsername(),
+				String.valueOf(NotificationType.NEWFRIEND)).getId());
+			newFriend.addNotification(new NotificationDO(FRIEND_NOTIF, current.getUsername(),
+				String.valueOf(NotificationType.NEWFRIEND)).getId());
 			updateUser(current);
 			updateUser(newFriend);
 		}
 		else {
 			// add user to pending invites
 			current.addToPendingInviteList(newFriend.getId());
+			// add notification of new friend invite
+			current.addNotification(new NotificationDO(FRIENDINVITE_NOTIF, newFriend.getUsername(),
+				String.valueOf(NotificationType.FRIENDINVITE)).getId());
 			updateUser(current);
 		}
 	}

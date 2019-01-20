@@ -12,7 +12,7 @@ public class PostDO extends BasicDO {
 
 	private String text;
 	private String date;
-	private PostType type;
+	private String type;
 	private ObjectId author;
 	private boolean isCorrectAnswer;
 	private ObjectId parentId;
@@ -20,7 +20,7 @@ public class PostDO extends BasicDO {
 	private ArrayList<PostDO> responsesList;
 	private ArrayList<HashtagDO> hashtagsList;
 
-	public PostDO(String text, String date, PostType type, ObjectId author) {
+	public PostDO(String text, String date, String type, ObjectId author) {
 		this.setId(new ObjectId());
 
 		this.text = text;
@@ -31,7 +31,7 @@ public class PostDO extends BasicDO {
 		this.responsesList = new ArrayList<>();
 	}
 
-	public PostDO(String text, String date, PostType type, String author, ArrayList<HashtagDO> hashtagsList) {
+	public PostDO(String text, String date, String type, String author, ArrayList<HashtagDO> hashtagsList) {
 		this.text = text;
 		this.setDate(date);
 		this.type = type;
@@ -91,11 +91,11 @@ public class PostDO extends BasicDO {
 		this.date = date;
 	}
 
-	public PostType getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(PostType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 

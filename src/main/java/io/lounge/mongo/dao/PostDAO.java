@@ -66,8 +66,8 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 	public boolean addComment(PostDO comment, PostDO parent) {
 
 		if(comment.getAuthor()!=null){
-			if(comment.getType() != PostType.COMMENT)
-				comment.setType(PostType.COMMENT);
+			if(!comment.getType().equals(String.valueOf(PostType.COMMENT)))
+				comment.setType(String.valueOf(PostType.COMMENT));
 			comment.setDate( dateFormat.format(new Date()));
 			parent.addComment(comment);
 			return  updatePost(parent);
