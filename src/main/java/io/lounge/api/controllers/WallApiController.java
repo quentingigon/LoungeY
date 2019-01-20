@@ -3,9 +3,11 @@ package io.lounge.api.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.lounge.api.interfaces.WallApi;
 import io.lounge.api.utils.DAOUtils;
+import io.lounge.models.Post;
 import io.lounge.models.Wall;
 import io.lounge.mongo.dao.PostDAO;
 import io.lounge.mongo.dao.UserDAO;
+import io.lounge.mongo.dao.domodels.PostDO;
 import io.lounge.mongo.dao.domodels.UserDO;
 import io.lounge.services.FileStorageService;
 import io.swagger.annotations.ApiParam;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T12:49:56.829Z")
 
@@ -56,10 +59,6 @@ public class WallApiController implements WallApi {
 			userWall.setUsername(userWatchedDO.getUsername());
 			userWall.setName("name");
 
-			// add first post TODO change
-			if (postDAO.getPostsOfUser(userWatchedDO) != null)
-				userWall.addPostsItem(postDAO.getPostsOfUser(userWatchedDO).get(0).toPost());
-
 			// profile pic URL
 			Resource profilePicResource = null;
 			try {
@@ -94,21 +93,36 @@ public class WallApiController implements WallApi {
 				}
 			}
 
+			ArrayList<Post> posts = new ArrayList<>();
+
 			// check if users are friends to limit info sent if they are not
 			if (userDAO.areFriends(currentUsername, userWatched)) {
 				userWall.setYearOfStudy(userWatchedDO.getYearOfStudy());
 				userWall.setFavBeer(userWatchedDO.getFavBeer());
 				userWall.setDjRank(userWatchedDO.getDjRank());
 				userWall.setOrientation(userWatchedDO.getOrientation());
+
+				// search through all user's posts
+				for (PostDO postDO : postDAO.getPostsOfUser(userWatchedDO, 10)) {
+					if (postDO != null) {
+						posts.add(postDO.toPost());
+					}
+				}
 			}
+			else {
+				// fill displayed posts with public posts of user
+				for (PostDO postDO : postDAO.getPublicPostsOfUser(userWatchedDO, 10)) {
+					if (postDO != null) {
+						posts.add(postDO.toPost());
+					}
+				}
+			}
+			userWall.setPosts(posts);
 
 			return new ResponseEntity<Wall>(userWall, HttpStatus.OK);
 		}
 		else {
 			return new ResponseEntity<Wall>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-
     }
-
 }

@@ -46,16 +46,17 @@ public class NotificationsApiController implements NotificationsApi {
 
 			ArrayList<Notification> notifications = new ArrayList<>();
 
-			if (!userDO.getNotifications().isEmpty()) {
-				for (NotificationDO notif : userDO.getNotifications()) {
-					if (notif != null)
-						notifications.add(notificationDAO.get(notif.getId()).toNotification());
-				}
-				// TODO maybe its a bad plan
-				// when we gave notifs, they are not new anymore so we delete them
-				userDO.setNotifications(new ArrayList<>());
-				userDAO.updateUser(userDO);
+			// return last ten notifs
+			if (!notificationDAO.getLastTenNotificationsOfUser(userDO).isEmpty()) {
+				for (NotificationDO notif : notificationDAO.getLastTenNotificationsOfUser(userDO)) {
+					if (notif != null) {
+						Notification n = notificationDAO.get(notif.getId()).toNotification();
+						// for security reasons, we do not send te username of the current user
+						n.setToUser("");
+						notifications.add(n);
+					}
 
+				}
 				return new ResponseEntity<List<Notification>>(notifications, HttpStatus.OK);
 			}
 			else {

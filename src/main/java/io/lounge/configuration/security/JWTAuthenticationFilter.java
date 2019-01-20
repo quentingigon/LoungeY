@@ -60,5 +60,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			.sign(HMAC512(SECRET.getBytes()));
 		res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
 		res.addHeader("Access-Control-Allow-Credentials", "true");
+		res.addHeader("Content-Language", token);
+
 	}
 }

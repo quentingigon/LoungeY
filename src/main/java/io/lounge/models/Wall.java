@@ -43,8 +43,6 @@ public class Wall   {
   @JsonProperty("coverURL")
   private String coverURL = null;
 
-
-
   @JsonProperty("posts")
   @Valid
   private List<Post> posts = null;
