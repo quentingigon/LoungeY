@@ -3,9 +3,9 @@ package io.lounge.mongo;
 import com.mongodb.DBObject;
 import io.lounge.mongo.dao.utils.MongoConnection;
 import io.lounge.mongo.dao.PostDAO;
-import io.lounge.mongo.dao.domodels.PostDO;
-import io.lounge.mongo.dao.domodels.PostType;
-import io.lounge.mongo.dao.domodels.UserDO;
+import io.lounge.mongo.dao.entities.PostDO;
+import io.lounge.mongo.dao.entities.PostType;
+import io.lounge.mongo.dao.entities.UserDO;
 
 import io.lounge.mongo.dao.UserDAO;
 

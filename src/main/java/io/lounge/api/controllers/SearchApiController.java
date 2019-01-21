@@ -5,7 +5,7 @@ import io.lounge.api.interfaces.SearchApi;
 import io.lounge.api.utils.DAOUtils;
 import io.lounge.models.Post;
 import io.lounge.mongo.dao.PostDAO;
-import io.lounge.mongo.dao.domodels.PostDO;
+import io.lounge.mongo.dao.entities.PostDO;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

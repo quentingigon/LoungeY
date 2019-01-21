@@ -1,7 +1,7 @@
 package io.lounge.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.lounge.mongo.dao.domodels.NotificationDO;
+import io.lounge.mongo.dao.entities.NotificationDO;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 

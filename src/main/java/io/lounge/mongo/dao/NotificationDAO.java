@@ -1,9 +1,9 @@
 package io.lounge.mongo.dao;
 
 import com.mongodb.DBObject;
-import io.lounge.mongo.dao.domodels.NotificationDO;
-import io.lounge.mongo.dao.domodels.NotificationType;
-import io.lounge.mongo.dao.domodels.UserDO;
+import io.lounge.mongo.dao.entities.NotificationDO;
+import io.lounge.mongo.dao.entities.NotificationType;
+import io.lounge.mongo.dao.entities.UserDO;
 import io.lounge.mongo.dao.utils.MongoConnection;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;

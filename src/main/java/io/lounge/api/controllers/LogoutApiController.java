@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.lounge.api.interfaces.LogoutApi;
 import io.lounge.api.utils.DAOUtils;
 import io.lounge.mongo.dao.BlackListDAO;
-import io.lounge.mongo.dao.domodels.BlackListDO;
+import io.lounge.mongo.dao.entities.BlackListDO;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,8 +1,8 @@
 package io.lounge.mongo.dao;
 
 import com.mongodb.DBObject;
-import io.lounge.mongo.dao.domodels.HashtagDO;
-import io.lounge.mongo.dao.domodels.PostDO;
+import io.lounge.mongo.dao.entities.HashtagDO;
+import io.lounge.mongo.dao.entities.PostDO;
 import io.lounge.mongo.dao.utils.MongoConnection;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;

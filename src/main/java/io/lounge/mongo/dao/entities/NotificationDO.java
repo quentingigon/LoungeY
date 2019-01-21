@@ -1,4 +1,4 @@
-package io.lounge.mongo.dao.domodels;
+package io.lounge.mongo.dao.entities;
 
 import io.lounge.models.Notification;
 
