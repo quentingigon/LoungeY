@@ -38,6 +38,14 @@ public class FileController implements FileApi {
 
 		if (userDO != null) {
 
+			String fileName;
+			try {
+				fileName = fileStorageService.storeFile(file);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+
 			if (file.getOriginalFilename().endsWith("_pic")) {
 				// send notifs to friends
 				for (ObjectId friendId : userDO.getFriendsList()) {
@@ -48,18 +56,13 @@ public class FileController implements FileApi {
 						userDAO.getUser(friendId).addNotification(newNotifDO);
 					}
 				}
-			}
-
-			String fileName;
-			try {
-				fileName = fileStorageService.storeFile(file);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+				// update picture link in model
+				userDO.setProfilePic(fileName);
+				userDAO.updateUser(userDO);
 			}
 
 			String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/downloadFile/")
+				.path("/upload")
 				.path(fileName)
 				.toUriString();
 

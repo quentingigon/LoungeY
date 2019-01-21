@@ -57,7 +57,7 @@ public class WallApiController implements WallApi {
 			// TODO add all wanted info
 			Wall userWall = new Wall();
 			userWall.setUsername(userWatchedDO.getUsername());
-			userWall.setName("name");
+			userWall.setName(userWatchedDO.getName());
 
 			// profile pic URL
 			Resource profilePicResource = null;

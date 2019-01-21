@@ -57,7 +57,7 @@ public class LoginApiController implements LoginApi {
 
 				// as user just got a new token, we remove the user from the blacklist
 				// blackListDAO.removeFromBlackList(user.getUsername());
-				// TODO not working. not essential but would be good
+				// TODO not working. not essential but would be good to have
 
 				LoginInfo loginInfo = new LoginInfo();
 				loginInfo.setUsername(userDO.getUsername());
