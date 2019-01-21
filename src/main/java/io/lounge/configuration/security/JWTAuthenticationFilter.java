@@ -2,7 +2,7 @@ package io.lounge.configuration.security;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.lounge.mongo.dao.domodels.UserDO;
+import io.lounge.mongo.dao.entities.UserDO;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -60,5 +60,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			.sign(HMAC512(SECRET.getBytes()));
 		res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
 		res.addHeader("Access-Control-Allow-Credentials", "true");
+		res.addHeader("Content-Language", token);
+
 	}
 }

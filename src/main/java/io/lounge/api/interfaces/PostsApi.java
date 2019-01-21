@@ -10,10 +10,7 @@ import io.lounge.models.NewPost;
 import io.lounge.models.Post;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -36,7 +33,7 @@ public interface PostsApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Post.class),
         @ApiResponse(code = 500, message = "Internal server error") })
-    @RequestMapping(value = "/posts/get/{postId}",
+    @RequestMapping(value = "/posts/post/{postId}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<Post> getPost(@ApiParam(value = "", required = true) @PathVariable("postId") String postId);
@@ -46,10 +43,10 @@ public interface PostsApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Post.class, responseContainer = "List"),
         @ApiResponse(code = 500, message = "Internal server error") })
-    @RequestMapping(value = "/posts/getall/{userId}",
+    @RequestMapping(value = "/posts/{username}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Post>> getUserPosts(@ApiParam(value = "", required = true) @PathVariable("username") String username);
+    ResponseEntity<List<Post>> getUserPosts(@ApiParam(value = "", required = true) @PathVariable("username") String username, @ApiParam(value = "number of posts to return", required = true) @RequestParam("number") int number);
 
 
     @ApiOperation(value = "Add post of user", nickname = "post", notes = "Allow a user to post a post (ahah)", response = Boolean.class, tags={ "posts", })

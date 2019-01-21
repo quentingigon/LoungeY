@@ -29,9 +29,7 @@ const Layout = ({ classes, children, aside }) => (
   <div className={classes.root}>
     <AppBar />
     <main className={classes.wrapper}>
-      <aside className={classes.aside}>
-        {aside}
-      </aside>
+   
       <div className={classes.main}>
         {children}
       </div>

@@ -2,6 +2,9 @@ package io.lounge.filters;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import io.lounge.api.utils.DAOUtils;
+import io.lounge.mongo.dao.BlackListDAO;
+import io.lounge.mongo.dao.entities.BlackListDO;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,11 +31,28 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 									FilterChain chain) throws IOException, ServletException {
 		String header = req.getHeader(HEADER_STRING);
 
-		if (header == null || !header.startsWith(TOKEN_PREFIX)) {
+		BlackListDAO blackListDAO = DAOUtils.getBlackListDAO();
+		// blacklist init, not clean to do it there, need a script
+		if (blackListDAO.getBlackList() == null) {
+			blackListDAO.createBlackList();
+		}
+		BlackListDO blackListDO = blackListDAO.getBlackList();
+
+		String username = req.getHeader("userLogout");
+		// check if request is for logout and if so add the token of the user to the blacklist
+		// and block the request
+		if (username != null) {
+			blackListDO.addToBlackList(username, header);
+			blackListDAO.update(blackListDO);
+
 			chain.doFilter(req, res);
 			return;
 		}
-
+		// the token of the request is blacklisted
+		if (header == null || !header.startsWith(TOKEN_PREFIX) || blackListDO.getBlacklist().containsValue(header)) {
+			chain.doFilter(req, res);
+			return;
+		}
 		UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);

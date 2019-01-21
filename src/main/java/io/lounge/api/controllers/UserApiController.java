@@ -5,7 +5,7 @@ import io.lounge.api.interfaces.UserApi;
 import io.lounge.api.utils.DAOUtils;
 import io.lounge.models.User;
 import io.lounge.mongo.dao.UserDAO;
-import io.lounge.mongo.dao.domodels.UserDO;
+import io.lounge.mongo.dao.entities.UserDO;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

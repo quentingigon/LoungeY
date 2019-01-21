@@ -22,27 +22,27 @@ public interface LoungeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Post.class, responseContainer = "List"),
         @ApiResponse(code = 500, message = "Internal server error") })
-    @RequestMapping(value = "/lounge/friends/{idUser}",
+    @RequestMapping(value = "/lounge/friends/{username}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<List<Post>> getFriendsPosts(@ApiParam(value = "", required = true) @PathVariable("username") String username);
 
 
-    @ApiOperation(value = "Get all public posts of user", nickname = "getLounge", notes = "Get all the posts of the Lounge of the user", response = Post.class, responseContainer = "List", tags={ "lounge", })
+    @ApiOperation(value = "Get all public posts of user", nickname = "getLoungeFeed", notes = "Get all the posts of the Lounge of the user", response = Post.class, responseContainer = "List", tags={ "lounge", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Post.class, responseContainer = "List"),
         @ApiResponse(code = 500, message = "Internal server error") })
-    @RequestMapping(value = "/lounge/{idUser}",
+    @RequestMapping(value = "/lounge/{username}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Post>> getLounge(@ApiParam(value = "", required = true) @PathVariable("username") String username);
+    ResponseEntity<List<Post>> getLoungeFeed(@ApiParam(value = "", required = true) @PathVariable("username") String username);
 
 
     @ApiOperation(value = "Get all public questions of user", nickname = "getLoungeQuestions", notes = "Get all the public questions of the Lounge of the user", response = Post.class, responseContainer = "List", tags={ "lounge", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Post.class, responseContainer = "List"),
         @ApiResponse(code = 500, message = "Internal server error") })
-    @RequestMapping(value = "/lounge/questions/{idUser}",
+    @RequestMapping(value = "/lounge/questions/{username}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<List<Post>> getLoungeQuestions(@ApiParam(value = "", required = true) @PathVariable("username") String username);

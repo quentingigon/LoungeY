@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Api(value = "users", description = "the users API")
 public interface UserApi {
 
-    @ApiOperation(value = "Get user", nickname = "getUser", notes = "Returns user info", response = User.class, tags={ "users", })
+    @ApiOperation(value = "Get user", nickname = "getFromUser", notes = "Returns user info", response = User.class, tags={ "users", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = User.class),
         @ApiResponse(code = 500, message = "Internal server error") })

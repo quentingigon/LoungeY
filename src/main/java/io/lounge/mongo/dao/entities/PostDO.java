@@ -1,49 +1,28 @@
-package io.lounge.mongo.dao.domodels;
+package io.lounge.mongo.dao.entities;
 
-import io.lounge.models.NewPost;
 import io.lounge.models.Post;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 @Entity
 public class PostDO extends BasicDO {
 
-
-	public static DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	private String text;
-	private Date date;
-	private PostType type;
+	private String date;
+	private String type;
 	private ObjectId author;
 	private boolean isCorrectAnswer;
+	private boolean isPublic;
 	private ObjectId parentId;
 
 	private ArrayList<PostDO> responsesList;
 	private ArrayList<HashtagDO> hashtagsList;
 
-
 	public PostDO() {}
 
-	public PostDO(PostDO postDO) {
-		this.text = postDO.text;
-		this.date = postDO.date;
-		this.type = postDO.type;
-		this.author = postDO.author;
-		this.isCorrectAnswer = postDO.isCorrectAnswer;
-		this.responsesList = postDO.responsesList;
-		this.hashtagsList = postDO.hashtagsList;
-	}
-
-	public PostDO(NewPost newPost) {
-		new PostDO(new PostDO(newPost.getPost()));
-
-	}
-
-	public PostDO(String text, String date, PostType type, ObjectId author) {
+	public PostDO(String text, String date, String type, ObjectId author) {
 		this.setId(new ObjectId());
 
 		this.text = text;
@@ -54,31 +33,12 @@ public class PostDO extends BasicDO {
 		this.responsesList = new ArrayList<>();
 	}
 
-	public PostDO(Post post) {
-		text = post.getText();
-		try {
-			date = dateFormat.parse(post.getTimestamp());
-		} catch( java.text.ParseException e){}
-
-		type = PostType.valueOf(post.getType());
-		author = new ObjectId(post.getUserId());
-		isCorrectAnswer = post.isIsCorrectAnswer();
-
-		responsesList = new ArrayList<>();
-		for (Post resp : post.getResponses()) {
-			if (resp != null)
-				responsesList.add(resp.toPostDO());
-		}
-
-		hashtagsList = new ArrayList<>();
-
-	}
-
-	public PostDO(String text, String date, PostType type, String author, ArrayList<HashtagDO> hashtagsList) {
+	public PostDO(String text, String date, String type, String author, boolean isPublic, ArrayList<HashtagDO> hashtagsList) {
 		this.text = text;
 		this.setDate(date);
 		this.type = type;
 		this.author = new ObjectId(author);
+		this.isPublic = isPublic;
 		this.hashtagsList = hashtagsList;
 	}
 
@@ -86,10 +46,11 @@ public class PostDO extends BasicDO {
 		Post p = new Post();
 		p.setId(getId().toHexString());
 		p.setText(text);
-		p.setTimestamp(dateFormat.format(date));
+		p.setDate(date);
 		p.setIsCorrectAnswer(isCorrectAnswer);
 		p.setType(type != null ? type.toString() : "");
-		p.setUserId(author != null ? author.toHexString() : "");
+		p.setUsername(author != null ? author.toHexString() : "");
+		p.setIsPublic(isPublic);
 
 		// used to distinguished post and responses
 		if (responsesList != null && !responsesList.isEmpty()) {
@@ -127,20 +88,18 @@ public class PostDO extends BasicDO {
 	}
 
 	public String getDate() {
-		return dateFormat.format(date);
+		return date;
 	}
 
 	public void setDate(String date) {
-		try {
-			this.date = dateFormat.parse(date);
-		} catch( java.text.ParseException e){}
+		this.date = date;
 	}
 
-	public PostType getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(PostType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
@@ -158,6 +117,14 @@ public class PostDO extends BasicDO {
 
 	public void setCorrectAnswer(boolean correctAnswer) {
 		isCorrectAnswer = correctAnswer;
+	}
+
+	public boolean isPublic() {
+		return isPublic;
+	}
+
+	public void setPublic(boolean aPublic) {
+		isPublic = aPublic;
 	}
 
 	public ArrayList<PostDO> getResponsesList() {

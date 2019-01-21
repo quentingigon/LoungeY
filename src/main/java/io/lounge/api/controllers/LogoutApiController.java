@@ -2,16 +2,18 @@ package io.lounge.api.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.lounge.api.interfaces.LogoutApi;
+import io.lounge.api.utils.DAOUtils;
+import io.lounge.mongo.dao.BlackListDAO;
+import io.lounge.mongo.dao.entities.BlackListDO;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T12:49:56.829Z")
 
@@ -30,10 +32,19 @@ public class LogoutApiController implements LogoutApi {
         this.request = request;
     }
 
-    public ResponseEntity<Boolean> logout(@ApiParam(value = "The id of user to log out" ,required=true )  @Valid @RequestBody String username) {
+    public ResponseEntity<Boolean> logout(@ApiParam(value = "The username of user to log out" ,required=true )  @RequestParam String userLogout) {
 
-		// TODO logout
-    	return new ResponseEntity<Boolean>(false, HttpStatus.NOT_IMPLEMENTED);
+        BlackListDAO blackListDAO = DAOUtils.getBlackListDAO();
+
+		BlackListDO blackList = blackListDAO.getBlackList();
+
+		if (blackList != null) {
+			// add token to blacklist, so users who want to login again have
+			// to ask for a new token
+			blackList.addToBlackList(userLogout, request.getHeader("Authorization"));
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		}
+    	return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

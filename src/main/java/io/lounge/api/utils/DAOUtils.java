@@ -1,9 +1,7 @@
 package io.lounge.api.utils;
 
-import io.lounge.mongo.dao.HashtagDAO;
+import io.lounge.mongo.dao.*;
 import io.lounge.mongo.dao.utils.MongoConnection;
-import io.lounge.mongo.dao.PostDAO;
-import io.lounge.mongo.dao.UserDAO;
 
 public class DAOUtils {
 
@@ -23,5 +21,17 @@ public class DAOUtils {
 		MongoConnection conn = MongoConnection.getInstance();
 		conn.init();
 		return new HashtagDAO(conn.getDatastore());
+	}
+
+	public static NotificationDAO getNotificationDAO() {
+		MongoConnection conn = MongoConnection.getInstance();
+		conn.init();
+		return new NotificationDAO(conn.getDatastore());
+	}
+
+	public static BlackListDAO getBlackListDAO() {
+		MongoConnection conn = MongoConnection.getInstance();
+		conn.init();
+		return new BlackListDAO(conn.getDatastore());
 	}
 }

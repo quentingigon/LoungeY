@@ -2,10 +2,10 @@ package io.lounge.mongo.dao;
 
 import com.mongodb.DBObject;
 import io.lounge.api.utils.DAOUtils;
-import io.lounge.mongo.dao.domodels.HashtagDO;
-import io.lounge.mongo.dao.domodels.PostDO;
-import io.lounge.mongo.dao.domodels.PostType;
-import io.lounge.mongo.dao.domodels.UserDO;
+import io.lounge.mongo.dao.entities.HashtagDO;
+import io.lounge.mongo.dao.entities.PostDO;
+import io.lounge.mongo.dao.entities.PostType;
+import io.lounge.mongo.dao.entities.UserDO;
 import io.lounge.mongo.dao.utils.MongoConnection;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
@@ -17,7 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 
@@ -35,7 +34,20 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 		conn.init();
 		DBObject tmp = conn.getMorphia().toDBObject(post);
 
-		return  getCollection().save(tmp).wasAcknowledged();
+		return getCollection().save(tmp).wasAcknowledged();
+	}
+
+	public String addPost(PostDO newPost, UserDO user) {
+		MongoConnection conn = MongoConnection.getInstance();
+
+		newPost.setDate(dateFormat.format(new Date()));
+		conn.init();
+		DBObject tmp = conn.getMorphia().toDBObject(newPost);
+
+		getCollection().save(tmp).wasAcknowledged();
+
+		// return id of last post of user => newPost
+		return getPostsOfUser(user, 1).get(0).getId().toHexString();
 	}
 
 	public PostDO getPost(ObjectId pId) {
@@ -67,8 +79,8 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 	public boolean addComment(PostDO comment, PostDO parent) {
 
 		if(comment.getAuthor()!=null){
-			if(comment.getType() != PostType.COMMENT)
-				comment.setType(PostType.COMMENT);
+			if(!comment.getType().equals(String.valueOf(PostType.COMMENT)))
+				comment.setType(String.valueOf(PostType.COMMENT));
 			comment.setDate( dateFormat.format(new Date()));
 			parent.addComment(comment);
 			return  updatePost(parent);
@@ -85,6 +97,15 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 		return false;
 	}
 
+	public List<PostDO> getPublicPostsOfUser(UserDO user, int nbPosts) {
+		Query<PostDO> findQuery = createQuery()
+			.field("author").equal(user.getId())
+			.field("isPublic").equal(true);
+
+		int nbQueryResults = (int) findQuery.count();
+
+		return find(findQuery).asList().subList(0, ((nbPosts <= nbQueryResults) ? nbPosts : nbQueryResults));
+	}
 
 	public List<PostDO> getPostsOfUser(UserDO user) {
 		Query<PostDO> findQuery = createQuery().field("author").equal(user.getId());
@@ -96,7 +117,16 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 		Query<PostDO> findQuery = createQuery().field("author").equal(user.getId());
 		findQuery.order("-date");
 
-		int nbQueryResults = (int)findQuery.count();
+		int nbQueryResults = (int) findQuery.count();
+
+		return find(findQuery).asList().subList(0, ((nbPosts <= nbQueryResults)?nbPosts:nbQueryResults));
+	}
+
+	public List<PostDO> getLoungeFeed(int nbPosts) {
+		Query<PostDO> findQuery = createQuery().field("_id").exists();
+		findQuery.order("-date");
+
+		int nbQueryResults = (int) findQuery.count();
 
 		return find(findQuery).asList().subList(0, ((nbPosts <= nbQueryResults)?nbPosts:nbQueryResults));
 	}
@@ -141,11 +171,6 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 		return postsUser;
 	}
 
-	public List<PostDO> getLoungeFeed(UserDO user) {
-		// TODO
-		return null;
-	}
-
 	public List<PostDO> getLoungeFeedQuestionsOnly(UserDO user) {
 
 		List<PostDO> postsUserQuestions = new ArrayList();
@@ -165,16 +190,19 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 	}
 
 
-	public void fillHashTagsList(PostDO post, List<String> hashtags) {
+	public void fillHashTagsListOfPostDO(PostDO post, List<String> hashtags) {
 		HashtagDAO hashtagDAO = DAOUtils.getHashtagDAO();
 
 		ArrayList<HashtagDO> hashtagsDO = new ArrayList<>();
 
 		// TODO maybe this can be optimized
 		for (String name : hashtags) {
-			hashtagsDO.add(hashtagDAO.getHashtag(name));
+			if (name != null) {
+				HashtagDO hashtagDO = hashtagDAO.getHashtag(name);
+				if (hashtagDO != null)
+					hashtagsDO.add(hashtagDO);
+			}
 		}
-
 		post.setHashtagsList(hashtagsDO);
 	}
 }

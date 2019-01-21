@@ -3,9 +3,9 @@ package io.lounge.mongo;
 import com.mongodb.DBObject;
 import io.lounge.mongo.dao.utils.MongoConnection;
 import io.lounge.mongo.dao.PostDAO;
-import io.lounge.mongo.dao.domodels.PostDO;
-import io.lounge.mongo.dao.domodels.PostType;
-import io.lounge.mongo.dao.domodels.UserDO;
+import io.lounge.mongo.dao.entities.PostDO;
+import io.lounge.mongo.dao.entities.PostType;
+import io.lounge.mongo.dao.entities.UserDO;
 
 import io.lounge.mongo.dao.UserDAO;
 
@@ -38,15 +38,15 @@ public class Main {
 		userDAO.addUser(robin);
 		userDAO.addUser(quatre);
 
-		PostDO p = new PostDO("Hello", "", PostType.POST, robin.getId());
+		PostDO p = new PostDO("Hello", "", String.valueOf(PostType.POST), robin.getId());
 
 		pDAO.addPost(p);
 
-		p.addComment(new PostDO("wORLD", dateFormat.format(new Date()), PostType.COMMENT, robin.getId()));
+		p.addComment(new PostDO("wORLD", dateFormat.format(new Date()), String.valueOf(PostType.COMMENT), robin.getId()));
 
-		pDAO.addComment(new PostDO("World", "16/01/19", PostType.COMMENT, robin.getId()), p);
+		pDAO.addComment(new PostDO("World", "16/01/19", String.valueOf(PostType.COMMENT), robin.getId()), p);
 
-		PostDO commToDel = new PostDO("To REMOVE", "16/01/19", PostType.COMMENT, robin.getId());
+		PostDO commToDel = new PostDO("To REMOVE", "16/01/19", String.valueOf(PostType.COMMENT), robin.getId());
 		pDAO.addComment(commToDel, p);
 
 
@@ -61,10 +61,10 @@ public class Main {
 
 		System.out.println("Password : " + userDAO.getUser(user.getUsername()).getPassword());
 
-		userDAO.followGuy("test", "Robin");
-		userDAO.followGuy("Robin", "test");
-		userDAO.addFriend("test", "testy");
-		userDAO.followGuy("test", "quatre");
+		userDAO.sendFriendInvite("test", "Robin");
+		userDAO.sendFriendInvite("Robin", "test");
+		//userDAO.addFriend("test", "testy");
+		userDAO.sendFriendInvite("test", "quatre");
 
 		System.out.println("Changed test pwd to test2 : " +  userDAO.getUser(user.getUsername()).getPassword());
 

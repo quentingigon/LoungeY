@@ -6,7 +6,8 @@ let BACKEND = {
     login  : `${URL}/login`, 
     logout : `${URL}/logout`, 
     lounge : `${URL}/lounge`,
-    register : `${URL}/register`
+    register : `${URL}/register`,
+    posts : `${URL}/posts`
 }
 
 module.exports = {

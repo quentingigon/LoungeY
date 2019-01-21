@@ -6,7 +6,12 @@ import Grid from '@material-ui/core/Grid';
 import AppBar from '../components/AppBar';
 import ProfileHeader from '../components/ProfileHeader';
 import PostCard from '../components/PostCard';
+import FormPost from '../components/FormPost';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
+
+const { queryBackend } = require('../connect.js');
 const styles = theme => ({
   root: {},
   main: {
@@ -20,7 +25,36 @@ const styles = theme => ({
   }
 });
 
-const PageProfile = ({ classes }) => (
+console.log(`logt ${window.location.href}`);
+let i = 0;
+
+const PageProfile = ({ classes, history }) => {
+
+  const handleSubmit = (values) => {
+    console.log('submitting post', values);
+ //   history.push('/profile');
+    console.log(values);
+    let jsonBody = JSON.stringify({
+      username: cookies.get('username'),
+      post: {
+        date:'',
+        username: cookies.get('username'),
+        text:values.corpus, 
+        type:"POST",//values.postType,
+        isCorrectAnswer: false, //never when post is new
+        isPublic: false,
+        hastags:[
+          "AMT","XOU"
+        ]
+        //  "ON","SAMUSE","QUENTIN","CEST_LA_TEUF"
+
+      }
+    })
+    queryBackend(jsonBody, (response)=>{
+        
+    });
+  }
+  return (
   <div className={classes.root}>
     <AppBar />
     <div className={classes.main}>
@@ -38,6 +72,13 @@ const PageProfile = ({ classes }) => (
       />
 
       <Grid container spacing={24}>
+      <Grid item xs={24} sm={12} md={24}>
+      <FormPost
+        className={classes.form}
+        onSubmit={handleSubmit}
+        ></FormPost>
+
+        </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <PostCard
             title="Spicy Carrot Salad"
@@ -77,7 +118,8 @@ const PageProfile = ({ classes }) => (
       </Grid>
     </div>
   </div>
-);
+  );
+};
 
 PageProfile.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string),

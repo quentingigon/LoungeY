@@ -6,8 +6,8 @@ import io.lounge.api.utils.DAOUtils;
 import io.lounge.models.Post;
 import io.lounge.mongo.dao.PostDAO;
 import io.lounge.mongo.dao.UserDAO;
-import io.lounge.mongo.dao.domodels.PostDO;
-import io.lounge.mongo.dao.domodels.UserDO;
+import io.lounge.mongo.dao.entities.PostDO;
+import io.lounge.mongo.dao.entities.UserDO;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+
+import static io.lounge.configuration.LoungeConstants.NBPOSTSPERLOUNGEPAGE;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T12:49:56.829Z")
 
 @Controller
@@ -56,15 +59,32 @@ public class LoungeApiController implements LoungeApi {
 		}
     }
 
-    public ResponseEntity<List<Post>> getLounge(@ApiParam(value = "",required=true) @PathVariable("username") String username) {
+    public ResponseEntity<List<Post>> getLoungeFeed(@ApiParam(value = "",required=true) @PathVariable("username") String username) {
 		PostDAO postDAO = DAOUtils.getPostDAO();
 		UserDAO userDAO = DAOUtils.getUserDAO();
 
 		UserDO user = userDAO.getUser(username);
 
-		// TODO define what the "feed" of a user is
+		if (user != null) {
 
-        return new ResponseEntity<List<Post>>(HttpStatus.NOT_IMPLEMENTED);
+			List<Post> posts = new ArrayList<>();
+			List<PostDO> lastPostsDO = postDAO.getLoungeFeed(NBPOSTSPERLOUNGEPAGE);
+
+			if (lastPostsDO != null) {
+				for (PostDO postDO : lastPostsDO) {
+					if (postDO != null) {
+						posts.add(postDO.toPost());
+					}
+				}
+				return new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
+			}
+			else {
+				return new ResponseEntity<List<Post>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+		else {
+			return new ResponseEntity<List<Post>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
     }
 
     public ResponseEntity<List<Post>> getLoungeQuestions(@ApiParam(value = "",required=true) @PathVariable("username") String username) {

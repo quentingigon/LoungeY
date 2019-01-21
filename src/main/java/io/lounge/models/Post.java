@@ -1,9 +1,8 @@
 package io.lounge.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.lounge.mongo.dao.domodels.HashtagDO;
-import io.lounge.mongo.dao.domodels.PostDO;
-import io.lounge.mongo.dao.domodels.PostType;
+import io.lounge.mongo.dao.entities.HashtagDO;
+import io.lounge.mongo.dao.entities.PostDO;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 
@@ -22,11 +21,14 @@ public class Post   {
   @JsonProperty("id")
   private String id = null;
 
-  @JsonProperty("timestamp")
-  private String timestamp = null;
+  @JsonProperty("date")
+  private String date = null;
 
   @JsonProperty("userId")
   private String userId = null;
+
+  @JsonProperty("username")
+  private String username = null;
 
   @JsonProperty("text")
   private String text = null;
@@ -37,6 +39,9 @@ public class Post   {
   @JsonProperty("isCorrectAnswer")
   private Boolean isCorrectAnswer = null;
 
+  @JsonProperty("isPublic")
+  private Boolean isPublic = null;
+
   @JsonProperty("responses")
   @Valid
   private List<Post> responses = null;
@@ -45,10 +50,6 @@ public class Post   {
   @Valid
   private List<String> hashtags = null;
 
-  public Post id(String id) {
-    this.id = id;
-    return this;
-  }
 
   /**
    * Get id
@@ -66,36 +67,57 @@ public class Post   {
     this.id = id;
   }
 
-  public Post timestamp(String timestamp) {
-    this.timestamp = timestamp;
+  public Post id(String id) {
+    this.id = id;
     return this;
   }
 
   /**
    * date of post
-   * @return timestamp
+   * @return date
   **/
   @ApiModelProperty(value = "date of post")
 
   @Valid
 
-  public String getTimestamp() {
-    return timestamp;
+  public String getDate() {
+    return date;
   }
 
-  public void setTimestamp(String timestamp) {
-    this.timestamp = timestamp;
+  public void setDate(String date) {
+    this.date = date;
   }
 
-  public Post userId(String userId) {
-    this.userId = userId;
+  public Post date(String date) {
+    this.date = date;
     return this;
   }
 
   /**
-   * author
-   * @return userId
+   * username
+   * @return username
   **/
+  @ApiModelProperty(value = "author")
+
+  @Valid
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  public Post username(String username) {
+    this.username = username;
+    return this;
+  }
+
+  /**
+   * userId
+   * @return userId
+   **/
   @ApiModelProperty(value = "author")
 
   @Valid
@@ -108,8 +130,8 @@ public class Post   {
     this.userId = userId;
   }
 
-  public Post text(String text) {
-    this.text = text;
+  public Post userId(String userId) {
+    this.userId = userId;
     return this;
   }
 
@@ -128,8 +150,8 @@ public class Post   {
     this.text = text;
   }
 
-  public Post type(String type) {
-    this.type = type;
+  public Post text(String text) {
+    this.text = text;
     return this;
   }
 
@@ -149,8 +171,8 @@ public class Post   {
     this.type = type;
   }
 
-  public Post isCorrectAnswer(Boolean isCorrectAnswer) {
-    this.isCorrectAnswer = isCorrectAnswer;
+  public Post type(String type) {
+    this.type = type;
     return this;
   }
 
@@ -169,10 +191,32 @@ public class Post   {
     this.isCorrectAnswer = isCorrectAnswer;
   }
 
-  public Post responses(List<Post> responses) {
-    this.responses = responses;
+  public Post isCorrectAnswer(Boolean isCorrectAnswer) {
+    this.isCorrectAnswer = isCorrectAnswer;
     return this;
   }
+
+  /**
+   * Get isPublic
+   * @return isPublic
+   **/
+  @ApiModelProperty(value = "")
+
+
+  public Boolean isIsPublic() {
+    return isPublic;
+  }
+
+  public void setIsPublic(Boolean isPublic) {
+    this.isPublic = isPublic;
+  }
+
+  public Post isPublic(Boolean isPublic) {
+    this.isPublic = isPublic;
+    return this;
+  }
+
+
 
   public Post addResponsesItem(Post responsesItem) {
     if (this.responses == null) {
@@ -198,8 +242,8 @@ public class Post   {
     this.responses = responses;
   }
 
-  public Post hashtags(List<String> hashtags) {
-    this.hashtags = hashtags;
+  public Post responses(List<Post> responses) {
+    this.responses = responses;
     return this;
   }
 
@@ -227,6 +271,11 @@ public class Post   {
     this.hashtags = hashtags;
   }
 
+  public Post hashtags(List<String> hashtags) {
+    this.hashtags = hashtags;
+    return this;
+  }
+
 
   @Override
   public boolean equals(Object o) {
@@ -238,18 +287,20 @@ public class Post   {
     }
     Post post = (Post) o;
     return Objects.equals(this.id, post.id) &&
-        Objects.equals(this.timestamp, post.timestamp) &&
+        Objects.equals(this.date, post.date) &&
         Objects.equals(this.userId, post.userId) &&
+        Objects.equals(this.username, post.username) &&
         Objects.equals(this.text, post.text) &&
         Objects.equals(this.type, post.type) &&
         Objects.equals(this.isCorrectAnswer, post.isCorrectAnswer) &&
+        Objects.equals(this.isPublic, post.isPublic) &&
         Objects.equals(this.responses, post.responses) &&
         Objects.equals(this.hashtags, post.hashtags);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, timestamp, userId, text, type, isCorrectAnswer, responses, hashtags);
+    return Objects.hash(id, date, userId, username, text, type, isCorrectAnswer, isPublic, responses, hashtags);
   }
 
   @Override
@@ -258,11 +309,13 @@ public class Post   {
     sb.append("class PostDO {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
+    sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
+    sb.append("    username: ").append(toIndentedString(username)).append("\n");
     sb.append("    text: ").append(toIndentedString(text)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    isCorrectAnswer: ").append(toIndentedString(isCorrectAnswer)).append("\n");
+    sb.append("    isPublic: ").append(toIndentedString(isPublic)).append("\n");
     sb.append("    responses: ").append(toIndentedString(responses)).append("\n");
     sb.append("    hashtags: ").append(toIndentedString(hashtags)).append("\n");
     sb.append("}");
@@ -270,7 +323,7 @@ public class Post   {
   }
 
   public PostDO toPostDO() {
-  	PostDO postDO = new PostDO(text, timestamp.toString(), PostType.valueOf(type), userId, new ArrayList<HashtagDO>());
+  	PostDO postDO = new PostDO(text, date.toString(), type, userId, isPublic, new ArrayList<HashtagDO>());
 
   	ArrayList<PostDO> responsesDO = new ArrayList<>();
   	if (responses != null) {

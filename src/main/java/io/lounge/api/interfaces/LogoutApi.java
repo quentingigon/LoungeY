@@ -7,11 +7,9 @@ package io.lounge.api.interfaces;
 
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.RequestParam;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T12:49:56.829Z")
 
 @Api(value = "logout", description = "the logout API")
@@ -24,6 +22,6 @@ public interface LogoutApi {
     @RequestMapping(value = "/logout",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Boolean> logout(@ApiParam(value = "The id of user to log out", required = true) @Valid @RequestBody String username);
+    ResponseEntity<Boolean> logout(@ApiParam(value = "The username of user to log out", required = true) @RequestParam String userLogout);
 
 }
