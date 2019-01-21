@@ -62,8 +62,6 @@ public class PostsApiController implements PostsApi {
 		else {
 			return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-
     }
 
     public ResponseEntity<Post> getPost(@ApiParam(value = "The id of the post to get",required=true) @PathVariable("postId") String postId) {
@@ -79,8 +77,6 @@ public class PostsApiController implements PostsApi {
 		else {
 			return new ResponseEntity<Post>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-
     }
 
     public ResponseEntity<List<Post>> getUserPosts(@ApiParam(value = "Username of the user",required=true) @PathVariable("username") String username,
@@ -102,7 +98,6 @@ public class PostsApiController implements PostsApi {
 		else {
 			return new ResponseEntity<List<Post>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
     }
 
     public ResponseEntity<Boolean> post(@ApiParam(value = "New post" ,required=true )  @Valid @RequestBody NewPost newPost) {
@@ -126,7 +121,7 @@ public class PostsApiController implements PostsApi {
 			post.setUserId(userDO.getId().toHexString());
 			PostDO postDO = newPost.getPost().toPostDO();
 
-			// if post was correclty transformed to postDO
+			// if post was correctly transformed to postDO
 			if (postDO != null) {
 
 				// if the post we received contains hashtags
@@ -154,5 +149,4 @@ public class PostsApiController implements PostsApi {
 			return new ResponseEntity<Boolean>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
     }
-
 }

@@ -22,10 +22,10 @@ public interface WallApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Wall.class, responseContainer = "List"),
         @ApiResponse(code = 500, message = "Internal server error") })
-    @RequestMapping(value = "/wall/{currentUsername}",
+    @RequestMapping(value = "/wall/{userWatched}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<Wall> getWall(@ApiParam(value = "", required = true) @PathVariable("currentUsername") String currentUsername,
-                                 @ApiParam(value = "", required = true) @RequestParam("userWatched") String userWatched);
+    ResponseEntity<Wall> getWall(@ApiParam(value = "", required = true) @RequestParam("currentUsername") String currentUsername,
+                                 @ApiParam(value = "", required = true) @PathVariable("userWatched") String userWatched);
 
 }

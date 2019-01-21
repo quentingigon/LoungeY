@@ -45,8 +45,8 @@ public class WallApiController implements WallApi {
         this.request = request;
     }
 
-    public ResponseEntity<Wall> getWall(@ApiParam(value = "",required=true) @PathVariable("currentUsername") String currentUsername,
-										@ApiParam(value = "", required = true) @RequestParam("userWatched") String userWatched) {
+    public ResponseEntity<Wall> getWall(@ApiParam(value = "",required=true) @RequestParam("currentUsername") String currentUsername,
+										@ApiParam(value = "", required = true) @PathVariable("userWatched") String userWatched) {
 		UserDAO userDAO = DAOUtils.getUserDAO();
 		PostDAO postDAO = DAOUtils.getPostDAO();
 

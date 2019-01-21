@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -33,17 +34,15 @@ public class SettingsApiController implements SettingsApi {
         this.request = request;
     }
 
-
     @Override
-    public ResponseEntity<Boolean> settings(@NotNull @Valid NewUser userChanges) {
+    public ResponseEntity<Boolean> settings(@NotNull @Valid @RequestBody NewUser userChanges) {
         UserDAO userDAO = DAOUtils.getUserDAO();
 
 		UserDO userDO = userDAO.getUser(userChanges.getUsername());
 
 		if (userDO != null) {
-
-			if (userDAO.updateUser(userChanges.toUserDO())) {
-
+			// apply changes and update user
+			if (userDAO.updateUser(userChanges.applySettingsChangesAndReturnNewUserDO(userDO))) {
 				return new ResponseEntity<>(true, HttpStatus.OK);
 			}
 			else {
@@ -53,6 +52,5 @@ public class SettingsApiController implements SettingsApi {
 		else {
 			return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
     }
 }
