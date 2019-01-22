@@ -17,7 +17,7 @@ public class Notification   {
   @JsonProperty("fromUser")
   private String fromUser = null;
 
-  @JsonProperty("fromUser")
+  @JsonProperty("toUser")
   private String toUser = null;
 
   @JsonProperty("text")
