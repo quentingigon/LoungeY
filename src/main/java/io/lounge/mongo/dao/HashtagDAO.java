@@ -1,8 +1,8 @@
 package io.lounge.mongo.dao;
 
 import com.mongodb.DBObject;
-import io.lounge.mongo.dao.entities.HashtagDO;
-import io.lounge.mongo.dao.entities.PostDO;
+import io.lounge.mongo.dao.domodels.HashtagDO;
+import io.lounge.mongo.dao.domodels.PostDO;
 import io.lounge.mongo.dao.utils.MongoConnection;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
@@ -17,7 +17,10 @@ public class HashtagDAO extends BasicDAO<HashtagDO, ObjectId> {
 	}
 
 	public HashtagDO getHashtag(String name) {
-		return findOne("name", name);
+		if (name != null)
+			return findOne("name", name);
+		else
+			return null;
 	}
 
 	public boolean createHashtag(HashtagDO hashtag) {

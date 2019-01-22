@@ -1,4 +1,4 @@
-package io.lounge.mongo.dao.entities;
+package io.lounge.mongo.dao.domodels;
 
 import java.util.HashMap;
 

@@ -7,8 +7,8 @@ import io.lounge.models.Post;
 import io.lounge.models.Wall;
 import io.lounge.mongo.dao.PostDAO;
 import io.lounge.mongo.dao.UserDAO;
-import io.lounge.mongo.dao.entities.PostDO;
-import io.lounge.mongo.dao.entities.UserDO;
+import io.lounge.mongo.dao.domodels.PostDO;
+import io.lounge.mongo.dao.domodels.UserDO;
 import io.lounge.services.FileStorageService;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
@@ -45,8 +45,8 @@ public class WallApiController implements WallApi {
         this.request = request;
     }
 
-    public ResponseEntity<Wall> getWall(@ApiParam(value = "",required=true) @PathVariable("currentUsername") String currentUsername,
-										@ApiParam(value = "", required = true) @RequestParam("userWatched") String userWatched) {
+    public ResponseEntity<Wall> getWall(@ApiParam(value = "",required=true) @RequestParam("currentUsername") String currentUsername,
+										@ApiParam(value = "", required = true) @PathVariable("userWatched") String userWatched) {
 		UserDAO userDAO = DAOUtils.getUserDAO();
 		PostDAO postDAO = DAOUtils.getPostDAO();
 

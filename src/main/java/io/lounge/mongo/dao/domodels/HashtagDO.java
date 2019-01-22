@@ -1,4 +1,4 @@
-package io.lounge.mongo.dao.entities;
+package io.lounge.mongo.dao.domodels;
 
 import io.lounge.models.Hashtag;
 import org.bson.types.ObjectId;
@@ -29,6 +29,9 @@ public class HashtagDO extends BasicDO {
 	}
 
 	public ArrayList<ObjectId> getPostsContainingHashtag() {
+		if (postsContainingHashtag == null) {
+			postsContainingHashtag = new ArrayList<>();
+		}
 		return postsContainingHashtag;
 	}
 

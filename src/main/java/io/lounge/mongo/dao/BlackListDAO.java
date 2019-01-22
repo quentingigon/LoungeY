@@ -1,7 +1,7 @@
 package io.lounge.mongo.dao;
 
 import com.mongodb.DBObject;
-import io.lounge.mongo.dao.entities.BlackListDO;
+import io.lounge.mongo.dao.domodels.BlackListDO;
 import io.lounge.mongo.dao.utils.MongoConnection;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;

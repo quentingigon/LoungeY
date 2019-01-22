@@ -8,12 +8,13 @@ package io.lounge.api.interfaces;
 import io.lounge.models.NewUser;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T12:49:56.829Z")
 
 @Api(value = "settings", description = "the settings API")
@@ -26,7 +27,7 @@ public interface SettingsApi {
         @ApiResponse(code = 500, message = "Internal server error") })
     @RequestMapping(value = "/settings",
         consumes = { "application/json" },
-        method = RequestMethod.GET)
-    ResponseEntity<Boolean> settings(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "userChanges", required = true) NewUser userChanges);
+        method = RequestMethod.PUT)
+    ResponseEntity<Boolean> settings(@ApiParam(value = "new values for user", required = true) @NotNull @Valid @RequestBody NewUser userChanges);
 
 }

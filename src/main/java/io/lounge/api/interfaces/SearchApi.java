@@ -26,8 +26,7 @@ public interface SearchApi {
         @ApiResponse(code = 400, message = "Invalid input"),
         @ApiResponse(code = 500, message = "Internal server error") })
     @RequestMapping(value = "/search",
-        consumes = { "application/json" },
         method = RequestMethod.GET)
-    ResponseEntity<List<Post>> searchPosts(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "searchString", required = true) String searchString);
+    ResponseEntity<List<Post>> searchPosts(@NotNull @ApiParam(value = "Terms of search, separated by a blank space", required = true) @Valid @RequestParam(value = "searchString", required = true) String searchString);
 
 }

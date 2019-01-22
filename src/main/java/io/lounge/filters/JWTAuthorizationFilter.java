@@ -4,7 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import io.lounge.api.utils.DAOUtils;
 import io.lounge.mongo.dao.BlackListDAO;
-import io.lounge.mongo.dao.entities.BlackListDO;
+import io.lounge.mongo.dao.domodels.BlackListDO;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

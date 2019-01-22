@@ -1,7 +1,7 @@
 package io.lounge.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.lounge.mongo.dao.entities.UserDO;
+import io.lounge.mongo.dao.domodels.UserDO;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 
@@ -197,6 +197,54 @@ public class NewUser   {
   @Override
   public int hashCode() {
     return Objects.hash(username, name, email, password, orientation, year, favBeer);
+  }
+
+  public UserDO applySettingsChangesAndReturnNewUserDO(UserDO originUser) {
+    UserDO userDO = new UserDO();
+
+    if (username == null) {
+      userDO.setUsername(originUser.getUsername());
+    } else {
+      userDO.setUsername(username);
+    }
+
+    if (name == null) {
+      userDO.setName(originUser.getName());
+    } else {
+      userDO.setName(name);
+    }
+
+    if (password == null) {
+      userDO.setPassword(originUser.getPassword());
+    } else {
+      userDO.setPassword(password);
+    }
+
+    if (email == null) {
+      userDO.setEmail(originUser.getEmail());
+    } else {
+      userDO.setEmail(email);
+    }
+
+    if (orientation == null) {
+      userDO.setOrientation(originUser.getOrientation());
+    } else {
+      userDO.setOrientation(orientation);
+    }
+
+    if (year == null) {
+      userDO.setYearOfStudy(originUser.getYearOfStudy());
+    } else {
+      userDO.setYearOfStudy(year);
+    }
+
+    if (favBeer == null) {
+      userDO.setFavBeer(originUser.getFavBeer());
+    } else {
+      userDO.setFavBeer(favBeer);
+    }
+
+    return userDO;
   }
 
   public UserDO toUserDO() {

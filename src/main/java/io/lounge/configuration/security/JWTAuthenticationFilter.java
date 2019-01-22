@@ -2,7 +2,7 @@ package io.lounge.configuration.security;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.lounge.mongo.dao.entities.UserDO;
+import io.lounge.mongo.dao.domodels.UserDO;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
