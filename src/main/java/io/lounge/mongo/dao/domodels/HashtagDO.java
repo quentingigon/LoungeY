@@ -29,6 +29,9 @@ public class HashtagDO extends BasicDO {
 	}
 
 	public ArrayList<ObjectId> getPostsContainingHashtag() {
+		if (postsContainingHashtag == null) {
+			postsContainingHashtag = new ArrayList<>();
+		}
 		return postsContainingHashtag;
 	}
 

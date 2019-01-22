@@ -17,7 +17,10 @@ public class HashtagDAO extends BasicDAO<HashtagDO, ObjectId> {
 	}
 
 	public HashtagDO getHashtag(String name) {
-		return findOne("name", name);
+		if (name != null)
+			return findOne("name", name);
+		else
+			return null;
 	}
 
 	public boolean createHashtag(HashtagDO hashtag) {
@@ -54,11 +57,15 @@ public class HashtagDAO extends BasicDAO<HashtagDO, ObjectId> {
 	// add post to each of the hashtag's list
 	public void addPostIdToHashtagsLists(List<String> hashtags, String postId) {
 
-		for (String hashName : hashtags) {
-			if (hashName != null) {
-				HashtagDO realHash = getHashtag(hashName);
-				realHash.addToPostsList(postId);
-				updateHashtag(realHash);
+		if (hashtags != null) {
+			for (String hashName : hashtags) {
+				if (hashName != null) {
+					HashtagDO realHash = getHashtag(hashName);
+					if (realHash != null) {
+						realHash.addToPostsList(postId);
+						updateHashtag(realHash);
+					}
+				}
 			}
 		}
 	}

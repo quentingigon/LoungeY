@@ -216,10 +216,7 @@ public class Post   {
     return this;
   }
 
-  public Post responses(List<Post> responses) {
-    this.responses = responses;
-    return this;
-  }
+
 
   public Post addResponsesItem(Post responsesItem) {
     if (this.responses == null) {
@@ -245,8 +242,8 @@ public class Post   {
     this.responses = responses;
   }
 
-  public Post hashtags(List<String> hashtags) {
-    this.hashtags = hashtags;
+  public Post responses(List<Post> responses) {
+    this.responses = responses;
     return this;
   }
 
@@ -272,6 +269,11 @@ public class Post   {
 
   public void setHashtags(List<String> hashtags) {
     this.hashtags = hashtags;
+  }
+
+  public Post hashtags(List<String> hashtags) {
+    this.hashtags = hashtags;
+    return this;
   }
 
 
@@ -321,7 +323,7 @@ public class Post   {
   }
 
   public PostDO toPostDO() {
-  	PostDO postDO = new PostDO(text, date.toString(), type, userId, isPublic, new ArrayList<HashtagDO>());
+  	PostDO postDO = new PostDO(text, date.toString(), type, username, userId, isPublic, new ArrayList<HashtagDO>());
 
   	ArrayList<PostDO> responsesDO = new ArrayList<>();
   	if (responses != null) {

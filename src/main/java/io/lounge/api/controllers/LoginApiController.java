@@ -5,6 +5,7 @@ import io.lounge.api.interfaces.LoginApi;
 import io.lounge.api.utils.DAOUtils;
 import io.lounge.models.LoginInfo;
 import io.lounge.models.UserLogin;
+import io.lounge.mongo.dao.BlackListDAO;
 import io.lounge.mongo.dao.UserDAO;
 import io.lounge.mongo.dao.domodels.UserDO;
 import io.swagger.annotations.ApiParam;
@@ -44,14 +45,20 @@ public class LoginApiController implements LoginApi {
 
     public ResponseEntity<LoginInfo> login(@ApiParam(value = "The user who wants to log in" ,required=true )  @Valid @RequestBody UserLogin user) {
 		UserDAO userDAO = DAOUtils.getUserDAO();
+		BlackListDAO blackListDAO = DAOUtils.getBlackListDAO();
 
 		UserDO userDO = userDAO.getUser(user.getUsername());
 
 		if (userDO != null) {
-			getEncoder();
 
+			getEncoder();
 			if (bCryptPasswordEncoder.matches(user.getPassword(), userDO.getPassword())) {
 				// user is logged in and token is in the header
+
+				// as user just got a new token, we remove the user from the blacklist
+				// blackListDAO.removeFromBlackList(user.getUsername());
+				// TODO not working. not essential but would be good to have
+
 				LoginInfo loginInfo = new LoginInfo();
 				loginInfo.setUsername(userDO.getUsername());
 				return new ResponseEntity<LoginInfo>(loginInfo, HttpStatus.OK);
@@ -61,8 +68,7 @@ public class LoginApiController implements LoginApi {
 			// explication -> on veut pas donner d'info avec des codes d'erreur trop spécifiques
 			return new ResponseEntity<LoginInfo>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-        return new ResponseEntity<LoginInfo>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<LoginInfo>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

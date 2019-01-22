@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -61,8 +62,6 @@ public class PostsApiController implements PostsApi {
 		else {
 			return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-
     }
 
     public ResponseEntity<Post> getPost(@ApiParam(value = "The id of the post to get",required=true) @PathVariable("postId") String postId) {
@@ -78,11 +77,10 @@ public class PostsApiController implements PostsApi {
 		else {
 			return new ResponseEntity<Post>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-
     }
 
-    public ResponseEntity<List<Post>> getUserPosts(@ApiParam(value = "Username of the user",required=true) @PathVariable("username") String username) {
+    public ResponseEntity<List<Post>> getUserPosts(@ApiParam(value = "Username of the user",required=true) @PathVariable("username") String username,
+												   @ApiParam(value = "number of posts to return", required = true) @RequestParam("number") int number) {
 		PostDAO postDAO = DAOUtils.getPostDAO();
 		UserDAO userDAO = DAOUtils.getUserDAO();
 
@@ -90,20 +88,16 @@ public class PostsApiController implements PostsApi {
 
 		if (user != null) {
 			List<Post> posts = new ArrayList<>();
-
-			// TODO postDAO.getNFirstPostsOfUser(user, n)
-			for (PostDO p : postDAO.getPostsOfUser(user)) {
-				posts.add(p.toPost());
+//Integer.valueOf(number)
+			for (PostDO p : postDAO.getPostsOfUser(user, number)) {
+				if (p != null)
+					posts.add(p.toPost());
 			}
-
 			return new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
-
 		}
 		else {
-
+			return new ResponseEntity<List<Post>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-        return new ResponseEntity<List<Post>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<Boolean> post(@ApiParam(value = "New post" ,required=true )  @Valid @RequestBody NewPost newPost) {
@@ -120,7 +114,6 @@ public class PostsApiController implements PostsApi {
 
 		UserDO userDO = userDAO.getUser(newPost.getUsername());
 
-
 		// if user exists
 		if (userDO != null) {
 			// set userId of Post before transforming it into a PostDO
@@ -128,12 +121,13 @@ public class PostsApiController implements PostsApi {
 			post.setUserId(userDO.getId().toHexString());
 			PostDO postDO = newPost.getPost().toPostDO();
 
-			// if post was correclty transformed to postDO
+			// if post was correctly transformed to postDO
 			if (postDO != null) {
 
-				if (!newPost.getPost().getHashtags().isEmpty())
+				// if the post we received contains hashtags
+				if (post.getHashtags() != null && !post.getHashtags().isEmpty())
 					// add our hashtags to the postDO
-					postDAO.fillHashTagsListOfPostDO(postDO, newPost.getPost().getHashtags());
+					postDAO.fillHashTagsListOfPostDO(postDO, post.getHashtags());
 
 				String postId = postDAO.addPost(postDO, userDO);
 
@@ -155,5 +149,4 @@ public class PostsApiController implements PostsApi {
 			return new ResponseEntity<Boolean>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
     }
-
 }
