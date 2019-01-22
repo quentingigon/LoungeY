@@ -75,6 +75,7 @@ public class MongoConnection {
 		getMongo();
 		getMorphia();
 		getDatastore();
+		dataStore.ensureIndexes();
 	}
 
 	public void close() {
