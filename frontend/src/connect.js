@@ -1,28 +1,28 @@
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
-const { BACKEND } = require('./config.js'); 
-
-export function queryBackend( jsonBody, responseHandle ) {
-    fetch(BACKEND.posts, {
-        method: "POST",
+export function queryBackend(url ,jsonBody, responseHandle , meth = "POST") {
+  return fetch(url, {
+        method: meth,
         mode:"cors",
         credentials: "omit",    // include, *same-origin, omit
         cache:"no-cache",
         headers: {
           'Authorization': `Bearer ${cookies.get('token')}`,
           'Content-Type': 'application/json',
-          'Cache-Control': 'no-cache'
+          'Cache-Control': 'no-cache',
+          'Accept':'application/json'
         },
       
-        body: `${jsonBody}`
+        body: meth == "POST" ? `${jsonBody}` : null,
       })
       .then( (response) => {
-        console.log( response.headers.get('Authorization'));
+        console.log( "AUTH: "+response.headers.get('Authorization'));
     
           if (response.status >= 200 && response.status < 300) {
             
-            responseHandle(response);
+            console.log("We pass this:\n"+response);
+            return  Promise.resolve(responseHandle(response));
             
            
   

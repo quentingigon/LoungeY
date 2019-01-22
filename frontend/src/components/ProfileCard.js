@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography'; import ProfileStats from 
 const styles = theme => ({
   root: {
     overflow: 'hidden',
+    background:"inherit"
   },
   header: {
     height: 100,

@@ -22,6 +22,9 @@ const PageSignUp = ({ classes, history }) => {
       history.push('/register');
       console.log(BACKEND.url);
 
+
+      //sanitarization values and user feedback
+
       fetch(BACKEND.register, {
           method: "post",
           mode:"cors",
@@ -40,6 +43,10 @@ const PageSignUp = ({ classes, history }) => {
       })
           .then( (response) => {
               console.log(response);
+              if (response.status >= 200 && response.status < 300) {
+                history.push('/login');
+
+              }
               document.cookie = `jwt_token=${response}; expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/`;
               console.log(document.cookie);
               //do something awesome that makes the world a better place

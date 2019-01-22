@@ -15,7 +15,7 @@ class App extends Component {
     this.state = {
     steps: [
       {
-        target: '.JoyStep1',
+        target: '.onBoardStep1',
         content: 'This is my awesome feature!',
       },
       {
@@ -35,10 +35,13 @@ class App extends Component {
           steps={steps}
         />
       <Switch>
-        <Route path="/lounge"  component={Lounge} />
+        <Route path="/lounge"  component={Lounge}      
+         render={props => <Lounge {...props} stateX={this.state} />}
+        />
         <Route path="/login" component={PageLogin} />
         <Route path="/register" component={Register} />
-        <Route path="/profile/:username" component={PageProfile} />
+        <Route path="/profile/:username" component={PageProfile} 
+        />
       </Switch>
       </div>
     );

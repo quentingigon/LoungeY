@@ -9,6 +9,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import CommentIcon from '@material-ui/icons/Comment'
 import ShareIcon from '@material-ui/icons/Share';
 import Avatar from '@material-ui/core/Avatar';
 
@@ -17,35 +18,55 @@ const styles = theme => ({
     height: 0,
     paddingTop: '56.25%', // 16:9
   },
+  commentButton: {
+    marginTop: 24,
+//    width:'30%'
+    float:'right'
+  }
 });
 
-const PostCard = ({ classes, className, children, title, subtitle, imageUrl, avatarUrl, body }) => (
+const PostCard = ({ classes, className, children, title, subtitle, imageUrl, avatarUrl, body }) => {
+  
+  const cardMedia = () =>{
+    if(imageUrl === "" || imageUrl == " "){
+      return( <div></div>);
+    }else{
+      return(
+        <CardMedia
+        className={classes.media}
+        image={imageUrl}
+        title={title}
+      />
+      )
+    }
+  };
+ 
+  return(
   <Card className={className}>
     <CardHeader
       avatar={<Avatar src={avatarUrl} />}
       title={title}
       subheader={subtitle}
     />
-    <CardMedia
-      className={classes.media}
-      image={imageUrl}
-      title={title}
-    />
+    {cardMedia()}
     <CardContent>
       <Typography component="p">
         {body}
       </Typography>
     </CardContent>
     <CardActions>
-      <IconButton>
-        <FavoriteIcon />
-      </IconButton>
+     
       <IconButton>
         <ShareIcon />
       </IconButton>
+      <IconButton className={classes.commentButton}
+        color="secondary"
+      >
+        <CommentIcon />
+      </IconButton>
     </CardActions>
-  </Card>
-);
+  </Card>)
+};
 
 PostCard.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string),
