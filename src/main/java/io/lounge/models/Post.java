@@ -323,7 +323,7 @@ public class Post   {
   }
 
   public PostDO toPostDO() {
-  	PostDO postDO = new PostDO(text, date.toString(), type, userId, isPublic, new ArrayList<HashtagDO>());
+  	PostDO postDO = new PostDO(text, date.toString(), type, username, userId, isPublic, new ArrayList<HashtagDO>());
 
   	ArrayList<PostDO> responsesDO = new ArrayList<>();
   	if (responses != null) {

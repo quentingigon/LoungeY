@@ -18,6 +18,7 @@ public class PostDO extends BasicDO {
 	private String date;
 	private String type;
 	private ObjectId author;
+	private String username;
 	private boolean isCorrectAnswer;
 	private boolean isPublic;
 	private ObjectId parentId;
@@ -38,10 +39,11 @@ public class PostDO extends BasicDO {
 		this.responsesList = new ArrayList<>();
 	}
 
-	public PostDO(String text, String date, String type, String author, boolean isPublic, ArrayList<HashtagDO> hashtagsList) {
+	public PostDO(String text, String date, String type, String username, String author, boolean isPublic, ArrayList<HashtagDO> hashtagsList) {
 		this.text = text;
 		this.setDate(date);
 		this.type = type;
+		this.username = username;
 		this.author = new ObjectId(author);
 		this.isPublic = isPublic;
 		this.hashtagsList = hashtagsList;
@@ -53,8 +55,8 @@ public class PostDO extends BasicDO {
 		p.setText(text);
 		p.setDate(date);
 		p.setIsCorrectAnswer(isCorrectAnswer);
-		p.setType(type != null ? type.toString() : "");
-		p.setUsername(author != null ? author.toHexString() : "");
+		p.setType(type);
+		p.setUsername(username);
 		p.setIsPublic(isPublic);
 
 		// used to distinguished post and responses
@@ -175,5 +177,13 @@ public class PostDO extends BasicDO {
 		}
 
 		System.out.println("Comment not found");
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }
