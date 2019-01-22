@@ -1,8 +1,8 @@
 package io.lounge.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.lounge.mongo.dao.entities.HashtagDO;
-import io.lounge.mongo.dao.entities.PostDO;
+import io.lounge.mongo.dao.domodels.HashtagDO;
+import io.lounge.mongo.dao.domodels.PostDO;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 

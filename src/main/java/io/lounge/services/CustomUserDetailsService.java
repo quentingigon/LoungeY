@@ -2,7 +2,7 @@ package io.lounge.services;
 
 import io.lounge.mongo.dao.utils.MongoConnection;
 import io.lounge.mongo.dao.UserDAO;
-import io.lounge.mongo.dao.entities.UserDO;
+import io.lounge.mongo.dao.domodels.UserDO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

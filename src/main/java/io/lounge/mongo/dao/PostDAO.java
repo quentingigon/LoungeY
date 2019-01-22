@@ -2,10 +2,10 @@ package io.lounge.mongo.dao;
 
 import com.mongodb.DBObject;
 import io.lounge.api.utils.DAOUtils;
-import io.lounge.mongo.dao.entities.HashtagDO;
-import io.lounge.mongo.dao.entities.PostDO;
-import io.lounge.mongo.dao.entities.PostType;
-import io.lounge.mongo.dao.entities.UserDO;
+import io.lounge.mongo.dao.domodels.HashtagDO;
+import io.lounge.mongo.dao.domodels.PostDO;
+import io.lounge.mongo.dao.domodels.PostType;
+import io.lounge.mongo.dao.domodels.UserDO;
 import io.lounge.mongo.dao.utils.MongoConnection;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
@@ -156,18 +156,32 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
         // 2 things to do here:
         //	- look if there is an hashtag at the beginning of each word and restrict the search to those courses
         //	- for the other terms, restrict by looking at the content of the posts and searching for those words
+        HashtagDAO hashtagDAO = DAOUtils.getHashtagDAO();
         String[] words = searchString.split(" ");
         Query<PostDO> query = createQuery();
 
-        List<HashtagDO> hashtags = Arrays.stream(words).filter(s -> s.contains("#"))
-                .map(s -> new HashtagDO(s.substring(1)))
+        // if word begin with '!', it's a hashtag (# doesnt pass through query param)
+        List<String> hashtagsNames = Arrays.stream(words).filter(s -> s.contains("!"))
+                .map(s -> s.substring(1))
                 .collect(Collectors.toList());
+
+        List<HashtagDO> hashtags = getRealHashtagsWithVerification(hashtagsNames);
         if (!hashtags.isEmpty()) {
-            query = query.field("hashtagsList").equal(hashtags);
+            // TODO get posts of the lists of the hashtags
+            ArrayList<PostDO> posts = new ArrayList<>();
+
+            for (HashtagDO hash : hashtags) {
+                if (hash != null) {
+                    for (ObjectId postId : hash.getPostsContainingHashtag()) {
+                        if (postId != null)
+                            posts.add(getPost(postId));
+                    }
+                }
+            }
+            return posts;
         }
 
-
-        List<String> terms = Arrays.stream(words).filter(s -> !s.contains("#")).collect(Collectors.toList());
+        List<String> terms = Arrays.stream(words).filter(s -> !s.contains("!")).collect(Collectors.toList());
         if (!terms.isEmpty()) {
             query = query.search(String.join(" ", terms));
         }
@@ -209,18 +223,23 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 
 
     public void fillHashTagsListOfPostDO(PostDO post, List<String> hashtags) {
-        HashtagDAO hashtagDAO = DAOUtils.getHashtagDAO();
 
+        post.setHashtagsList(getRealHashtagsWithVerification(hashtags));
+    }
+
+    private ArrayList<HashtagDO> getRealHashtagsWithVerification(List<String> hashtagsNames) {
+        HashtagDAO hashtagDAO = DAOUtils.getHashtagDAO();
         ArrayList<HashtagDO> hashtagsDO = new ArrayList<>();
 
         // TODO maybe this can be optimized
-        for (String name : hashtags) {
+        for (String name : hashtagsNames) {
             if (name != null) {
                 HashtagDO hashtagDO = hashtagDAO.getHashtag(name);
                 if (hashtagDO != null)
                     hashtagsDO.add(hashtagDO);
             }
         }
-        post.setHashtagsList(hashtagsDO);
+
+        return hashtagsDO;
     }
 }
