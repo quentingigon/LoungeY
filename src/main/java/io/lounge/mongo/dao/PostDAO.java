@@ -105,7 +105,7 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 	 * @param p 		PostDO representing the modified post
 	 *
 	 * @return          <code>true</code> if everything went well and post is saved
-	 * 	   				<code>false</code> if post already exists or if there is a connection/server error.
+	 * 	   				<code>false</code> if there is a connection/server error.
 	 *
 	 */
 	public boolean updatePost(PostDO p) {
