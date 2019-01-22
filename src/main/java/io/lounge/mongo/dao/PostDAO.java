@@ -166,26 +166,40 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
                 .collect(Collectors.toList());
 
         List<HashtagDO> hashtags = getRealHashtagsWithVerification(hashtagsNames);
+        ArrayList<PostDO> posts = new ArrayList<>();
+        List<ObjectId> postIds = new ArrayList<>();
+
         if (!hashtags.isEmpty()) {
-            // TODO get posts of the lists of the hashtags
-            ArrayList<PostDO> posts = new ArrayList<>();
 
             for (HashtagDO hash : hashtags) {
                 if (hash != null) {
                     for (ObjectId postId : hash.getPostsContainingHashtag()) {
-                        if (postId != null)
+                        if (postId != null) {
                             posts.add(getPost(postId));
+                            postIds.add(postId);
+                        }
                     }
                 }
             }
-            return posts;
+        }
+
+        // we want to search only through posts we just got
+        if (!postIds.isEmpty()) {
+            query = query.field("_id").in(postIds);
         }
 
         List<String> terms = Arrays.stream(words).filter(s -> !s.contains("!")).collect(Collectors.toList());
-        if (!terms.isEmpty()) {
-            query = query.search(String.join(" ", terms));
-        }
 
+        if (!terms.isEmpty()) {
+            if (!posts.isEmpty()) {
+                for (PostDO post : posts) {
+                    if (post != null) {
+                        postIds.add(post.getId());
+                    }
+                }
+                query = query.search(String.join(" ", terms));
+            }
+        }
         return find(query).asList();
     }
 
