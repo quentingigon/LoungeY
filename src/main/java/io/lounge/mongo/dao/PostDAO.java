@@ -260,17 +260,15 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 	}
 
 	/**
-	 *  TODO
+	 * Looks if there is an hashtag at the beginning of each word and restrict the search to those courses
+	 * For the other terms, restricts by looking at the content of the posts and searching for those words,
+	 * 	using MongoDB Morphia Query
 	 *
-	 * @param searchString
-	 * @return
+	 * @param searchString 	contains all terms used for the search, separated by a blank space.
+	 *
+	 * @return				The list of posts we want to find
 	 */
     public List<PostDO> searchForPosts(String searchString) {
-        // TODO
-        // searchString contains all terms used for the search, separated by a blank space.
-        // 2 things to do here:
-        //	- look if there is an hashtag at the beginning of each word and restrict the search to those courses
-        //	- for the other terms, restrict by looking at the content of the posts and searching for those words
         HashtagDAO hashtagDAO = DAOUtils.getHashtagDAO();
         String[] words = searchString.split(" ");
         Query<PostDO> query = createQuery();
@@ -320,13 +318,12 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
     
 
 	/**
-	 *  TODO Not sure about it
+	 *  TODO Not sure about this one, useful? goal?
 	 *
 	 * @param user
 	 * @return
 	 */
 	public List<PostDO> getWallPosts(UserDO user) {
-		// TODO
 		List<PostDO> postsUser = new ArrayList();
 		List<PostDO> allpost= new ArrayList();
 		allpost = find().asList();
@@ -395,7 +392,6 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
 		HashtagDAO hashtagDAO = DAOUtils.getHashtagDAO();
 		ArrayList<HashtagDO> hashtagsDO = new ArrayList<>();
 
-		// TODO maybe this can be optimized
 		for (String name : hashtagsNames) {
 			if (name != null) {
 				HashtagDO hashtagDO = hashtagDAO.getHashtag(name);

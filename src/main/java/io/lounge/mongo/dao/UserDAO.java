@@ -254,7 +254,6 @@ public class UserDAO extends BasicDAO<UserDO, ObjectId> {
 				// add user to pending invites
 				current.addToPendingInviteList(newFriend.getId());
 
-				// TODO maybe verify that there is not already a friendInvite from this user to the other
 				// add notification of new friend invite
 				NotificationDO newNotifDO = new NotificationDO(FRIENDINVITE_NOTIF, current.getUsername(),
 					newFriend.getUsername(), String.valueOf(NotificationType.FRIENDINVITE));
