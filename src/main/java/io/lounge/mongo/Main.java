@@ -40,9 +40,12 @@ public class Main {
 
 		PostDO p = new PostDO("Hello", "", String.valueOf(PostType.POST), robin.getId());
 
+		pDAO.addPost(new PostDO("Test for feed",dateFormat.format(new Date()), String.valueOf(PostType.POST), quatre.getId()));
 		pDAO.addPost(p);
 
-		p.addComment(new PostDO("wORLD", dateFormat.format(new Date()), String.valueOf(PostType.COMMENT), robin.getId()));
+		p.addComment(new PostDO("wORLD", dateFormat.format(new Date()), String.valueOf(PostType.POST), robin.getId()));
+
+
 
 		pDAO.addComment(new PostDO("World", "16/01/19", String.valueOf(PostType.COMMENT), robin.getId()), p);
 
@@ -63,8 +66,9 @@ public class Main {
 
 		userDAO.sendFriendInvite("test", "Robin");
 		userDAO.sendFriendInvite("Robin", "test");
-		//userDAO.addFriend("test", "testy");
+		userDAO.sendFriendInvite("quatre", "test");
 		userDAO.sendFriendInvite("test", "quatre");
+
 
 		System.out.println("Changed test pwd to test2 : " +  userDAO.getUser(user.getUsername()).getPassword());
 
@@ -77,6 +81,10 @@ public class Main {
 		System.out.println("Test friends : " + userDAO.getUserFriends("test"));
 
 
+		System.out.println("Test's friends posts :");
+		for(PostDO pp : pDAO.getLoungeFeedFriendsPostsOnly(user)){
+			System.out.println(pp.getId() + "; ");
+		}
 
 	}
 }

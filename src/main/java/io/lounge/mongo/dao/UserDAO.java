@@ -97,7 +97,7 @@ public class UserDAO extends BasicDAO<UserDO, ObjectId> {
 	}
 
 	/**
-	 *  Check if given user already exists in DB
+	 *  Checks if given user already exists in DB
 	 *
 	 * @param username 		username of the user to check
 	 *

@@ -11,7 +11,7 @@ import org.mongodb.morphia.utils.IndexType;
 import java.util.ArrayList;
 
 @Entity
-@Indexes(@Index(fields = @Field(value = "$**", type = IndexType.TEXT)))
+@Indexes(@Index(fields = @Field(value = "text", type = IndexType.TEXT)))
 public class PostDO extends BasicDO {
 
 	private String text;
