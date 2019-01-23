@@ -40,7 +40,7 @@ The main point are as follow:
 
 ### Personal Wall and Profile
 
-A page containing different infos about the user and their feed. 
+A page containing different infos about the fromUser and their feed. 
 
 + different confidentiality settings
 + possibilty of (un)friending someone
@@ -54,7 +54,7 @@ A page containing different infos about the user and their feed.
 
 ### Posts / Questions - Comments / Responses
 
-On a page called the Lounge, we have every public post made available to every user of the network. 
+On a page called the Lounge, we have every public post made available to every fromUser of the network. 
 You can either **post** something to shoot the shit with others who can then **comment** on your post, or you can post a **question** with (eventually) some **hashtags** referring to a specific course /set of courses, and people can then **respond** to your question. 
 
 #### Posts

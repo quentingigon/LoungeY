@@ -1,0 +1,569 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: LoungeY
+schemes:
+  - http
+host: localhost
+basePath: /v1
+paths:
+  /user/{username}:
+   get:
+      tags:
+        - users
+      summary: Get user
+      description: Returns user info
+      operationId: getUser
+      parameters:
+        - in: path
+          name: username
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/User'
+        '500':
+          description: Internal server error
+  /friends/{idCurrentUser}:
+   get:
+      tags:
+        - users
+      summary: Get friends of user
+      description: Returns list of friends
+      operationId: getFriends
+      parameters:
+        - in: path
+          name: idCurrentUser
+          required: true
+          type: number
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        '500':
+          description: Internal server error
+
+  /friends/{idCurrentUser}/new/{idNewFriend}:
+    post:
+      tags:
+        - users
+      summary: Add friend to current user
+      description:
+      operationId: addFriend
+      parameters:
+        - in: path
+          name: idCurrentUser
+          required: true
+          type: number
+        - in: path
+          name: idNewFriend
+          required: true
+          type: number
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: boolean
+        '500':
+          description: Internal server error
+  /login:
+    post:
+      tags:
+        - auth
+      summary: Log user in
+      description: Log user in
+      operationId: login
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: user
+          required: true
+          description: The user who wants to log in
+          schema:
+            $ref: "#/definitions/UserLogin"     # <----------
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+            required:
+              - token
+        '500':
+          description: Internal server error
+  /register:
+    post:
+      tags:
+        - auth
+      summary: Register new user
+      description: Register new user
+      operationId: register
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: newUser
+          required: true
+          description: The new user to register
+          schema:
+            $ref: "#/definitions/NewUser"     # <----------
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: boolean
+        '500':
+          description: Internal server error
+
+  /logout:
+    post:
+      tags:
+        - auth
+      summary: Logout current user
+      description: Logout user
+      operationId: logout
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: userId
+          required: true
+          description: The id of user to log out
+          schema:
+            type: number     # <----------
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: boolean
+        '500':
+          description: Internal server error
+
+  /wall/{idUser}:
+    get:
+      tags:
+        - wall
+      summary: Get wall of user
+      description: Return public info of user
+      operationId: getWall
+      parameters:
+        - in: path
+          name: idUser
+          required: true
+          type: number
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Wall'
+        '500':
+          description: Internal server error
+
+  /posts/get/{postId}:
+    get:
+      tags:
+        - posts
+      summary: Get particular post
+      description: Get a post
+      operationId: getPost
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          type: number
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Post'
+        '500':
+          description: Internal server error
+
+  /posts/getall/{userId}:
+    get:
+      tags:
+        - posts
+      summary: Get all posts from user
+      description: Get all the posts of particular user
+      operationId: getUserPosts
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          type: number
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Post'
+        '500':
+          description: Internal server error
+
+  /posts:
+    post:
+      tags:
+        - posts
+      summary: Add post of user
+      description: Allow a user to post a post (ahah)
+      operationId: post
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: newPost
+          required: true
+          description: The id of user to log out
+          schema:
+            $ref: '#/definitions/NewPost'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: boolean
+        '500':
+          description: Internal server error
+
+  /posts/comment:
+    post:
+      tags:
+        - posts
+      summary: Add comment to post
+      description: Allow a user to post a comment
+      operationId: comment
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: newPost
+          required: true
+          description: The id of user to log out
+          schema:
+            $ref: '#/definitions/Comment'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: boolean
+        '500':
+          description: Internal server error
+
+  /search:
+    get:
+      tags:
+        - search
+      summary: search posts according to query string
+      description: Allow user to search for posts
+      operationId: searchPosts
+      consumes:
+        - application/json
+      parameters:
+        - in: query
+          name: searchString
+          required: true
+          type: string
+      responses:
+        '201':
+          description: 'Search was complited'
+          schema:
+              type: array
+              items:
+                $ref: '#/definitions/Post'
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+
+  /settings:
+    get:
+      tags:
+        - settings
+      summary: get settings access
+      description: Allow user to access settings or not
+      operationId: settings
+      consumes:
+        - application/json
+      parameters:
+        - in: query
+          name: idUser
+          required: true
+          type: number
+        - in: query
+          name: token
+          required: true
+          type: string
+      responses:
+        '201':
+          description: 'Access was granted'
+          schema:
+            type: boolean
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+
+  /lounge/{idUser}:
+    get:
+      tags:
+        - lounge
+      summary: Get all public posts of user
+      description: Get all the posts of the Lounge of the user
+      operationId: getLounge
+      parameters:
+        - in: path
+          name: idUser
+          required: true
+          type: number
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Post'
+        '500':
+          description: Internal server error
+
+  /lounge/questions/{idUser}:
+    get:
+      tags:
+        - lounge
+      summary: Get all public questions of user
+      description: Get all the public questions of the Lounge of the user
+      operationId: getLoungeQuestions
+      parameters:
+        - in: path
+          name: idUser
+          required: true
+          type: number
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Post'
+        '500':
+          description: Internal server error
+
+  /lounge/friends/{idUser}:
+    get:
+      tags:
+        - lounge
+      summary: Get all friends posts of user
+      description: Get all the public posts of the friends of the user
+      operationId: getFriendsPosts
+      parameters:
+        - in: path
+          name: idUser
+          required: true
+          type: number
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Post'
+        '500':
+          description: Internal server error
+  /notifications/{username}:
+    get:
+      tags:
+        - notifications
+      summary: Get all notifications of user
+      description: Return the user's notifications
+      operationId: getNotifications
+      parameters:
+        - in: path
+          name: username
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Notification''
+        '500':
+          description: Internal server error
+
+definitions:
+
+  Hashtag:
+    type: object
+    properties:
+      name:
+        type: string
+      postsWithThisHashtag:
+        type: array
+        items:
+          type: number
+      conditions:
+        type : object
+        properties:
+          name:
+            type: string
+          operator:
+            type: string
+          levelValues:
+            type: array
+            items:
+              type: string
+          collection:
+            type: string
+
+  Post:
+    type: object
+    properties:
+      id:
+        type: number
+      timestamp:
+        description: 'date of post'
+        format: date-time
+        type: string
+      userId:
+        description: 'author'
+        type: number
+      text:
+        type: string
+      type:
+        description: '0 = post, 1 = question'
+        type: number
+      isCorrectAnswer:
+        type: boolean
+      responses:
+        type: array
+        items:
+          $ref: '#/definitions/Post'
+      hashtags:
+        type: array
+        items:
+          $ref: '#/definitions/Hashtag'
+
+  NewPost:
+    type: object
+    properties:
+      userId:
+        type: number
+      post:
+        $ref: '#/definitions/Post'
+
+  Comment:
+    type: object
+    properties:
+      userId:
+        type: number
+      rootPostId:
+        type: number
+      post:
+        $ref: '#/definitions/Post'
+
+  UserLogin:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+
+
+  User:
+    type: object
+    properties:
+      id:
+        type: number
+      username:
+        type: string
+      email:
+        type: string
+
+  NewUser:
+    type: object
+    properties:
+      username:
+        type: string
+      name:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      orientation:
+        type: string
+      year:
+        type: string
+      favBeer:
+        type: string
+
+  Wall:
+    type: object
+    properties:
+      username:
+        type: string
+      yearOfStudy:
+        type: number
+      posts:
+        type: array
+        items:
+          $ref: '#/definitions/Post'
+
+  FriendInvite:
+    type: object
+    properties:
+      fromUser:
+        type: string
+      toUser:
+        type: string
+
+  Notification:
+    type: object
+    properties:
+      friendUsername:
+        type: string
+      text:
+        type: string
+      type:
+        type: string
+
+
+
+
+
+
+
+
+
+
