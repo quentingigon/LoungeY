@@ -54,8 +54,10 @@ public class NotificationsApiController implements NotificationsApi {
 						// for security reasons, we do not send the username of the current user
 						n.setToUser("");
 						notifications.add(n);
+						notificationDAO.delete(notif);
 					}
 				}
+
 				return new ResponseEntity<List<Notification>>(notifications, HttpStatus.OK);
 			}
 			else {
