@@ -25,7 +25,7 @@ const styles = theme => ({
   },
 });
 
-const Layout = ({ classes, children, aside }) => (
+const Layout = ({ classes, children, aside, history }) => (
   <div className={classes.root}>
     <AppBar />
     <main className={classes.wrapper}>

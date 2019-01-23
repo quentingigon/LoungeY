@@ -10,11 +10,13 @@ import AppBarBase from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import NotificationIcon from '@material-ui/icons/Notifications';
+import LogoutIcon from '@material-ui/icons/ArrowRightAlt';
 
 import InputSearch from './InputSearch';
 import ActivityListItem from './ActivityListItem';
 
 import Cookies from 'universal-cookie';
+const { BACKEND } = require('../config.js'); 
 
 const cookies = new Cookies();
 let username = cookies.get('username');
@@ -43,14 +45,36 @@ const styles = theme => ({
 });
 
 
-const AppBar = ({ classes, children }) => {
+const AppBar = ({ classes, children, history }) => {
   const [notificationOpen, setNotificationOpen] = useState(false);
   const notificationButton = useRef();
 
   const handleToggleNotification = () => {
     setNotificationOpen(!notificationOpen);
   };
-  const redirectProfile = (url ) => {
+
+  const logout = () => {
+    fetch(BACKEND.logout, {
+      method: "POST",
+      mode:"cors",
+      credentials: "omit",    // include, *same-origin, omit
+      cache:"no-cache",
+      headers: {
+        'Authorization': `Bearer ${cookies.get('token')}`,
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache',
+        'Accept':'application/json', 
+        'userLogout':`${cookies.get('username')}`
+        
+      },
+    
+      body: ` `
+    })
+    .then( (response) => {
+      console.log(response);
+      history.push("/login");
+
+})    .catch(error => console.log(error) );
 
   }
 
@@ -118,6 +142,13 @@ const AppBar = ({ classes, children }) => {
           />
 
         </Link>
+        <IconButton
+          className={classes.icon}
+          onClick={logout}
+          buttonRef={notificationButton}
+        >
+          <LogoutIcon />
+        </IconButton>
       </Toolbar>
     </AppBarBase >
   );
