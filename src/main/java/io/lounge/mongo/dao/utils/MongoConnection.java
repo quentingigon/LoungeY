@@ -30,7 +30,7 @@ public class MongoConnection {
 				.maxConnectionIdleTime((60 * 1_000))
 				.maxConnectionLifeTime((120 * 1_000));
 
-			MongoClientURI uri = new MongoClientURI("mongodb://localhost:27017/lounge", options);
+			MongoClientURI uri = new MongoClientURI("mongodb://admin:password1@ds111065.mlab.com:11065/loungey", options);
 
 			logger.info("About to connect to MongoDB @ " + uri.toString());
 
@@ -62,7 +62,7 @@ public class MongoConnection {
 
 	public Datastore getDatastore() {
 		if (dataStore == null) {
-			String dbName = "lounge";
+			String dbName = "loungey";
 			logger.debug(format("Starting DataStore on DB: %s", dbName));
 			dataStore = getMorphia().createDatastore(getMongo(), dbName);
 		}
