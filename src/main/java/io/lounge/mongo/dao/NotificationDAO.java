@@ -42,8 +42,6 @@ public class NotificationDAO extends BasicDAO<NotificationDO, ObjectId> {
 			.field("type").equal(String.valueOf(NotificationType.FRIENDINVITE))
 			.limit(1);
 
-		int nbQueryResults = (int) findQuery.count();
-
 		return find(findQuery).get();
 	}
 }

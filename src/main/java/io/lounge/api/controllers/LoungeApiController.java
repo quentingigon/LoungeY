@@ -50,7 +50,8 @@ public class LoungeApiController implements LoungeApi {
 		if (user != null) {
 			ArrayList<Post> friendsPosts = new ArrayList<>();
 
-			for (PostDO postDO : postDAO.getLoungeFeedFriendsPostsOnly(user)) {
+			// return only posts of friends
+			for (PostDO postDO : postDAO.getLoungeFeedFriendsPostsOnly(NBPOSTSPERLOUNGEPAGE, user.getFriendsList())) {
 				if (postDO != null)
 					friendsPosts.add(postDO.toPost());
 			}
@@ -73,6 +74,7 @@ public class LoungeApiController implements LoungeApi {
 			List<Post> posts = new ArrayList<>();
 			List<PostDO> lastPostsDO = postDAO.getLoungeFeed(NBPOSTSPERLOUNGEPAGE);
 
+			// get from all posts by chrono order
 			if (lastPostsDO != null) {
 				for (PostDO postDO : lastPostsDO) {
 					if (postDO != null) {
@@ -100,7 +102,8 @@ public class LoungeApiController implements LoungeApi {
 		if (user != null) {
 			ArrayList<Post> questions = new ArrayList<>();
 
-			for (PostDO postDO : postDAO.getLoungeFeedQuestionsOnly(user)) {
+			// get from all questions by chrono order
+			for (PostDO postDO : postDAO.getLoungeFeedQuestionsOnly(NBPOSTSPERLOUNGEPAGE)) {
 				if (postDO != null)
 					questions.add(postDO.toPost());
 			}

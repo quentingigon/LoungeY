@@ -109,12 +109,6 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
         return find(findQuery).asList().subList(0, ((nbPosts <= nbQueryResults) ? nbPosts : nbQueryResults));
     }
 
-    public List<PostDO> getPostsOfUser(UserDO user) {
-        Query<PostDO> findQuery = createQuery().field("author").equal(user.getId());
-
-        return find(findQuery).asList();
-    }
-
     public List<PostDO> getPostsOfUser(UserDO user, int nbPosts) {
         Query<PostDO> findQuery = createQuery().field("author").equal(user.getId());
         findQuery.order("-date");
@@ -142,12 +136,6 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
         }
 
         return postsWithHastag;
-    }
-
-    public List<PostDO> getPostsWithHashtags(List<HashtagDO> hashtags) {
-        Query<PostDO> findQuery = createQuery().field("hashtagsList").equal(hashtags);
-
-        return find(findQuery).asList();
     }
 
     public List<PostDO> searchForPosts(String searchString) {
@@ -203,36 +191,23 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
         return find(query).asList();
     }
 
-    public List<PostDO> getWallPosts(UserDO user) {
-        // TODO
-        List<PostDO> postsUser = new ArrayList();
-        List<PostDO> allpost = new ArrayList();
-        allpost = find().asList();
-        for (PostDO post : allpost) {
-            if (post.getAuthor().equals(user.getId())) {
-                postsUser.add(post);
-            }
-        }
-        // returns the posts visible by a visitor of your page
-        return postsUser;
+    public List<PostDO> getLoungeFeedQuestionsOnly(int nbPosts) {
+        Query<PostDO> findQuery = createQuery().field("_id").exists().field("type").equal(PostType.QUESTION);
+        findQuery.order("-date");
+
+        int nbQueryResults = (int) findQuery.count();
+
+        return find(findQuery).asList().subList(0, ((nbPosts <= nbQueryResults) ? nbPosts : nbQueryResults));
     }
 
-    public List<PostDO> getLoungeFeedQuestionsOnly(UserDO user) {
+    public List<PostDO> getLoungeFeedFriendsPostsOnly(int nbPosts, ArrayList<ObjectId> friends) {
 
-        List<PostDO> postsUserQuestions = new ArrayList();
-        List<PostDO> allpost = new ArrayList();
-        allpost = find().asList();
-        for (PostDO post : allpost) {
-            if (post.getType().equals(PostType.QUESTION) && post.getAuthor().equals(user.getId())) {
-                postsUserQuestions.add(post);
-            }
-        }
-        return postsUserQuestions;
-    }
+        Query<PostDO> findQuery = createQuery().field("_id").exists().field("author").in(friends);
+        findQuery.order("-date");
 
-    public List<PostDO> getLoungeFeedFriendsPostsOnly(UserDO user) {
-        //
-        return null;
+        int nbQueryResults = (int) findQuery.count();
+
+        return find(findQuery).asList().subList(0, ((nbPosts <= nbQueryResults) ? nbPosts : nbQueryResults));
     }
 
 

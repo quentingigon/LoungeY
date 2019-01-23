@@ -38,8 +38,9 @@ public class FriendsApiController implements FriendsApi {
         this.request = request;
     }
 
+    // send a notification to the user concerned by the invite
 	@CrossOrigin
-    public ResponseEntity<Boolean> addFriend(@ApiParam(value = "",required=true) @Valid @RequestBody FriendMessage invite) {
+    public ResponseEntity<Boolean> addFriend(@ApiParam(value = "Message containing fromUser and toUser",required=true) @Valid @RequestBody FriendMessage invite) {
     	UserDAO userDAO = DAOUtils.getUserDAO();
 
 		UserDO currentUser = userDAO.getUser(invite.getFromUser());
@@ -55,8 +56,9 @@ public class FriendsApiController implements FriendsApi {
 		}
     }
 
+    // unfriend a user
 	@CrossOrigin
-	public ResponseEntity<Boolean> removeFriend(@ApiParam(value = "",required=true) @Valid @RequestBody FriendMessage invite) {
+	public ResponseEntity<Boolean> removeFriend(@ApiParam(value = "Message containing fromUser and toUser",required=true) @Valid @RequestBody FriendMessage invite) {
 		UserDAO userDAO = DAOUtils.getUserDAO();
 
 		UserDO currentUser = userDAO.getUser(invite.getFromUser());
@@ -73,7 +75,7 @@ public class FriendsApiController implements FriendsApi {
 	}
 
 	@CrossOrigin
-    public ResponseEntity<List<User>> getFriends(@ApiParam(value = "",required=true) @PathVariable("username") String username) {
+    public ResponseEntity<List<User>> getFriends(@ApiParam(value = "Username of user to get friends from",required=true) @PathVariable("username") String username) {
     	UserDAO userDAO = DAOUtils.getUserDAO();
 
 		UserDO currentUser = userDAO.getUser(username);
