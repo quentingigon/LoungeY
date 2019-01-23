@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +34,7 @@ public class UserApiController implements UserApi {
         this.request = request;
     }
 
+	@CrossOrigin
     public ResponseEntity<User> getUser(@ApiParam(value = "",required=true) @PathVariable("username") String username) {
     	UserDAO userDAO = DAOUtils.getUserDAO();
 

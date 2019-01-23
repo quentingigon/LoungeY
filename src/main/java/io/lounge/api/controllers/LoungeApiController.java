@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +40,7 @@ public class LoungeApiController implements LoungeApi {
         this.request = request;
     }
 
+	@CrossOrigin
     public ResponseEntity<List<Post>> getFriendsPosts(@ApiParam(value = "",required=true) @PathVariable("username") String username) {
         PostDAO postDAO = DAOUtils.getPostDAO();
 		UserDAO userDAO = DAOUtils.getUserDAO();
@@ -59,6 +61,7 @@ public class LoungeApiController implements LoungeApi {
 		}
     }
 
+	@CrossOrigin
     public ResponseEntity<List<Post>> getLoungeFeed(@ApiParam(value = "",required=true) @PathVariable("username") String username) {
 		PostDAO postDAO = DAOUtils.getPostDAO();
 		UserDAO userDAO = DAOUtils.getUserDAO();
@@ -87,6 +90,7 @@ public class LoungeApiController implements LoungeApi {
 		}
     }
 
+	@CrossOrigin
     public ResponseEntity<List<Post>> getLoungeQuestions(@ApiParam(value = "",required=true) @PathVariable("username") String username) {
 		PostDAO postDAO = DAOUtils.getPostDAO();
 		UserDAO userDAO = DAOUtils.getUserDAO();
