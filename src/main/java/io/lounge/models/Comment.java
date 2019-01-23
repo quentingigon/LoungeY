@@ -14,35 +14,11 @@ import java.util.Objects;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-16T12:49:56.829Z")
 
 public class Comment   {
-  @JsonProperty("userId")
-  private String userId = null;
-
   @JsonProperty("rootPostId")
   private String rootPostId = null;
 
   @JsonProperty("post")
   private Post post = null;
-
-  public Comment userId(String userId) {
-    this.userId = userId;
-    return this;
-  }
-
-  /**
-   * Get userId
-   * @return userId
-  **/
-  @ApiModelProperty(value = "")
-
-  @Valid
-
-  public String getUserId() {
-    return userId;
-  }
-
-  public void setUserId(String userId) {
-    this.userId = userId;
-  }
 
   public Comment rootPostId(String rootPostId) {
     this.rootPostId = rootPostId;
@@ -96,22 +72,21 @@ public class Comment   {
       return false;
     }
     Comment comment = (Comment) o;
-    return Objects.equals(this.userId, comment.userId) &&
+    return
         Objects.equals(this.rootPostId, comment.rootPostId) &&
         Objects.equals(this.post, comment.post);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(userId, rootPostId, post);
+    return Objects.hash(rootPostId, post);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Comment {\n");
-    
-    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
+
     sb.append("    rootPostId: ").append(toIndentedString(rootPostId)).append("\n");
     sb.append("    post: ").append(toIndentedString(post)).append("\n");
     sb.append("}");
