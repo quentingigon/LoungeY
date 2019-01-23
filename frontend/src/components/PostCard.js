@@ -25,7 +25,7 @@ const styles = theme => ({
   }
 });
 
-const PostCard = ({ classes, className, children, title, subtitle, imageUrl, avatarUrl, body }) => {
+const PostCard = ({ classes, className, children, title, subtitle, imageUrl, author, avatarUrl, body }) => {
   
   const cardMedia = () =>{
     if(imageUrl === "" || imageUrl == " "){
@@ -44,7 +44,7 @@ const PostCard = ({ classes, className, children, title, subtitle, imageUrl, ava
   return(
   <Card className={className}>
     <CardHeader
-      avatar={<Avatar src={avatarUrl} />}
+      avatar={<Avatar /*src={avatarUrl}*/>{author} </Avatar>}
       title={title}
       subheader={subtitle}
     />

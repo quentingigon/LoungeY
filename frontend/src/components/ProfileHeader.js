@@ -48,14 +48,14 @@ const ProfileHeader = ({ classes, displayName, bio, avatarUrl, coverUrl, stats, 
         <Avatar className={classes.avatar} src={avatarUrl} />
         <Typography variant="h6">{displayName}</Typography>
         <Typography variant="subtitle1" color="textSecondary">
-          {bio}
+          {"Favorite Beer:"+bio}
         </Typography>
       </div>
       <ProfileStats
         className={classes.stats}
         posts={stats.posts}
-        followers={stats.followers}
-        following={stats.following}
+        year={stats.year}
+        orientation={stats.orientation}
       />
     </Paper>
   );

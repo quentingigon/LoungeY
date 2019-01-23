@@ -36,9 +36,13 @@ const PageSignUp = ({ classes, history }) => {
 
           body: JSON.stringify({
               username: values.username,
+              name: values.name,
               email: values.email,
               password: values.password,
-              isAdmin: values.isAdmin
+              isAdmin: values.isAdmin,
+              year: values.year,
+              orientation: values.orientation, 
+              favBeer: values.favBeer
           })
       })
           .then( (response) => {

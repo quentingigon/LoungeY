@@ -7,10 +7,23 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
 
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+
 const styles = theme => ({
   form: {
     display: 'flex',
     flexDirection: 'column',
+  },
+  formControl: {
+    margin: theme.spacing.unit * 3,
+  },
+  group: {
+    margin: `${theme.spacing.unit}px 0`,
   },
   submitButton: {
     marginTop: 24,
@@ -18,11 +31,16 @@ const styles = theme => ({
 });
 
 const FormSignUp = ({ classes, className, onSubmit }) => {
+
   const [values, setValues] = useState({
     username: '',
+    name:'',
     email: '',
     password: '',
     passwordConfirm: '',
+    orientation:'',
+    year:'',
+    favBeer:''
   });
 
   const handleChange = key => e => {
@@ -69,6 +87,35 @@ const FormSignUp = ({ classes, className, onSubmit }) => {
             margin="normal"
             value={values.passwordConfirm}
             onChange={handleChange('passwordConfirm')}
+            required
+          />
+        <FormControl component="fieldset" className={classes.formControl}>
+        <FormLabel component="legend">Current year of studies</FormLabel>
+        <RadioGroup
+          aria-label="Gender"
+          name="gender1"
+          className={classes.group}
+          value={values.year}
+          onChange={handleChange('year')}
+        >
+          <FormControlLabel value="1" control={<Radio />} label="First Year" />
+          <FormControlLabel value="2" control={<Radio />} label="Second Year" />
+          <FormControlLabel value="3" control={<Radio />} label="Third Year" />
+          <FormControlLabel
+            value="disabled"
+            disabled
+            control={<Radio />}
+            label="(Disabled option)"
+          />
+        </RadioGroup>
+        </FormControl>
+
+          <TextField
+            type="text"
+            label="Orientation"
+            margin="normal"
+            value={values.orientation}
+            onChange={handleChange('orientation')}
             required
           />
           <Button

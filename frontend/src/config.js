@@ -7,7 +7,7 @@ let BACKEND = {
     logout : `${URL}/logout`, 
     lounge : `${URL}/lounge`,
     register : `${URL}/register`,
-    posts : `${URL}/posts`,
+    posts : `${URL}/posts/`,
     profile : `${URL}/lounge/`,
 }
 

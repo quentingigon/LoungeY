@@ -35,8 +35,12 @@ console.log(`logt ${window.location.href}`);
 let i = 0;
 console.log(this);
 
-const PageProfile = ({ classes, history, state }) => {
+const PageProfile = ({ classes, history, state, location}) => {
+  if(cookies.get('token') == null){
+    history.push("/login")
+  }
 
+  let PAGIN = 200;
   const [data, setData] = useState(0);
   const [ListPost, setListPost] = useState([]);
 
@@ -57,27 +61,26 @@ const PageProfile = ({ classes, history, state }) => {
           imageUrl=""
           avatarUrl="https://source.unsplash.com/b1Hg7QI-zcc/150x150"
           body={post.text}
+          author={post.username.substring(0,2).toUpperCase()}
         />
+         <FormPost
+        className={classes.form}
+        onSubmit={handleSubmit}
+        display="none"
+        ></FormPost>
         </Grid>
     ))}
       </>
     ); 
-    let post = JSON.stringify(ListPost[0]);
-    for (let i = 0; i < ListPost.length; i++) {
-      const element = ListPost[i];
 
-      console.log(element["id"]);
-      
- 
-    }
     return ( 
       <ListPosts Posts={ListPost}></ListPosts>
   
       ); 
   }
   console.log("test he");
-  let tmp = JSON.stringify(ListPost[4]);
-  console.log(tmp);
+ // let tmp = JSON.stringify(ListPost[4]);
+//  console.log(tmp);
   
   console.log("test ");
   const handleSubmit = (values) => {
@@ -85,18 +88,23 @@ const PageProfile = ({ classes, history, state }) => {
 
     /*sanitarization*/
     let corpus = String(values.corpus);
-    let postType = "POST";
+    let postType = "";
+    if(values.rootPostId != null){
+      postType = "COMMENT";
+    }else{
+       postType = "POST";
+    }
     //generate type of post
     if(corpus.indexOf("?") != -1 ){
       postType = "QUESTION";
     }
 
     //generate hashtags list
-    let cur = corpus.indexOf("#", cur+1);
+    let cur = corpus.indexOf("#", 0);
     let hashtagList = [];
     let i = 0;
-    do{
-      let endHashTag = corpus.indexOf(" ", cur);
+  while( cur != -1 && i < corpus.length){
+  let endHashTag = corpus.indexOf(" ", cur);
       endHashTag = endHashTag == -1 ? corpus.length : endHashTag;
 
       hashtagList.push( 
@@ -104,11 +112,7 @@ const PageProfile = ({ classes, history, state }) => {
       );
       i++;
       cur = corpus.indexOf("#", cur+1);
-
-    }while( cur != -1 && i < corpus.length);
-
-    console.log("hashtag list");
-    console.log(hashtagList);
+      }
     /*---------------------*/
 
     //create body for POST request
@@ -143,7 +147,9 @@ const PageProfile = ({ classes, history, state }) => {
   function fetchPost() {
     console.log("fetch start")
     let listPost = ["empty"];
-    listPost = queryBackend(BACKEND.profile+cookies.get('username'), 
+    console.log(location.pathname);
+    listPost = queryBackend(BACKEND.posts+
+      location.pathname.match(/([^\/]*)\/*$/)[1]+"?number="+PAGIN, 
       "",  async function(response){
         let resp =  await response.json();
      //   response.then(console.log("well, ?"+response.body));

@@ -6,6 +6,13 @@ import PageProfile from './routes/Profile';
 import Register from './routes/Register';
 import Joyride from 'react-joyride';
 
+
+const styles = theme => ({
+  root: {},
+  app: {
+    background: theme.palette.background.paper,
+  }
+});
 class App extends Component {
 
 
@@ -30,7 +37,7 @@ class App extends Component {
     const { steps } = this.state;
 
     return (
-      <div>
+      <div id="app">
         <Joyride
           steps={steps}
         />
