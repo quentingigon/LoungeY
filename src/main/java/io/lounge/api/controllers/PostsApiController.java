@@ -45,8 +45,11 @@ public class PostsApiController implements PostsApi {
 
     public ResponseEntity<Boolean> comment(@ApiParam(value = "The new comment" ,required=true )  @Valid @RequestBody Comment comment) {
     	PostDAO postDAO = DAOUtils.getPostDAO();
+		UserDAO userDAO = DAOUtils.getUserDAO();
 
-		PostDO commentDO = comment.getPost().toPostDO();
+		Post post = comment.getPost();
+		post.setUserId(userDAO.getUser(comment.getPost().getUsername()).getId().toHexString());
+		PostDO commentDO = post.toPostDO();
 		PostDO rootPostDO = postDAO.getPostById(comment.getRootPostId());
 
 		if (commentDO != null && rootPostDO != null) {
@@ -88,7 +91,6 @@ public class PostsApiController implements PostsApi {
 
 		if (user != null) {
 			List<Post> posts = new ArrayList<>();
-//Integer.valueOf(number)
 			for (PostDO p : postDAO.getPostsOfUser(user, number)) {
 				if (p != null)
 					posts.add(p.toPost());
