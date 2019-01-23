@@ -43,7 +43,7 @@ public class LogoutApiController implements LogoutApi {
 		if (blackList != null) {
 			// add token to blacklist, so users who want to login again have
 			// to ask for a new token
-			blackList.addToBlackList(userLogout, request.getHeader("Authorization"));
+			blackList.addToBlackList(request.getHeader("userLogout"), request.getHeader("Authorization"));
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		}
     	return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
