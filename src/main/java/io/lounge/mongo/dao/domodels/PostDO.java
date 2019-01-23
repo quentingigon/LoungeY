@@ -17,6 +17,7 @@ public class PostDO extends BasicDO {
 	private String text;
 	private String date;
 	private String type;
+	private String contentUrl;
 	private ObjectId author;
 	private String username;
 	private boolean isCorrectAnswer;
@@ -39,8 +40,9 @@ public class PostDO extends BasicDO {
 		this.responsesList = new ArrayList<>();
 	}
 
-	public PostDO(String text, String date, String type, String username, String author, boolean isPublic, ArrayList<HashtagDO> hashtagsList) {
+	public PostDO(String text, String contentUrl, String date, String type, String username, String author, boolean isPublic, ArrayList<HashtagDO> hashtagsList) {
 		this.text = text;
+		this.contentUrl = contentUrl;
 		this.setDate(date);
 		this.type = type;
 		this.username = username;
@@ -53,6 +55,7 @@ public class PostDO extends BasicDO {
 		Post p = new Post();
 		p.setId(getId().toHexString());
 		p.setText(text);
+		p.setContentUrl(contentUrl);
 		p.setDate(date);
 		p.setIsCorrectAnswer(isCorrectAnswer);
 		p.setType(type);
