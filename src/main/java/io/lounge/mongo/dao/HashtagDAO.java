@@ -97,8 +97,10 @@ public class HashtagDAO extends BasicDAO<HashtagDO, ObjectId> {
 			for (String hashName : hashtags) {
 				if (hashName != null) {
 					HashtagDO realHash = getHashtag(hashName);
-					realHash.addToPostsList(postId);
-					updateHashtag(realHash);
+					if (realHash != null) {
+						realHash.addToPostsList(postId);
+						updateHashtag(realHash);
+					}
 				}
 			}
 		}

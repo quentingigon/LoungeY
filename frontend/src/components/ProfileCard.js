@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography'; import ProfileStats from 
 const styles = theme => ({
   root: {
     overflow: 'hidden',
+    background:"inherit"
   },
   header: {
     height: 100,
@@ -56,8 +57,8 @@ const ProfileCard = ({ classes, displayName, username, avatarUrl, profileUrl, co
       </div>
       <ProfileStats
         posts={stats.posts}
-        followers={stats.followers}
-        following={stats.following}
+        year={stats.year}
+        orientation={stats.orientation}
       />
     </Paper>
   );

@@ -7,12 +7,16 @@ import Paper from '@material-ui/core/Paper';
 import { Typography } from '@material-ui/core';
 import ProfileStats from './ProfileStats';
 
+import IconButton from '@material-ui/core/IconButton';
+import AddPersonIcon from '@material-ui/icons/PersonAdd';
+
 const styles = theme => ({
   root: {
+    marginTop:60
   },
   header: {
-    height: 210,
-    background: theme.palette.grey[300],
+    height: 10,
+    background: theme.palette.common.white,
   },
   main: {
     position: 'relative',
@@ -36,26 +40,37 @@ const styles = theme => ({
   }
 });
 
-const ProfileHeader = ({ classes, displayName, bio, avatarUrl, coverUrl, stats, className }) => {
+const ProfileHeader = ({ classes, displayName, 
+  bio, avatarUrl, coverUrl, stats, className, onSubmit }) => {
   const headerStyle = coverUrl
     ? { backgroundImage: `url('${coverUrl}')` }
     : null;
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      onSubmit();
+    };
 
   return (
     <Paper elevation={1} className={cx(classes.root, className)}>
       <div className={classes.header} style={headerStyle} />
       <div className={classes.main}>
-        <Avatar className={classes.avatar} src={avatarUrl} />
+        <Avatar className={classes.avatar} src={avatarUrl} >
+        {displayName.substring(0,2)}
+        </Avatar>
         <Typography variant="h6">{displayName}</Typography>
         <Typography variant="subtitle1" color="textSecondary">
-          {bio}
+          {"Favorite Beer: "+bio}
         </Typography>
+        <IconButton variant="h2">
+        <AddPersonIcon />
+      </IconButton>
       </div>
       <ProfileStats
         className={classes.stats}
         posts={stats.posts}
-        followers={stats.followers}
-        following={stats.following}
+        year={stats.year}
+        orientation={stats.orientation}
       />
     </Paper>
   );
@@ -72,7 +87,9 @@ ProfileHeader.propTypes = {
     posts: PropTypes.number,
     followers: PropTypes.number,
     following: PropTypes.number,
-  })
+  }),
+  onSubmit: PropTypes.func,
+
 };
 
 export default withStyles(styles)(ProfileHeader);

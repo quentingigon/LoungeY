@@ -10,6 +10,7 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit * 2,
   }
 });
+console.log("Here be code");
 
 const PageHome = ({ classes }) => (
   <Layout

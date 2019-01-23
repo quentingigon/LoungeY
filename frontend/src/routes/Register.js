@@ -22,6 +22,9 @@ const PageSignUp = ({ classes, history }) => {
       history.push('/register');
       console.log(BACKEND.url);
 
+
+      //sanitarization values and user feedback
+
       fetch(BACKEND.register, {
           method: "post",
           mode:"cors",
@@ -33,13 +36,21 @@ const PageSignUp = ({ classes, history }) => {
 
           body: JSON.stringify({
               username: values.username,
+              name: values.name,
               email: values.email,
               password: values.password,
-              isAdmin: values.isAdmin
+              isAdmin: values.isAdmin,
+              year: values.year,
+              orientation: values.orientation, 
+              favBeer: values.favBeer
           })
       })
           .then( (response) => {
               console.log(response);
+              if (response.status >= 200 && response.status < 300) {
+                history.push('/login');
+
+              }
               document.cookie = `jwt_token=${response}; expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/`;
               console.log(document.cookie);
               //do something awesome that makes the world a better place
@@ -51,6 +62,7 @@ const PageSignUp = ({ classes, history }) => {
       <FormSignUp
         className={classes.form}
         onSubmit={handleSubmit}
+        headerString="Register, new friend"
       />
     </div>
   );

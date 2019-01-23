@@ -3,9 +3,18 @@ import { Switch, Route } from 'react-router-dom';
 import Lounge from './routes/Lounge';
 import PageLogin from './routes/Login';
 import PageProfile from './routes/Profile';
+import UserSettings from './routes/UserSettings';
+
 import Register from './routes/Register';
 import Joyride from 'react-joyride';
 
+
+const styles = theme => ({
+  root: {},
+  app: {
+    background: theme.palette.background.paper,
+  }
+});
 class App extends Component {
 
 
@@ -15,7 +24,7 @@ class App extends Component {
     this.state = {
     steps: [
       {
-        target: '.JoyStep1',
+        target: '.onBoardStep1',
         content: 'This is my awesome feature!',
       },
       {
@@ -30,15 +39,19 @@ class App extends Component {
     const { steps } = this.state;
 
     return (
-      <div>
+      <div id="app">
         <Joyride
           steps={steps}
         />
       <Switch>
-        <Route path="/lounge"  component={Lounge} />
+        <Route path="/lounge"  component={Lounge}      
+         render={props => <Lounge {...props} stateX={this.state} />}
+        />
         <Route path="/login" component={PageLogin} />
         <Route path="/register" component={Register} />
         <Route path="/profile/:username" component={PageProfile} />
+        <Route path="/userSettings/:username" component={UserSettings} />
+
       </Switch>
       </div>
     );

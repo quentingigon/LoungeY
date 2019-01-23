@@ -16,7 +16,7 @@ const styles = theme => ({
 });
 console.log("Here be cookie");
 console.log(cookies.get('token')); // Pacman
-
+/*
 fetch(BACKEND.login, {
   method: "post",
   mode:"cors",
@@ -37,6 +37,7 @@ fetch(BACKEND.login, {
 
   
 });
+*/
 const PageHome = ({ classes }) => (
   <Layout
     aside={

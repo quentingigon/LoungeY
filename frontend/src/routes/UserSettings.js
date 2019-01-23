@@ -11,6 +11,7 @@ import FormPost from '../components/FormPost';
 import { useState, useEffect } from 'react';
 
 import Cookies from 'universal-cookie';
+import FormSignUp from '../components/FormSignUp';
 const cookies = new Cookies();
 
 
@@ -31,7 +32,7 @@ const styles = theme => ({
 });
 
 
-const PageProfile = ({ classes, history, state, location}) => {
+const UserSettings = ({ classes, history, state, location}) => {
   if(cookies.get('token') == null){
     history.push("/login")
   }
@@ -43,7 +44,6 @@ const PageProfile = ({ classes, history, state, location}) => {
 
 
   useEffect(() => {
-    fetchPost();
     fetchUserProfile();
   }, []);
 
@@ -99,10 +99,10 @@ const PageProfile = ({ classes, history, state, location}) => {
       className={classes.header}
       displayName={username}
       bio={beer}
-      coverUrl="http://a5.images.divisare.com/image/upload/c_fit,f_jpg,q_80,w_1200/v1/project_images/4992316/019-02_RENDER_01.jpg"//{UserProfile.coverURL}
-      avatarUrl="https://media.giphy.com/media/3NtY188QaxDdC/giphy.gif" //{UserProfile.profilePicURL}
+      coverUrl={UserProfile.coverURL}
+      avatarUrl={UserProfile.profilePicURL}
       stats={{
-        posts: ListPost.length,
+        posts: nbPost,
         year: year,
         orientation: ori,
       }}
@@ -164,34 +164,12 @@ const PageProfile = ({ classes, history, state, location}) => {
     queryBackend(BACKEND.posts, jsonBody, (response)=>{
         console.log("POST ADDED 2");
         console.log(response);
-        fetchPost();
     } );
 
 
   }
 
-  const fetchPost = () => {
-    console.log("fetch start")
-    let listPost = ["empty"];
-    console.log(location.pathname);
-    listPost = queryBackend(BACKEND.posts+
-      location.pathname.match(/([^\/]*)\/*$/)[1]+"?number="+PAGIN, 
-      "",  async function(response){
-        let resp =  await response.json();
-     //   response.then(console.log("well, ?"+response.body));
-        console.log("POST FETCHED");
-        console.log(resp);
-        return await resp;
-      //  gen
-   //     console.log(JSON.stringify(response));
 
-    }, "GET")
-    .then( (response) => {
-    console.log(response)
-    setListPost(response);
-
-    });
-  }
 
 
 
@@ -215,25 +193,9 @@ const PageProfile = ({ classes, history, state, location}) => {
 
     });
   
-    
   }
   
 
-  const FormPostPrint = () => {
-    console.log(location.pathname.match(/([^\/]*)\/*$/)[1])
-    console.log(cookies.get("username"))
-    if(location.pathname.match(/([^\/]*)\/*$/)[1] 
-    == cookies.get("username")){
-            return (      <FormPost
-              className={classes.form}
-              onSubmit={handleSubmit}
-              ></FormPost>
-      )
-        }else{
-        return ;
-        }
-
-  }
   return (
     
   <div className={classes.root}>
@@ -244,11 +206,13 @@ const PageProfile = ({ classes, history, state, location}) => {
   
       <Grid container spacing={24}>
       <Grid item xs={8} sm={8} md={8}>
-        {FormPostPrint()}
+      <FormSignUp
+        className={classes.form}
+        onSubmit={handleSubmit}
+        header="Modify your infos"
+        ></FormSignUp>
+
         </Grid>
-
-
-        {fetchedPosts()}
 
    
 
@@ -258,8 +222,8 @@ const PageProfile = ({ classes, history, state, location}) => {
   );
 };
 
-PageProfile.propTypes = {
+UserSettings.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string),
 };
 
-export default withStyles(styles)(PageProfile);
+export default withStyles(styles)(UserSettings);
