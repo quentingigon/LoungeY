@@ -3,7 +3,7 @@
     <groupId>lounge</groupId>
     <artifactId>LoungeY</artifactId>
     <version>1.0</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>LoungeY</name>
     <properties>
         <java.version>1.7</java.version>

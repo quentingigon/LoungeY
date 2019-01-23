@@ -1,7 +1,6 @@
 package io.lounge.mongo.dao;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import io.lounge.api.utils.DAOUtils;
 import io.lounge.mongo.dao.domodels.NotificationDO;
@@ -132,26 +131,6 @@ public class UserDAO extends BasicDAO<UserDO, ObjectId> {
 		}
 
 	}
-
-	/**
-	 *  TODO Wut ?
-	 * @param user
-	 * @return
-	 */
-	public boolean isValidUser(UserDO user) {
-		int count = 0;
-		BasicDBObject query = new BasicDBObject("username", user.getUsername())
-				.append("email", user.getEmail())
-				.append("password", user.getPassword());
-		try(DBCursor cursor = getCollection().find(query)){
-
-			while(cursor.hasNext()){
-				count = count +1;
-			}
-		}
-		return count==1;
-	}
-
 	/**
 	 *  TODO Wut again?
 	 * @param username
@@ -165,7 +144,6 @@ public class UserDAO extends BasicDAO<UserDO, ObjectId> {
 
 		return q.asList().isEmpty();
 	}
-
 
 	/**
 	 * TODO not sure if useful
@@ -237,7 +215,9 @@ public class UserDAO extends BasicDAO<UserDO, ObjectId> {
 				newFriend.addToFriendsList(currentId);
 				newFriend.removeFromPendingInviteList(currentId);
 				// remove last notif of invite between users
-				current.removeNotification(notifDAO.getLastFriendInviteBetweenUsers(current.getUsername(), newFriend.getUsername()));
+				NotificationDO notifToDelete = notifDAO.getLastFriendInviteBetweenUsers(current.getUsername(), newFriend.getUsername());
+				current.removeNotification(notifToDelete);
+				notifDAO.delete(notifToDelete);
 
 				// add a notification to both users to inform them they are now friends
 				NotificationDO newNotifDO = new NotificationDO(FRIEND_NOTIF, newFriend.getUsername(), current.getUsername(),

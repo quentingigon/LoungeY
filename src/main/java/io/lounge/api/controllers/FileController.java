@@ -28,6 +28,7 @@ public class FileController implements FileApi {
 	@Autowired
 	private FileStorageService fileStorageService;
 
+	// route used to upload files to the server
 	@PostMapping("/upload/{username}/image")
 	public ResponseEntity<Boolean> uploadFile(@RequestParam("file") MultipartFile file,
 											  @ApiParam(value = "", required = true) @PathVariable("username") String username) {
@@ -38,6 +39,7 @@ public class FileController implements FileApi {
 
 		if (userDO != null) {
 
+			// the filename give us the location of the resource in the server
 			String fileName;
 			try {
 				fileName = fileStorageService.storeFile(file);
@@ -47,7 +49,7 @@ public class FileController implements FileApi {
 			}
 
 			if (file.getOriginalFilename().endsWith("_pic")) {
-				// send notifs to friends
+				// send notifs to friends (because we changed our profile pic)
 				for (ObjectId friendId : userDO.getFriendsList()) {
 					if (friendId != null) {
 						NotificationDO newNotifDO = new NotificationDO(NEWPIC_NOTIF, userDO.getUsername(),

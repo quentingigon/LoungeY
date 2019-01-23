@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +37,7 @@ public class SearchApiController implements SearchApi {
         this.request = request;
     }
 
+	@CrossOrigin
     public ResponseEntity<List<Post>> searchPosts(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "searchString", required = true) String searchString) {
 		PostDAO postDAO = DAOUtils.getPostDAO();
 		ArrayList<Post> posts = new ArrayList<>();

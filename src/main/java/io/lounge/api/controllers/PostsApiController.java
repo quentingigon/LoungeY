@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,6 +44,7 @@ public class PostsApiController implements PostsApi {
         this.request = request;
     }
 
+	@CrossOrigin
     public ResponseEntity<Boolean> comment(@ApiParam(value = "The new comment" ,required=true )  @Valid @RequestBody Comment comment) {
     	PostDAO postDAO = DAOUtils.getPostDAO();
 		UserDAO userDAO = DAOUtils.getUserDAO();
@@ -67,6 +69,7 @@ public class PostsApiController implements PostsApi {
 		}
     }
 
+	@CrossOrigin
     public ResponseEntity<Post> getPost(@ApiParam(value = "The id of the post to get",required=true) @PathVariable("postId") String postId) {
 		PostDAO postDAO = DAOUtils.getPostDAO();
 
@@ -82,6 +85,7 @@ public class PostsApiController implements PostsApi {
 		}
     }
 
+	@CrossOrigin
     public ResponseEntity<List<Post>> getUserPosts(@ApiParam(value = "Username of the user",required=true) @PathVariable("username") String username,
 												   @ApiParam(value = "number of posts to return", required = true) @RequestParam("number") int number) {
 		PostDAO postDAO = DAOUtils.getPostDAO();
@@ -102,6 +106,7 @@ public class PostsApiController implements PostsApi {
 		}
     }
 
+	@CrossOrigin
     public ResponseEntity<Boolean> post(@ApiParam(value = "New post" ,required=true )  @Valid @RequestBody NewPost newPost) {
 		PostDAO postDAO = DAOUtils.getPostDAO();
 		HashtagDAO hashtagDAO = DAOUtils.getHashtagDAO();

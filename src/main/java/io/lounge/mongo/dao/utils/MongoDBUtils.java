@@ -8,6 +8,7 @@ import static io.lounge.configuration.LoungeConstants.COURSESNAMES;
 
 public class MongoDBUtils {
 
+	// used to create hashtags list if empty
 	public void fillHashtagList() {
 		HashtagDAO hashtagDAO = DAOUtils.getHashtagDAO();
 

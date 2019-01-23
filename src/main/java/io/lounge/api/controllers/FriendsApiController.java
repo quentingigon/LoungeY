@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -37,7 +38,9 @@ public class FriendsApiController implements FriendsApi {
         this.request = request;
     }
 
-    public ResponseEntity<Boolean> addFriend(@ApiParam(value = "",required=true) @Valid @RequestBody FriendMessage invite) {
+    // send a notification to the user concerned by the invite
+	@CrossOrigin
+    public ResponseEntity<Boolean> addFriend(@ApiParam(value = "Message containing fromUser and toUser",required=true) @Valid @RequestBody FriendMessage invite) {
     	UserDAO userDAO = DAOUtils.getUserDAO();
 
 		UserDO currentUser = userDAO.getUser(invite.getFromUser());
@@ -53,7 +56,9 @@ public class FriendsApiController implements FriendsApi {
 		}
     }
 
-	public ResponseEntity<Boolean> removeFriend(@ApiParam(value = "",required=true) @Valid @RequestBody FriendMessage invite) {
+    // unfriend a user
+	@CrossOrigin
+	public ResponseEntity<Boolean> removeFriend(@ApiParam(value = "Message containing fromUser and toUser",required=true) @Valid @RequestBody FriendMessage invite) {
 		UserDAO userDAO = DAOUtils.getUserDAO();
 
 		UserDO currentUser = userDAO.getUser(invite.getFromUser());
@@ -69,7 +74,8 @@ public class FriendsApiController implements FriendsApi {
 		}
 	}
 
-    public ResponseEntity<List<User>> getFriends(@ApiParam(value = "",required=true) @PathVariable("username") String username) {
+	@CrossOrigin
+    public ResponseEntity<List<User>> getFriends(@ApiParam(value = "Username of user to get friends from",required=true) @PathVariable("username") String username) {
     	UserDAO userDAO = DAOUtils.getUserDAO();
 
 		UserDO currentUser = userDAO.getUser(username);

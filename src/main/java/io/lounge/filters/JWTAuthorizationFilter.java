@@ -31,6 +31,9 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 									FilterChain chain) throws IOException, ServletException {
 		String header = req.getHeader(HEADER_STRING);
 
+		// this snippet of code is (I think ) not really efficient or clean but it
+		// does give us a more elegant way of handling the logout by blacklisting the last token
+		// given to the user
 		BlackListDAO blackListDAO = DAOUtils.getBlackListDAO();
 		// blacklist init, not clean to do it there, need a script
 		if (blackListDAO.getBlackList() == null) {
@@ -38,6 +41,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 		}
 		BlackListDO blackListDO = blackListDAO.getBlackList();
 
+		// field added to headers by the frontend
 		String username = req.getHeader("userLogout");
 		// check if request is for logout and if so add the token of the user to the blacklist
 		// and block the request

@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +37,7 @@ public class NotificationsApiController implements NotificationsApi {
         this.request = request;
     }
 
+	@CrossOrigin
     public ResponseEntity<List<Notification>> getNotifications(@ApiParam(value = "",required=true) @PathVariable("username") String username) {
 		UserDAO userDAO = DAOUtils.getUserDAO();
 		NotificationDAO notificationDAO = DAOUtils.getNotificationDAO();
@@ -54,8 +56,10 @@ public class NotificationsApiController implements NotificationsApi {
 						// for security reasons, we do not send the username of the current user
 						n.setToUser("");
 						notifications.add(n);
+						notificationDAO.delete(notif);
 					}
 				}
+
 				return new ResponseEntity<List<Notification>>(notifications, HttpStatus.OK);
 			}
 			else {

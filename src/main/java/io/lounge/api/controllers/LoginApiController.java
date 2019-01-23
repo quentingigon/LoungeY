@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,6 +44,7 @@ public class LoginApiController implements LoginApi {
         this.request = request;
     }
 
+	@CrossOrigin
     public ResponseEntity<LoginInfo> login(@ApiParam(value = "The user who wants to log in" ,required=true )  @Valid @RequestBody UserLogin user) {
 		UserDAO userDAO = DAOUtils.getUserDAO();
 		BlackListDAO blackListDAO = DAOUtils.getBlackListDAO();

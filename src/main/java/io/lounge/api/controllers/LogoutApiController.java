@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +33,7 @@ public class LogoutApiController implements LogoutApi {
         this.request = request;
     }
 
+	@CrossOrigin
     public ResponseEntity<Boolean> logout(@ApiParam(value = "The username of user to log out" ,required=true )  @RequestParam String userLogout) {
 
         BlackListDAO blackListDAO = DAOUtils.getBlackListDAO();

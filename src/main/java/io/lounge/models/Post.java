@@ -33,6 +33,9 @@ public class Post   {
   @JsonProperty("text")
   private String text = null;
 
+  @JsonProperty("contentUrl")
+  private String contentUrl = null;
+
   @JsonProperty("type")
   private String type = null;
 
@@ -152,6 +155,26 @@ public class Post   {
 
   public Post text(String text) {
     this.text = text;
+    return this;
+  }
+
+  /**
+   * Get contentUrl
+   * @return contentUrl
+   **/
+  @ApiModelProperty(value = "")
+
+
+  public String getContentUrl() {
+    return contentUrl;
+  }
+
+  public void setContentUrl(String text) {
+    this.contentUrl = contentUrl;
+  }
+
+  public Post contentUrl(String contentUrl) {
+    this.contentUrl = contentUrl;
     return this;
   }
 
@@ -323,7 +346,7 @@ public class Post   {
   }
 
   public PostDO toPostDO() {
-  	PostDO postDO = new PostDO(text, date.toString(), type, username, userId, isPublic, new ArrayList<HashtagDO>());
+  	PostDO postDO = new PostDO(text, contentUrl, date.toString(), type, username, userId, isPublic, new ArrayList<HashtagDO>());
 
   	ArrayList<PostDO> responsesDO = new ArrayList<>();
   	if (responses != null) {

@@ -315,7 +315,26 @@ public class PostDAO extends BasicDAO<PostDO, ObjectId> {
         }
         return find(query).asList();
     }
-    
+
+    public List<PostDO> getLoungeFeedQuestionsOnly(int nbPosts) {
+        Query<PostDO> findQuery = createQuery().field("_id").exists().field("type").equal(PostType.QUESTION);
+        findQuery.order("-date");
+
+        int nbQueryResults = (int) findQuery.count();
+
+        return find(findQuery).asList().subList(0, ((nbPosts <= nbQueryResults) ? nbPosts : nbQueryResults));
+    }
+
+    public List<PostDO> getLoungeFeedFriendsPostsOnly(int nbPosts, ArrayList<ObjectId> friends) {
+
+        Query<PostDO> findQuery = createQuery().field("_id").exists().field("author").in(friends);
+        findQuery.order("-date");
+
+        int nbQueryResults = (int) findQuery.count();
+
+        return find(findQuery).asList().subList(0, ((nbPosts <= nbQueryResults) ? nbPosts : nbQueryResults));
+    }
+
 
 	/**
 	 *  TODO Not sure about this one, useful? goal?

@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +35,7 @@ public class SettingsApiController implements SettingsApi {
         this.request = request;
     }
 
+	@CrossOrigin
     @Override
     public ResponseEntity<Boolean> settings(@NotNull @Valid @RequestBody NewUser userChanges) {
         UserDAO userDAO = DAOUtils.getUserDAO();

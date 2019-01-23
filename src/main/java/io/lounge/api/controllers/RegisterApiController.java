@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,12 +43,13 @@ public class RegisterApiController implements RegisterApi {
         this.request = request;
     }
 
+	@CrossOrigin
     public ResponseEntity<Boolean> register(@ApiParam(value = "The new user to register" ,required=true )  @Valid @RequestBody NewUser newUser) {
 		UserDAO userDAO = DAOUtils.getUserDAO();
 
 		UserDO newUserDO = userDAO.getUser(newUser.getUsername());
 
-		// ensure username is unique and email is from heig-vd. (in an indeal world we would have the emails
+		// ensure username is unique and email is from heig-vd. (in an ideal world we would have the emails
 		// of all the students to be absolutely sure they are from the heig)
 		// also ensure that year of study is between 1 and 7 and that the orientation exists.
 		if (newUserDO == null
