@@ -142,7 +142,9 @@ public class UserDAO extends BasicDAO<UserDO, ObjectId> {
 				newFriend.addToFriendsList(currentId);
 				newFriend.removeFromPendingInviteList(currentId);
 				// remove last notif of invite between users
-				current.removeNotification(notifDAO.getLastFriendInviteBetweenUsers(current.getUsername(), newFriend.getUsername()));
+				NotificationDO notifToDelete = notifDAO.getLastFriendInviteBetweenUsers(current.getUsername(), newFriend.getUsername());
+				current.removeNotification(notifToDelete);
+				notifDAO.delete(notifToDelete);
 
 				// add a notification to both users to inform them they are now friends
 				NotificationDO newNotifDO = new NotificationDO(FRIEND_NOTIF, newFriend.getUsername(), current.getUsername(),
