@@ -12,7 +12,10 @@ const styles = theme => ({
     height: 30,
     width: 30,
     padding: 0,
-  }
+    color:"black"
+
+  },
+  color:"black"
 });
 
 const InputSearch = ({ classes, ...props }) => (

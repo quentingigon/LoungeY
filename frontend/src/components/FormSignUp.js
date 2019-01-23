@@ -30,7 +30,7 @@ const styles = theme => ({
   }
 });
 
-const FormSignUp = ({ classes, className, onSubmit }) => {
+const FormSignUp = ({ classes, className, headerString, onSubmit }) => {
 
   const [values, setValues] = useState({
     username: '',
@@ -55,7 +55,7 @@ const FormSignUp = ({ classes, className, onSubmit }) => {
   return (
     <Paper className={className}>
       <CardContent>
-        <Typography variant="h4" align="center">Register</Typography>
+        <Typography variant="h4" align="center">{headerString}</Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <TextField
             type="text"
@@ -122,7 +122,7 @@ const FormSignUp = ({ classes, className, onSubmit }) => {
             className={classes.submitButton}
             variant="contained"
             type="submit"
-            color="primary"
+            color="secondary"
           >
             Register
           </Button>

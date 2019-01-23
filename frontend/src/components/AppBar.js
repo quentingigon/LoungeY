@@ -62,7 +62,7 @@ const AppBar = ({ classes, children }) => {
         </Typography>
         <InputSearch
           className={classes.search}
-          placeholder="Search"
+          placeholder="Search (try #{CLASSES}!)"
           fullWidth={false}
         />
         <div className={classes.flex} />
@@ -109,7 +109,7 @@ const AppBar = ({ classes, children }) => {
             />
           </List>
         </Popover>
-        <Link to={`/profile/${username}`}>
+        <Link to={`/userSettings/${username}`}>
 
           <Avatar
             className={classes.icon}

@@ -3,6 +3,8 @@ import { Switch, Route } from 'react-router-dom';
 import Lounge from './routes/Lounge';
 import PageLogin from './routes/Login';
 import PageProfile from './routes/Profile';
+import UserSettings from './routes/UserSettings';
+
 import Register from './routes/Register';
 import Joyride from 'react-joyride';
 
@@ -47,8 +49,9 @@ class App extends Component {
         />
         <Route path="/login" component={PageLogin} />
         <Route path="/register" component={Register} />
-        <Route path="/profile/:username" component={PageProfile} 
-        />
+        <Route path="/profile/:username" component={PageProfile} />
+        <Route path="/userSettings/:username" component={UserSettings} />
+
       </Switch>
       </div>
     );

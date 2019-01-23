@@ -62,6 +62,7 @@ const PageSignUp = ({ classes, history }) => {
       <FormSignUp
         className={classes.form}
         onSubmit={handleSubmit}
+        headerString="Register, new friend"
       />
     </div>
   );

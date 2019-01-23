@@ -10,7 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import CommentIcon from '@material-ui/icons/Comment'
-import ShareIcon from '@material-ui/icons/Share';
 import Avatar from '@material-ui/core/Avatar';
 
 const styles = theme => ({
@@ -28,7 +27,7 @@ const styles = theme => ({
 const PostCard = ({ classes, className, children, title, subtitle, imageUrl, author, avatarUrl, body }) => {
   
   const cardMedia = () =>{
-    if(imageUrl === "" || imageUrl == " "){
+    if(imageUrl === "" || imageUrl == " " || imageUrl == null){
       return( <div></div>);
     }else{
       return(
@@ -44,7 +43,7 @@ const PostCard = ({ classes, className, children, title, subtitle, imageUrl, aut
   return(
   <Card className={className}>
     <CardHeader
-      avatar={<Avatar /*src={avatarUrl}*/>{author} </Avatar>}
+      avatar={<Avatar src={avatarUrl}>{author} </Avatar>}
       title={title}
       subheader={subtitle}
     />
@@ -56,9 +55,7 @@ const PostCard = ({ classes, className, children, title, subtitle, imageUrl, aut
     </CardContent>
     <CardActions>
      
-      <IconButton>
-        <ShareIcon />
-      </IconButton>
+
       <IconButton className={classes.commentButton}
         color="secondary"
       >
